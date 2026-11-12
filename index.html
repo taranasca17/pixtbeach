@@ -1,0 +1,3152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixTBeach - Pelabuhan Belajar Mahasiswa RPG</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Press Start 2P & VT323 & Pixelify Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600;700&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <!-- PDF.js for PDF text extraction -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <!-- Mammoth.js for DOCX text extraction -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <!-- jsPDF for JPG to PDF & Rangkuman PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        :root {
+            --pixel-border: #181026;
+        }
+        body {
+            font-family: 'Pixelify Sans', sans-serif;
+            background-color: #120b1d;
+            color: #181026;
+            overflow-x: hidden;
+            image-rendering: pixelated;
+        }
+        .font-pixel-title {
+            font-family: 'Press Start 2P', cursive;
+            line-height: 1.5;
+        }
+        .font-pixel-mono {
+            font-family: 'VT323', monospace;
+            letter-spacing: 0.5px;
+        }
+        .pixel-svg {
+            image-rendering: pixelated;
+            shape-rendering: crispEdges;
+        }
+        /* Retro RPG Box Styling */
+        .rpg-box {
+            background-color: #fff6d6;
+            border: 4px solid #181026;
+            box-shadow: 6px 6px 0px #181026, inset -4px -4px 0px #e6cfa1, inset 4px 4px 0px #ffffff;
+        }
+        .rpg-box-dark {
+            background-color: #231934;
+            color: #fff6d6;
+            border: 4px solid #181026;
+            box-shadow: 6px 6px 0px #0d0714, inset -4px -4px 0px #160f21, inset 4px 4px 0px #3a2b52;
+        }
+        .rpg-btn {
+            border: 3px solid #181026;
+            box-shadow: 4px 4px 0px #181026;
+            transition: transform 0.08s ease, box-shadow 0.08s ease;
+            cursor: pointer;
+            user-select: none;
+        }
+        .rpg-btn:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 5px 5px 0px #181026;
+        }
+        .rpg-btn:active {
+            transform: translate(3px, 3px);
+            box-shadow: 1px 1px 0px #181026;
+        }
+
+        /* Day / Sunset vs Night Sky Transition */
+        .sky-sunset {
+            background: linear-gradient(
+                to bottom,
+                #472b62 0%,
+                #7c3f6e 22%,
+                #c95963 45%,
+                #f28549 70%,
+                #ffcb57 100%
+            );
+        }
+        .sky-night {
+            background: linear-gradient(
+                to bottom,
+                #080512 0%,
+                #130d26 30%,
+                #1d1842 65%,
+                #292961 100%
+            );
+        }
+
+        .sea-sunset {
+            background: linear-gradient(
+                to bottom,
+                #1b4c87 0%,
+                #206ea6 35%,
+                #2892bd 70%,
+                #43bfd6 100%
+            );
+        }
+        .sea-night {
+            background: linear-gradient(
+                to bottom,
+                #09142b 0%,
+                #102347 40%,
+                #183766 75%,
+                #235185 100%
+            );
+        }
+
+        .sand-sunset {
+            background: linear-gradient(to bottom, #f7d996 0%, #ecc071 55%, #d9a452 100%);
+        }
+        .sand-night {
+            background: linear-gradient(to bottom, #6e6378 0%, #574e63 55%, #41394d 100%);
+        }
+
+        /* Animations for Sea Waves, Boats, and Avatars */
+        @keyframes boatBobbing {
+            0%, 100% { transform: translateY(0px) rotate(-1deg); }
+            50% { transform: translateY(-7px) rotate(1.5deg); }
+        }
+        @keyframes boatBobbingAlt {
+            0%, 100% { transform: translateY(-5px) rotate(1deg); }
+            50% { transform: translateY(3px) rotate(-1.5deg); }
+        }
+        @keyframes waveSlide {
+            0% { background-position-x: 0px; }
+            100% { background-position-x: 120px; }
+        }
+        @keyframes avatarBounce {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-4px); }
+        }
+        @keyframes twinkleStar {
+            0%, 100% { opacity: 0.25; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        @keyframes auraPulse {
+            0%, 100% { filter: drop-shadow(0 0 4px #ffd942) drop-shadow(0 0 8px #ff5500); }
+            50% { filter: drop-shadow(0 0 10px #00f5d4) drop-shadow(0 0 16px #ffd942); }
+        }
+
+        .boat-anim-1 { animation: boatBobbing 3.4s ease-in-out infinite; }
+        .boat-anim-2 { animation: boatBobbingAlt 3.8s ease-in-out infinite; }
+        .avatar-sprite { animation: avatarBounce 2.2s steps(2, end) infinite; }
+        .star-twinkle { animation: twinkleStar 2.5s infinite ease-in-out; }
+        .mythic-aura { animation: auraPulse 2.4s infinite ease-in-out; }
+
+        .wave-strip {
+            background-image: repeating-linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.65) 0px,
+                rgba(255, 255, 255, 0.65) 24px,
+                rgba(123, 227, 246, 0.45) 24px,
+                rgba(123, 227, 246, 0.45) 42px,
+                transparent 42px,
+                transparent 76px
+            );
+            animation: waveSlide 5s linear infinite;
+        }
+        .sea-sparkle-grid {
+            background-image:
+                radial-gradient(#ffffff 2px, transparent 2px),
+                radial-gradient(#7be3f6 2px, transparent 2px);
+            background-size: 64px 32px;
+            background-position: 0 0, 32px 16px;
+        }
+        @keyframes cloudFloatSlow {
+            0%, 100% { transform: translateX(0px); }
+            50% { transform: translateX(18px); }
+        }
+        .cloud-float {
+            animation: cloudFloatSlow 9s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between select-none">
+
+    <!-- ==========================================================
+         MAIN HUB: FLAT 2D PIXEL ART BEACH SCENE WITH 6 FLOATING BOATS
+         ========================================================== -->
+    <main id="beach-main-hub" class="flex-1 flex flex-col justify-between relative overflow-hidden">
+
+        <!-- SKY AREA (FLAT 2D HORIZONTAL - CLEAN & SPACIOUS WITH PIXEL CLOUDS) -->
+        <div id="scene-sky" class="sky-sunset relative w-full pt-8 pb-12 sm:pt-10 sm:pb-16 transition-colors duration-700 overflow-hidden">
+            <!-- Pixel Dithering Horizontal Bands -->
+            <div class="w-full h-3 opacity-25 pointer-events-none" style="background-image: radial-gradient(#181026 1.5px, transparent 1.5px); background-size: 6px 6px;"></div>
+
+            <!-- Night Stars Layer (Visible in Night Mode) -->
+            <div id="night-stars-layer" class="hidden absolute inset-0 pointer-events-none">
+                <div class="w-2 h-2 bg-white absolute top-6 left-[12%] star-twinkle"></div>
+                <div class="w-1.5 h-1.5 bg-amber-200 absolute top-12 left-[28%] star-twinkle" style="animation-delay:0.6s"></div>
+                <div class="w-2 h-2 bg-white absolute top-8 left-[46%] star-twinkle" style="animation-delay:1.2s"></div>
+                <div class="w-2 h-2 bg-cyan-200 absolute top-14 left-[68%] star-twinkle" style="animation-delay:0.3s"></div>
+                <div class="w-1.5 h-1.5 bg-white absolute top-6 left-[84%] star-twinkle" style="animation-delay:1.5s"></div>
+                <div class="w-2 h-2 bg-amber-300 absolute top-20 left-[19%] star-twinkle" style="animation-delay:0.9s"></div>
+                <div class="w-2 h-2 bg-white absolute top-20 left-[77%] star-twinkle" style="animation-delay:0.4s"></div>
+            </div>
+
+            <!-- Detailed Multi-Layered Pixel Art Clouds -->
+            <div class="max-w-7xl mx-auto px-4 flex justify-between items-start pointer-events-none relative z-10">
+                <!-- Left Pixel Cloud Cluster -->
+                <div class="cloud-float flex flex-col items-center">
+                    <div class="w-16 sm:w-24 h-3 bg-[#ffd4a3] border-t-2 border-x-2 border-[#181026]"></div>
+                    <div class="w-28 sm:w-44 h-5 bg-[#f4977e] border-2 border-[#181026] shadow-[4px_4px_0px_rgba(24,16,38,0.45)] relative">
+                        <div class="w-full h-1.5 bg-[#b84a59] absolute bottom-0 left-0"></div>
+                    </div>
+                </div>
+
+                <!-- Center-Top Small Pixel Cloud -->
+                <div class="cloud-float hidden md:flex flex-col items-center -mt-3" style="animation-delay: 2.5s;">
+                    <div class="w-12 h-2.5 bg-[#ffe0b5] border-t-2 border-x-2 border-[#181026]"></div>
+                    <div class="w-24 h-4 bg-[#f28e6b] border-2 border-[#181026] shadow-[3px_3px_0px_rgba(24,16,38,0.4)] relative">
+                        <div class="w-full h-1 bg-[#9e3f5b] absolute bottom-0 left-0"></div>
+                    </div>
+                </div>
+
+                <!-- Right Pixel Cloud Cluster -->
+                <div class="cloud-float flex flex-col items-center mt-2" style="animation-delay: 1.4s;">
+                    <div class="w-20 sm:w-28 h-3.5 bg-[#ffd4a3] border-t-2 border-x-2 border-[#181026]"></div>
+                    <div class="w-36 sm:w-52 h-6 bg-[#e06d79] border-2 border-[#181026] shadow-[4px_4px_0px_rgba(24,16,38,0.45)] relative">
+                        <div class="w-full h-2 bg-[#9e3f5b] absolute bottom-0 left-0"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Extra Lower Horizon Pixel Clouds -->
+            <div class="max-w-6xl mx-auto px-10 flex justify-between items-center pointer-events-none mt-2 opacity-90">
+                <div class="cloud-float hidden sm:flex flex-col items-center" style="animation-delay: 3.2s;">
+                    <div class="w-10 h-2 bg-[#ffd4a3]"></div>
+                    <div class="w-20 h-3.5 bg-[#e06d79] border-b-2 border-[#9e3f5b]"></div>
+                </div>
+                <div class="cloud-float hidden sm:flex flex-col items-center" style="animation-delay: 0.7s;">
+                    <div class="w-14 h-2 bg-[#ffd4a3]"></div>
+                    <div class="w-24 h-3.5 bg-[#f28e6b] border-b-2 border-[#b84a59]"></div>
+                </div>
+            </div>
+
+            <!-- Main Banner Title inside Sky -->
+            <div class="relative z-20 max-w-4xl mx-auto text-center px-4 mt-1 mb-5">
+                <div class="inline-block bg-[#181026]/90 text-[#ffd942] border-2 border-[#ffd942] px-3 py-1 font-pixel-title text-[9px] sm:text-[10px] mb-2.5 shadow-[3px_3px_0px_#181026]">
+                    ⚓ PIXTBEACH • PELABUHAN BELAJAR MAHASISWA
+                </div>
+                <h1 class="font-pixel-title text-xl sm:text-3xl md:text-4xl text-white drop-shadow-[4px_4px_0px_#181026] tracking-wider">
+                    MARI BERLAYAR
+                </h1>
+                <p class="font-pixel-mono text-base sm:text-lg text-amber-100 mt-1.5 drop-shadow-[2px_2px_0px_#181026]">
+                    Klik perahu avatar di laut untuk memulai petualangan belajarmu, atau atur profil & menu di pesisir pantai bawah!
+                </p>
+            </div>
+
+            <!-- Interactive Sun / Full Moon at Flat Horizon Center -->
+            <div onclick="toggleDayNightMode()" title="Klik Matahari/Bulan untuk mengganti Siang/Senja & Malam"
+                 class="cursor-pointer mx-auto w-24 h-12 sm:w-32 sm:h-16 rounded-t-full bg-[#ffe14d] border-4 border-b-0 border-[#ff9900] shadow-[0_0_35px_#ffae00] transition-all duration-500 hover:scale-105 relative z-10"
+                 id="horizon-celestial">
+            </div>
+        </div>
+
+        <!-- SEA AREA WITH DETAILED WATER TEXTURE & 6 DETAILED PIXEL BOATS -->
+        <div id="scene-sea" class="sea-sunset relative w-full py-7 sm:py-10 border-t-4 border-b-4 border-[#181026] transition-colors duration-700 overflow-hidden">
+            <!-- Subtle Pixel Water Sparkle Grid -->
+            <div class="sea-sparkle-grid absolute inset-0 opacity-25 pointer-events-none"></div>
+
+            <!-- Multi-Tier Animated Horizontal Sea Wave Strips -->
+            <div class="wave-strip w-full h-2.5 absolute top-2 left-0 opacity-80 pointer-events-none"></div>
+            <div class="wave-strip w-full h-2 absolute top-1/2 left-0 opacity-45 pointer-events-none" style="animation-duration: 7s; animation-direction: reverse;"></div>
+            <div class="wave-strip w-full h-2.5 absolute bottom-2.5 left-0 opacity-75 pointer-events-none" style="animation-duration: 4.2s;"></div>
+
+            <!-- Detailed Shimmering Sunlight / Moonlight Water Reflection in Center -->
+            <div id="water-reflection" class="w-36 sm:w-48 mx-auto h-full absolute inset-x-0 top-0 pointer-events-none flex flex-col items-center justify-around py-2 opacity-75">
+                <div class="w-28 h-2 bg-[#ffe14d] shadow-[0_0_6px_#ffe14d]"></div>
+                <div class="w-24 h-1.5 bg-[#ffae00]"></div>
+                <div class="w-18 h-1.5 bg-[#ffe14d]"></div>
+                <div class="w-12 h-1.5 bg-[#ffae00]"></div>
+                <div class="w-8 h-1 bg-[#ffe14d]"></div>
+            </div>
+
+            <!-- 6 FLOATING BOATS GRID (DETAILED WOODEN HULL, RIBS, PROW & WAKE FOAM) -->
+            <div class="relative z-20 max-w-7xl mx-auto px-3 sm:px-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 items-end">
+
+                <!-- PERAHU 1: JPG KE PDF -->
+                <div onclick="openBoatWorkspace('jpg')" class="boat-anim-1 group cursor-pointer flex flex-col items-center">
+                    <div class="bg-[#fff6d6] text-[#181026] border-2 border-[#181026] px-2 py-1 font-pixel-title text-[8px] mb-1.5 shadow-[2px_2px_0px_#181026] group-hover:bg-[#ffd942] text-center">
+                        #1 JPG ➔ PDF
+                    </div>
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 avatar-sprite -mb-2.5 relative z-10" id="boat-sprite-jpg"></div>
+                    <!-- Detailed Pixel Wooden Boat -->
+                    <div class="relative flex flex-col items-center">
+                        <!-- Wooden Prow & Stern Posts -->
+                        <div class="w-32 sm:w-36 flex justify-between px-1 -mb-1 relative z-20 pointer-events-none">
+                            <div class="w-2 h-3 bg-[#5c2c14] border border-[#181026]"></div>
+                            <div class="w-2 h-3 bg-[#5c2c14] border border-[#181026]"></div>
+                        </div>
+                        <div class="w-30 sm:w-34 h-10 bg-[#8c4a27] border-3 border-[#181026] relative flex flex-col items-center justify-center shadow-[4px_4px_0px_#181026]" style="clip-path: polygon(0% 0%, 100% 0%, 82% 100%, 18% 100%); width: 8rem;">
+                            <div class="w-full h-2 bg-[#c87946] border-b border-[#47210e] absolute top-0"></div>
+                            <div class="w-full h-1.5 bg-[#633218] absolute bottom-2"></div>
+                            <!-- Rivets -->
+                            <div class="w-1 h-1 bg-[#ffd942] absolute top-2.5 left-4"></div>
+                            <div class="w-1 h-1 bg-[#ffd942] absolute top-2.5 right-4"></div>
+                            <span class="font-pixel-title text-[7px] text-[#ffd942] relative z-10 mt-0.5 drop-shadow-[1px_1px_0px_#181026]">PERAHU JPG</span>
+                        </div>
+                        <!-- Water Splash Foam under Hull -->
+                        <div class="w-24 h-1.5 bg-white/90 border-b border-[#7be3f6] -mt-0.5"></div>
+                    </div>
+                    <div class="boat-lantern hidden w-3.5 h-3.5 bg-[#fff36b] border border-[#ff8800] rounded-full shadow-[0_0_14px_#ffdd00] -mt-9 ml-24 z-30 pointer-events-none"></div>
+                </div>
+
+                <!-- PERAHU 2: MULTI-UPLOAD WORD & PDF (MAX 15) -->
+                <div onclick="openBoatWorkspace('dokumen')" class="boat-anim-2 group cursor-pointer flex flex-col items-center">
+                    <div class="bg-[#fff6d6] text-[#181026] border-2 border-[#181026] px-2 py-1 font-pixel-title text-[8px] mb-1.5 shadow-[2px_2px_0px_#181026] group-hover:bg-[#ffd942] text-center">
+                        #2 WORD & PDF (15x)
+                    </div>
+                    <div class="flex items-center justify-center -space-x-2 -mb-2.5 relative z-10">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 avatar-sprite" id="boat-sprite-word"></div>
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 avatar-sprite" id="boat-sprite-pdf"></div>
+                    </div>
+                    <div class="relative flex flex-col items-center">
+                        <div class="w-36 sm:w-40 flex justify-between px-1 -mb-1 relative z-20 pointer-events-none">
+                            <div class="w-2.5 h-3 bg-[#4a220e] border border-[#181026]"></div>
+                            <div class="w-2.5 h-3 bg-[#4a220e] border border-[#181026]"></div>
+                        </div>
+                        <div class="h-10 bg-[#7a3e20] border-3 border-[#181026] relative flex flex-col items-center justify-center shadow-[4px_4px_0px_#181026]" style="clip-path: polygon(0% 0%, 100% 0%, 84% 100%, 16% 100%); width: 9rem;">
+                            <div class="w-full h-2 bg-[#b8693d] border-b border-[#47210e] absolute top-0"></div>
+                            <div class="w-full h-1.5 bg-[#542812] absolute bottom-2"></div>
+                            <div class="w-1 h-1 bg-[#ffd942] absolute top-2.5 left-4"></div>
+                            <div class="w-1 h-1 bg-[#ffd942] absolute top-2.5 right-4"></div>
+                            <span class="font-pixel-title text-[7px] text-white relative z-10 mt-0.5 drop-shadow-[1px_1px_0px_#181026]">DERMAGA 15 FILE</span>
+                        </div>
+                        <div class="w-28 h-1.5 bg-white/90 border-b border-[#7be3f6] -mt-0.5"></div>
+                    </div>
+                    <div class="boat-lantern hidden w-3.5 h-3.5 bg-[#fff36b] border border-[#ff8800] rounded-full shadow-[0_0_14px_#ffdd00] -mt-9 ml-28 z-30 pointer-events-none"></div>
+                </div>
+
+                <!-- PERAHU 3: RANGKUMAN (SUM) -->
+                <div onclick="openBoatWorkspace('rangkuman')" class="boat-anim-1 group cursor-pointer flex flex-col items-center">
+                    <div class="bg-[#fff6d6] text-[#181026] border-2 border-[#181026] px-2 py-1 font-pixel-title text-[8px] mb-1.5 shadow-[2px_2px_0px_#181026] group-hover:bg-[#ffd942] text-center">
+                        #3 RANGKUMAN
+                    </div>
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 avatar-sprite -mb-2.5 relative z-10" id="boat-sprite-rangkuman"></div>
+                    <div class="relative flex flex-col items-center">
+                        <div class="w-32 sm:w-36 flex justify-between px-1 -mb-1 relative z-20 pointer-events-none">
+                            <div class="w-2 h-3 bg-[#5c2c14] border border-[#181026]"></div>
+                            <div class="w-2 h-3 bg-[#5c2c14] border border-[#181026]"></div>
+                        </div>
+                        <div class="h-10 bg-[#8c4a27] border-3 border-[#181026] relative flex flex-col items-center justify-center shadow-[4px_4px_0px_#181026]" style="clip-path: polygon(0% 0%, 100% 0%, 82% 100%, 18% 100%); width: 8rem;">
+                            <div class="w-full h-2 bg-[#c87946] border-b border-[#47210e] absolute top-0"></div>
+                            <div class="w-full h-1.5 bg-[#633218] absolute bottom-2"></div>
+                            <div class="w-1 h-1 bg-[#ffd942] absolute top-2.5 left-4"></div>
+                            <div class="w-1 h-1 bg-[#ffd942] absolute top-2.5 right-4"></div>
+                            <span class="font-pixel-title text-[7px] text-[#ff9ebb] relative z-10 mt-0.5 drop-shadow-[1px_1px_0px_#181026]">PERAHU SUM</span>
+                        </div>
+                        <div class="w-24 h-1.5 bg-white/90 border-b border-[#7be3f6] -mt-0.5"></div>
+                    </div>
+                    <div class="boat-lantern hidden w-3.5 h-3.5 bg-[#fff36b] border border-[#ff8800] rounded-full shadow-[0_0_14px_#ffdd00] -mt-9 ml-24 z-30 pointer-events-none"></div>
+                </div>
+
+                <!-- PERAHU 4: PENJELASAN (INFO) -->
+                <div onclick="openBoatWorkspace('penjelasan')" class="boat-anim-2 group cursor-pointer flex flex-col items-center">
+                    <div class="bg-[#fff6d6] text-[#181026] border-2 border-[#181026] px-2 py-1 font-pixel-title text-[8px] mb-1.5 shadow-[2px_2px_0px_#181026] group-hover:bg-[#ffd942] text-center">
+                        #4 PENJELASAN
+                    </div>
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 avatar-sprite -mb-2.5 relative z-10" id="boat-sprite-penjelasan"></div>
+                    <div class="relative flex flex-col items-center">
+                        <div class="w-32 sm:w-36 flex justify-between px-1 -mb-1 relative z-20 pointer-events-none">
+                            <div class="w-2 h-3 bg-[#5c2c14] border border-[#181026]"></div>
+                            <div class="w-2 h-3 bg-[#5c2c14] border border-[#181026]"></div>
+                        </div>
+                        <div class="h-10 bg-[#8c4a27] border-3 border-[#181026] relative flex flex-col items-center justify-center shadow-[4px_4px_0px_#181026]" style="clip-path: polygon(0% 0%, 100% 0%, 82% 100%, 18% 100%); width: 8rem;">
+                            <div class="w-full h-2 bg-[#c87946] border-b border-[#47210e] absolute top-0"></div>
+                            <div class="w-full h-1.5 bg-[#633218] absolute bottom-2"></div>
+                            <div class="w-1 h-1 bg-[#ffd942] absolute top-2.5 left-4"></div>
+                            <div class="w-1 h-1 bg-[#ffd942] absolute top-2.5 right-4"></div>
+                            <span class="font-pixel-title text-[7px] text-[#4cd964] relative z-10 mt-0.5 drop-shadow-[1px_1px_0px_#181026]">PERAHU INFO</span>
+                        </div>
+                        <div class="w-24 h-1.5 bg-white/90 border-b border-[#7be3f6] -mt-0.5"></div>
+                    </div>
+                    <div class="boat-lantern hidden w-3.5 h-3.5 bg-[#fff36b] border border-[#ff8800] rounded-full shadow-[0_0_14px_#ffdd00] -mt-9 ml-24 z-30 pointer-events-none"></div>
+                </div>
+
+                <!-- PERAHU 5: QUIZ KILAT -->
+                <div onclick="openBoatWorkspace('quiz')" class="boat-anim-1 group cursor-pointer flex flex-col items-center">
+                    <div class="bg-[#fff6d6] text-[#181026] border-2 border-[#181026] px-2 py-1 font-pixel-title text-[8px] mb-1.5 shadow-[2px_2px_0px_#181026] group-hover:bg-[#ffd942] text-center">
+                        #5 QUIZ KILAT
+                    </div>
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 avatar-sprite -mb-2.5 relative z-10" id="boat-sprite-quiz"></div>
+                    <div class="relative flex flex-col items-center">
+                        <div class="w-32 sm:w-36 flex justify-between px-1 -mb-1 relative z-20 pointer-events-none">
+                            <div class="w-2 h-3 bg-[#5c2c14] border border-[#181026]"></div>
+                            <div class="w-2 h-3 bg-[#5c2c14] border border-[#181026]"></div>
+                        </div>
+                        <div class="h-10 bg-[#8c4a27] border-3 border-[#181026] relative flex flex-col items-center justify-center shadow-[4px_4px_0px_#181026]" style="clip-path: polygon(0% 0%, 100% 0%, 82% 100%, 18% 100%); width: 8rem;">
+                            <div class="w-full h-2 bg-[#c87946] border-b border-[#47210e] absolute top-0"></div>
+                            <div class="w-full h-1.5 bg-[#633218] absolute bottom-2"></div>
+                            <div class="w-1 h-1 bg-[#ffd942] absolute top-2.5 left-4"></div>
+                            <div class="w-1 h-1 bg-[#ffd942] absolute top-2.5 right-4"></div>
+                            <span class="font-pixel-title text-[7px] text-[#ffd942] relative z-10 mt-0.5 drop-shadow-[1px_1px_0px_#181026]">PERAHU QUIZ</span>
+                        </div>
+                        <div class="w-24 h-1.5 bg-white/90 border-b border-[#7be3f6] -mt-0.5"></div>
+                    </div>
+                    <div class="boat-lantern hidden w-3.5 h-3.5 bg-[#fff36b] border border-[#ff8800] rounded-full shadow-[0_0_14px_#ffdd00] -mt-9 ml-24 z-30 pointer-events-none"></div>
+                </div>
+
+                <!-- PERAHU 6: SIMULASI UJIAN -->
+                <div onclick="openBoatWorkspace('ujian')" class="boat-anim-2 group cursor-pointer flex flex-col items-center">
+                    <div class="bg-[#fff6d6] text-[#181026] border-2 border-[#181026] px-2 py-1 font-pixel-title text-[8px] mb-1.5 shadow-[2px_2px_0px_#181026] group-hover:bg-[#ffd942] text-center">
+                        #6 SIMULASI UJIAN
+                    </div>
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 avatar-sprite -mb-2.5 relative z-10" id="boat-sprite-ujian"></div>
+                    <div class="relative flex flex-col items-center">
+                        <div class="w-32 sm:w-36 flex justify-between px-1 -mb-1 relative z-20 pointer-events-none">
+                            <div class="w-2 h-3 bg-[#5c2c14] border border-[#181026]"></div>
+                            <div class="w-2 h-3 bg-[#5c2c14] border border-[#181026]"></div>
+                        </div>
+                        <div class="h-10 bg-[#8c4a27] border-3 border-[#181026] relative flex flex-col items-center justify-center shadow-[4px_4px_0px_#181026]" style="clip-path: polygon(0% 0%, 100% 0%, 82% 100%, 18% 100%); width: 8rem;">
+                            <div class="w-full h-2 bg-[#c87946] border-b border-[#47210e] absolute top-0"></div>
+                            <div class="w-full h-1.5 bg-[#633218] absolute bottom-2"></div>
+                            <div class="w-1 h-1 bg-[#ffd942] absolute top-2.5 left-4"></div>
+                            <div class="w-1 h-1 bg-[#ffd942] absolute top-2.5 right-4"></div>
+                            <span class="font-pixel-title text-[7px] text-[#ff7b7b] relative z-10 mt-0.5 drop-shadow-[1px_1px_0px_#181026]">PERAHU UJIAN</span>
+                        </div>
+                        <div class="w-24 h-1.5 bg-white/90 border-b border-[#7be3f6] -mt-0.5"></div>
+                    </div>
+                    <div class="boat-lantern hidden w-3.5 h-3.5 bg-[#fff36b] border border-[#ff8800] rounded-full shadow-[0_0_14px_#ffdd00] -mt-9 ml-24 z-30 pointer-events-none"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- FLAT 2D SANDY SHORE (ONLY DECORATION & HERO AVATAR STANDING ON SAND) -->
+        <div id="scene-sand" class="sand-sunset relative w-full py-5 sm:py-6 px-4 transition-colors duration-700 flex-1 flex flex-col justify-center">
+            <!-- Detailed Layered White Sea Foam Strip -->
+            <div class="w-full h-3 bg-white/90 absolute top-0 left-0 border-b-2 border-[#7be3f6]"></div>
+
+            <div class="max-w-6xl mx-auto w-full flex flex-col md:flex-row items-center justify-between gap-4 relative z-10 pt-2">
+                <!-- Left Palm Tree & Guild Signpost -->
+                <div class="flex items-center gap-3">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 shrink-0">
+                        <svg class="w-full h-full pixel-svg" viewBox="0 0 32 32">
+                            <rect x="14" y="14" width="4" height="16" fill="#6b3e26"/>
+                            <rect x="13" y="18" width="4" height="12" fill="#54301d"/>
+                            <rect x="6" y="8" width="20" height="4" fill="#1e7a36"/>
+                            <rect x="4" y="11" width="8" height="3" fill="#299c46"/>
+                            <rect x="20" y="11" width="8" height="3" fill="#299c46"/>
+                            <rect x="11" y="5" width="10" height="4" fill="#32b855"/>
+                        </svg>
+                    </div>
+                    <div onclick="openGuildModal()" class="rpg-box px-3 py-2 cursor-pointer hover:bg-[#ffefc1] max-w-xs">
+                        <div class="font-pixel-title text-[8px] text-[#d84327]">⛺ POS GUILD MAHASISWA</div>
+                        <p class="text-xs text-stone-800 mt-0.5">
+                            Klik untuk <b>Login Google</b>, pilih <b>4 Role</b> & <b>3 Evolusi Avatar (+10 Lv)</b>!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Active Hero Avatar Standing on the Beach -->
+                <div onclick="openGuildModal()" class="cursor-pointer flex items-center gap-3 bg-[#181026]/95 text-white border-3 border-[#ffd942] px-3.5 py-2 shadow-[4px_4px_0px_#181026] hover:scale-105 transition-transform">
+                    <div id="beach-hero-sprite" class="w-12 h-12 sm:w-14 sm:h-14 bg-[#251a3a] border-2 border-white p-1 avatar-sprite"></div>
+                    <div class="text-left space-y-0.5">
+                        <div class="flex items-center gap-1.5">
+                            <span id="beach-hero-tier-badge" class="bg-[#ff6b35] text-white font-pixel-title text-[7px] px-1.5 py-0.5">TIER I</span>
+                            <span id="beach-hero-lvl-badge" class="font-pixel-mono text-xs text-[#4cd964]">LV.1</span>
+                        </div>
+                        <div id="beach-hero-name" class="font-pixel-title text-[10px] text-[#ffd942]">PETUALANG</div>
+                        <div id="beach-hero-class-title" class="font-pixel-mono text-xs text-amber-100">Novice Warrior • Klik Ganti Role</div>
+                    </div>
+                </div>
+
+                <!-- Right Palm Tree & Quick Shortcuts -->
+                <div class="flex items-center gap-2">
+                    <button onclick="openBoatWorkspace('dokumen')" class="rpg-btn bg-[#2374e1] text-white px-2.5 py-2 font-pixel-title text-[8px]">
+                        📂 UPLOAD 15 FILE
+                    </button>
+                    <button onclick="openBoatWorkspace('rangkuman')" class="rpg-btn bg-[#ff6b9d] text-[#181026] px-2.5 py-2 font-pixel-title text-[8px]">
+                        📝 RANGKUMAN
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ==========================================================
+         ACTIVE WORKSPACE CONTAINER (SHOWN WHEN USER CLICKS A BOAT)
+         ========================================================== -->
+    <div id="workspace-container" class="hidden flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-5 space-y-4">
+
+        <!-- TOP NAVIGATION BAR INSIDE WORKSPACE -->
+        <div class="flex flex-wrap items-center justify-between gap-2 bg-[#231934] border-4 border-[#181026] p-3 text-white">
+            <button onclick="returnToBeachHub()" class="rpg-btn bg-[#ff6b35] text-white px-3 py-2 font-pixel-title text-[9px] sm:text-[10px] flex items-center gap-2">
+                <span>⬅</span>
+                <span>KEMBALI KE PANTAI UTAMA</span>
+            </button>
+
+            <!-- Quick Boat Switcher Tabs -->
+            <div class="flex flex-wrap items-center gap-1.5">
+                <button onclick="selectBoatFeature('jpg')" id="tab-btn-jpg" class="rpg-btn bg-[#2398f5] text-white px-2.5 py-1.5 font-pixel-title text-[8px]">#1 JPG➔PDF</button>
+                <button onclick="selectBoatFeature('dokumen')" id="tab-btn-dokumen" class="rpg-btn bg-[#b81d2c] text-white px-2.5 py-1.5 font-pixel-title text-[8px]">#2 WORD/PDF (15x)</button>
+                <button onclick="selectBoatFeature('rangkuman')" id="tab-btn-rangkuman" class="rpg-btn bg-[#ff6b9d] text-[#181026] px-2.5 py-1.5 font-pixel-title text-[8px]">#3 RANGKUMAN</button>
+                <button onclick="selectBoatFeature('penjelasan')" id="tab-btn-penjelasan" class="rpg-btn bg-[#4cd964] text-[#181026] px-2.5 py-1.5 font-pixel-title text-[8px]">#4 PENJELASAN</button>
+                <button onclick="selectBoatFeature('quiz')" id="tab-btn-quiz" class="rpg-btn bg-[#ffd942] text-[#181026] px-2.5 py-1.5 font-pixel-title text-[8px]">#5 QUIZ</button>
+                <button onclick="selectBoatFeature('ujian')" id="tab-btn-ujian" class="rpg-btn bg-[#d92b3a] text-white px-2.5 py-1.5 font-pixel-title text-[8px]">#6 UJIAN</button>
+            </div>
+        </div>
+
+        <!-- PERSISTENT QUICK MATERI STATUS BAR (Shown for Study Boats 2, 3, 4, 5, 6) -->
+        <div id="study-materi-bar" class="rpg-box p-3 sm:p-4">
+            <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full lg:w-auto">
+                    <span class="bg-[#2374e1] text-white font-pixel-title text-[9px] px-2.5 py-1.5 border-2 border-[#181026] shrink-0">
+                        📚 PILIH MATERI (<span id="materi-library-count">3</span>/15)
+                    </span>
+                    <div class="flex-1 w-full sm:w-auto">
+                        <select id="global-materi-selector" onchange="switchActiveMaterial(this.value)"
+                                class="w-full sm:min-w-[290px] p-1.5 bg-[#181026] text-[#ffd942] border-2 border-[#181026] font-pixel-title text-[9px] sm:text-[10px] focus:outline-none cursor-pointer">
+                        </select>
+                        <p id="active-doc-meta" class="text-xs text-stone-600 mt-1">
+                            Sumber: Pustaka Materi • Bisa upload hingga 15 file sekaligus & pilih materi di sini!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Quick Upload (Max 15 Files) & Preset Buttons -->
+                <div class="flex flex-wrap items-center gap-2 w-full lg:w-auto">
+                    <label class="rpg-btn bg-[#2374e1] text-white px-3 py-1.5 font-pixel-title text-[8px] sm:text-[9px] flex items-center gap-1.5 cursor-pointer">
+                        <span>📘 UPLOAD WORD (MAKS 15)</span>
+                        <input type="file" accept=".docx,.txt" multiple class="hidden" onchange="handleWordOrPdfUpload(event)">
+                    </label>
+                    <label class="rpg-btn bg-[#b81d2c] text-white px-3 py-1.5 font-pixel-title text-[8px] sm:text-[9px] flex items-center gap-1.5 cursor-pointer">
+                        <span>📕 UPLOAD PDF (MAKS 15)</span>
+                        <input type="file" accept=".pdf,.txt" multiple class="hidden" onchange="handleWordOrPdfUpload(event)">
+                    </label>
+                    <button onclick="selectBoatFeature('dokumen')" class="rpg-btn bg-[#ffd942] text-[#181026] px-3 py-1.5 font-pixel-title text-[8px] sm:text-[9px]">
+                        📂 KELOLA 15 MATERI
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================================
+             AVATAR RPG DIALOG BANNER (DYNAMIC PER ACTIVE BOAT FEATURE)
+             ========================================================== -->
+        <div id="feature-avatar-dialog-box" class="rpg-box-dark p-3 sm:p-4 flex flex-col sm:flex-row items-center gap-3.5 border-4 border-[#ffd942]">
+            <div id="dialog-avatar-portrait" class="w-16 h-16 sm:w-20 sm:h-20 bg-[#120b1d] border-3 border-[#ffd942] flex items-center justify-center shrink-0 p-1 avatar-sprite">
+            </div>
+            <div class="flex-1 text-left space-y-1">
+                <div class="flex flex-wrap items-center gap-2">
+                    <span id="dialog-speaker-badge" class="bg-[#ff6b35] text-white font-pixel-title text-[8px] sm:text-[9px] px-2 py-0.5 border border-white">
+                        NPC AVATAR
+                    </span>
+                    <span id="dialog-speaker-role" class="font-pixel-mono text-xs text-amber-300">
+                        Kapten Perahu PixTBeach
+                    </span>
+                </div>
+                <p id="dialog-speech-text" class="text-xs sm:text-sm text-white leading-relaxed font-medium bg-[#160f21] p-2.5 border-2 border-[#3a2b52]">
+                    "Halo Petualang! Pilih perahu fitur atau ganti materi kuliahmu kapan saja!"
+                </p>
+            </div>
+        </div>
+
+        <!-- ==========================================================
+             BOAT 1 WORKSPACE: JPG TO PDF CONVERTER
+             ========================================================== -->
+        <section id="panel-jpg" class="hidden rpg-box p-4 sm:p-6 space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b-4 border-[#181026] pb-3">
+                <div class="flex items-center gap-3">
+                    <span class="bg-[#2398f5] text-white font-pixel-title text-[10px] px-2.5 py-1.5 border-2 border-[#181026]">PERAHU #1 • JPG ➔ PDF</span>
+                    <div>
+                        <h3 class="font-pixel-title text-xs sm:text-sm text-[#181026]">STUDIO KONVERSI GAMBAR CATATAN KE PDF</h3>
+                        <p class="text-xs text-stone-600">Unggah banyak foto catatan papan tulis (.JPG / .PNG), atur urutan halaman, dan unduh sebagai 1 file PDF!</p>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="addSampleCanvasJpg()" class="rpg-btn bg-[#ffd942] text-[#181026] px-3 py-1.5 font-pixel-title text-[8px]">
+                        🎨 + TAMBAH CONTOH GAMBAR CATATAN
+                    </button>
+                    <button onclick="clearAllJpgItems()" class="rpg-btn bg-[#d92b3a] text-white px-3 py-1.5 font-pixel-title text-[8px]">
+                        🗑️ BERSIHKAN
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+                <div class="lg:col-span-5 flex flex-col justify-between border-4 border-dashed border-[#181026] bg-[#ffefc1] p-4 text-center space-y-3">
+                    <div class="font-pixel-title text-xs text-[#181026]">PILIH FOTO CATATAN / TUGAS (.JPG, .PNG)</div>
+                    <p class="text-xs text-stone-700">Arty si Avatar JPG siap menyusun seluruh foto catatanmu menjadi satu dokumen PDF siap kumpul.</p>
+                    <label class="rpg-btn bg-[#2398f5] text-white py-3 px-4 font-pixel-title text-[10px] cursor-pointer inline-block">
+                        🖼️ PILIH FILE GAMBAR (MULTI-UPLOAD)
+                        <input type="file" accept="image/*" multiple class="hidden" onchange="handleJpgFilesUpload(event)">
+                    </label>
+
+                    <div class="grid grid-cols-2 gap-2 text-left pt-2">
+                        <div>
+                            <label class="font-pixel-title text-[8px] block mb-1">UKURAN KERTAS:</label>
+                            <select id="pdf-page-size" class="w-full p-1.5 bg-white border-2 border-[#181026] font-pixel-mono text-sm">
+                                <option value="a4">A4 Standar Kampus</option>
+                                <option value="letter">US Letter</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="font-pixel-title text-[8px] block mb-1">ORIENTASI:</label>
+                            <select id="pdf-orientation" class="w-full p-1.5 bg-white border-2 border-[#181026] font-pixel-mono text-sm">
+                                <option value="portrait">Portrait (Tegak)</option>
+                                <option value="landscape">Landscape (Mendatar)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button onclick="generatePdfFromJpgList()" class="w-full rpg-btn bg-[#45b849] text-white py-3 px-4 font-pixel-title text-[10px]">
+                        📕 GABUNGKAN & UNDUH FILE PDF SEKARANG (+45 EXP)
+                    </button>
+                </div>
+
+                <div class="lg:col-span-7 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="font-pixel-title text-[10px]">DAFTAR HALAMAN GAMBAR (<span id="jpg-count-badge">0</span> HALAMAN):</span>
+                        <span class="font-pixel-mono text-xs text-stone-600">Klik ⬅ / ➡ untuk menggeser urutan halaman</span>
+                    </div>
+                    <div id="jpg-preview-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-80 overflow-y-auto p-2 bg-white border-4 border-[#181026]"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             BOAT 2 WORKSPACE: UPLOAD MATERI WORD & PDF (MAX 15 FILES)
+             ========================================================== -->
+        <section id="panel-dokumen" class="hidden rpg-box p-4 sm:p-6 space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b-4 border-[#181026] pb-3">
+                <div class="flex items-center gap-3">
+                    <span class="bg-[#b81d2c] text-white font-pixel-title text-[10px] px-2.5 py-1.5 border-2 border-[#181026]">PERAHU #2 • WORD & PDF</span>
+                    <div>
+                        <h3 class="font-pixel-title text-xs sm:text-sm text-[#181026]">DERMAGA MULTI-UPLOAD MATERI (MAKSIMAL 15 FILE SEKALIGUS)</h3>
+                        <p class="text-xs text-stone-600">Unggah hingga 15 dokumen (.PDF / .DOCX / .TXT) sekaligus, lalu pilih materi mana pun di fitur Rangkuman & Penjelasan!</p>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-1.5">
+                    <button onclick="loadDemoMaterial('ai')" class="rpg-btn bg-[#ffd942] text-[#181026] px-2.5 py-1.5 font-pixel-title text-[8px]">🤖 DEMO AI</button>
+                    <button onclick="loadDemoMaterial('ekonomi')" class="rpg-btn bg-[#7be3f6] text-[#181026] px-2.5 py-1.5 font-pixel-title text-[8px]">📈 DEMO EKONOMI</button>
+                    <button onclick="loadDemoMaterial('hukum')" class="rpg-btn bg-[#ff9ebb] text-[#181026] px-2.5 py-1.5 font-pixel-title text-[8px]">⚖️ DEMO HUKUM</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+                <div class="lg:col-span-5 flex flex-col justify-between border-4 border-dashed border-[#181026] bg-[#ffefc1] p-4 text-center space-y-3">
+                    <div class="flex items-center justify-between bg-[#181026] text-white px-3 py-1.5">
+                        <span class="font-pixel-title text-[9px] text-[#ffd942]">KAPASITAS UPLOAD</span>
+                        <span id="multi-upload-slot-badge" class="font-pixel-title text-[9px] text-[#4cd964]">3 / 15 SLOT TERISI</span>
+                    </div>
+                    <div class="font-pixel-title text-xs text-[#181026]">PILIH BANYAK FILE SEKALIGUS (MAKS 15 FILE)</div>
+                    <p class="text-xs text-stone-700">Mendukung pemilihan banyak file sekaligus (<i>multi-select</i>) untuk <b>.PDF</b>, <b>.DOCX (Word)</b>, dan <b>.TXT</b>.</p>
+                    <div class="grid grid-cols-2 gap-3 pt-1">
+                        <label class="rpg-btn bg-[#2374e1] text-white p-3 font-pixel-title text-[9px] cursor-pointer flex flex-col items-center gap-1">
+                            <span class="text-xl">📘</span>
+                            <span>MULTI-UPLOAD WORD</span>
+                            <span class="text-[8px] text-amber-200">(Maks 15 File)</span>
+                            <input type="file" accept=".docx,.txt" multiple class="hidden" onchange="handleWordOrPdfUpload(event)">
+                        </label>
+                        <label class="rpg-btn bg-[#b81d2c] text-white p-3 font-pixel-title text-[9px] cursor-pointer flex flex-col items-center gap-1">
+                            <span class="text-xl">📕</span>
+                            <span>MULTI-UPLOAD PDF</span>
+                            <span class="text-[8px] text-amber-200">(Maks 15 File)</span>
+                            <input type="file" accept=".pdf,.txt" multiple class="hidden" onchange="handleWordOrPdfUpload(event)">
+                        </label>
+                    </div>
+                    <div id="doc-upload-status" class="bg-[#181026] text-[#ffd942] font-pixel-mono text-sm py-1.5 px-3">
+                        Status: 3 Materi Tersimpan di Pustaka (Maks 15 File)
+                    </div>
+
+                    <!-- Library List of Uploaded Materials (Up to 15) -->
+                    <div class="text-left bg-white border-3 border-[#181026] p-2.5 space-y-1.5 max-h-48 overflow-y-auto">
+                        <div class="flex items-center justify-between border-b border-stone-300 pb-1">
+                            <span class="font-pixel-title text-[8px] text-[#181026]">DAFTAR PUSTAKA MATERI AKTIF:</span>
+                            <button onclick="clearCustomUploadedMaterials()" class="text-[10px] text-red-700 font-bold hover:underline">Reset ke 3 Demo</button>
+                        </div>
+                        <div id="uploaded-materials-list" class="space-y-1"></div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 flex flex-col space-y-2">
+                    <div class="flex flex-wrap justify-between items-center gap-2">
+                        <span class="font-pixel-title text-[10px]">ISI TEKS MATERI TERPILIH (DAPAT DIEDIT / TAMBAH BARU):</span>
+                        <span id="word-count-badge" class="font-pixel-mono text-base text-[#d84327] font-bold">0 Kata</span>
+                    </div>
+                    <input type="text" id="custom-materi-title-input" placeholder="Judul Materi Baru / Terpilih..."
+                           class="w-full p-2 bg-[#fff9eb] border-3 border-[#181026] font-pixel-title text-[10px] text-[#181026] focus:outline-none">
+                    <textarea id="materi-textarea" rows="6" oninput="updateWordCount()"
+                              class="w-full p-3 bg-white border-4 border-[#181026] text-stone-900 text-sm leading-relaxed focus:outline-none"
+                              placeholder="Tempelkan materi kuliah, jurnal, atau catatan di sini..."></textarea>
+                    <div class="flex flex-wrap gap-2 pt-1">
+                        <button onclick="processCustomTextAndSail('rangkuman')" class="flex-1 rpg-btn bg-[#45b849] text-white py-2.5 px-3 font-pixel-title text-[9px]">
+                            ⚡ SIMPAN KE PUSTAKA & BUKA RANGKUMAN (+40 EXP)
+                        </button>
+                        <button onclick="processCustomTextAndSail('penjelasan')" class="rpg-btn bg-[#198737] text-white py-2.5 px-3 font-pixel-title text-[9px]">
+                            🎓 BUKA PENJELASAN AVATAR
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             BOAT 3, 4, 5, 6 WORKSPACE: RANGKUMAN, PENJELASAN, QUIZ, UJIAN
+             ========================================================== -->
+        <section id="panel-study-outputs" class="rpg-box p-4 sm:p-6">
+
+            <!-- BOAT 3 VIEW: RANGKUMAN (SUM) -->
+            <div id="view-rangkuman" class="space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b-4 border-[#181026] pb-3">
+                    <div class="flex items-center gap-3">
+                        <span class="bg-[#ff6b9d] text-[#181026] font-pixel-title text-[10px] px-2.5 py-1 border-2 border-[#181026]">PERAHU #3 • SUM</span>
+                        <h3 id="summary-heading" class="font-pixel-title text-xs sm:text-sm">RANGKUMAN INTI MATERI KULIAH</h3>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <!-- Material Selector directly inside Rangkuman -->
+                        <div class="flex items-center gap-1.5 bg-[#181026] px-2 py-1 border-2 border-[#ff6b9d]">
+                            <span class="font-pixel-title text-[8px] text-[#ff9ebb]">PILIH MATERI:</span>
+                            <select id="rangkuman-materi-selector" onchange="switchActiveMaterial(this.value)"
+                                    class="bg-[#231934] text-[#ffd942] font-pixel-mono text-sm px-2 py-0.5 border border-white focus:outline-none cursor-pointer">
+                            </select>
+                        </div>
+                        <button onclick="copySummaryToClipboard()" class="rpg-btn bg-[#ffd942] text-[#181026] px-3 py-1.5 font-pixel-title text-[9px]">
+                            📋 SALIN CATATAN
+                        </button>
+                        <button onclick="exportSummaryToPdf()" class="rpg-btn bg-[#d92b3a] text-white px-3 py-1.5 font-pixel-title text-[9px]">
+                            📕 UNDUH PDF RANGKUMAN
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Avatar SUM Conversational Explanation Box -->
+                <div id="sum-avatar-dialog-card" class="bg-[#231934] text-white border-4 border-[#181026] p-3.5 flex flex-col sm:flex-row items-center gap-3.5">
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    <div class="lg:col-span-2 space-y-3">
+                        <div class="bg-[#ffefc1] border-4 border-[#181026] p-4">
+                            <div class="font-pixel-title text-[10px] text-[#d84327] mb-2">📌 DIALOG POIN-POIN RANGKUMAN DARI SI PINKY SUM:</div>
+                            <ul id="summary-bullets" class="space-y-2.5 text-sm leading-relaxed text-stone-900"></ul>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="bg-[#231934] text-white border-4 border-[#181026] p-4">
+                            <div class="font-pixel-title text-[10px] text-[#ffd942] mb-2">🔑 ISTILAH KUNCI WAJIB HAFAL:</div>
+                            <div id="summary-keywords" class="flex flex-wrap gap-1.5"></div>
+                        </div>
+                        <div class="bg-[#d8f8e1] text-[#181026] border-4 border-[#181026] p-4">
+                            <div class="font-pixel-title text-[10px] text-[#198737] mb-1">💡 DIALOG KESIMPULAN CEPAT (TL;DR):</div>
+                            <p id="summary-tldr" class="text-xs sm:text-sm leading-relaxed"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOAT 4 VIEW: PENJELASAN (INFO) -->
+            <div id="view-penjelasan" class="hidden space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b-4 border-[#181026] pb-3">
+                    <div class="flex items-center gap-3">
+                        <span class="bg-[#4cd964] text-[#181026] font-pixel-title text-[10px] px-2.5 py-1 border-2 border-[#181026]">PERAHU #4 • INFO</span>
+                        <h3 class="font-pixel-title text-xs sm:text-sm">DIALOG PENJELASAN KONSEP BERSAMA PARA AVATAR</h3>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <!-- Material Selector directly inside Penjelasan -->
+                        <div class="flex items-center gap-1.5 bg-[#181026] px-2 py-1 border-2 border-[#4cd964]">
+                            <span class="font-pixel-title text-[8px] text-[#4cd964]">PILIH MATERI:</span>
+                            <select id="penjelasan-materi-selector" onchange="switchActiveMaterial(this.value)"
+                                    class="bg-[#231934] text-[#ffd942] font-pixel-mono text-sm px-2 py-0.5 border border-white focus:outline-none cursor-pointer">
+                            </select>
+                        </div>
+                        <span class="font-pixel-mono text-sm bg-[#181026] text-[#ffd942] px-2.5 py-1">💬 Mode Dialog Interaktif Avatar</span>
+                    </div>
+                </div>
+                <div id="explanation-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            </div>
+
+            <!-- BOAT 5 VIEW: QUIZ KILAT (MINI-GAME) -->
+            <div id="view-quiz" class="hidden space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b-4 border-[#181026] pb-3">
+                    <div class="flex items-center gap-3">
+                        <span class="bg-[#ffd942] text-[#181026] font-pixel-title text-[10px] px-2.5 py-1 border-2 border-[#181026]">PERAHU #5 • QUIZ</span>
+                        <h3 class="font-pixel-title text-xs sm:text-sm">TANTANGAN QUIZ KILAT BERSAMA BUZZY</h3>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span id="quiz-score-badge" class="bg-[#181026] text-[#4cd964] font-pixel-title text-[9px] px-3 py-1.5">SKOR: 0 BENAR</span>
+                        <button onclick="renderQuizView()" class="rpg-btn bg-[#ff8811] text-white px-3 py-1.5 font-pixel-title text-[8px]">🔄 ULANGI QUIZ</button>
+                    </div>
+                </div>
+
+                <!-- Quiz Difficulty & Question Count Config Bar -->
+                <div class="bg-[#231934] text-white border-4 border-[#181026] p-3.5 space-y-2.5">
+                    <div class="flex flex-wrap items-center justify-between gap-3">
+                        <!-- Difficulty Selector -->
+                        <div class="flex flex-wrap items-center gap-1.5">
+                            <span class="font-pixel-title text-[9px] text-[#ffd942]">🎯 TINGKAT KESULITAN QUIZ:</span>
+                            <button onclick="setQuizDifficulty('easy')" id="quiz-diff-easy" class="rpg-btn bg-[#4cd964] text-[#181026] px-2.5 py-1 font-pixel-title text-[8px]">🟢 MUDAH (EASY)</button>
+                            <button onclick="setQuizDifficulty('normal')" id="quiz-diff-normal" class="rpg-btn bg-[#3a2b52] text-white px-2.5 py-1 font-pixel-title text-[8px]">🟡 SEDANG (NORMAL)</button>
+                            <button onclick="setQuizDifficulty('hard')" id="quiz-diff-hard" class="rpg-btn bg-[#3a2b52] text-white px-2.5 py-1 font-pixel-title text-[8px]">🔴 SULIT (HARD)</button>
+                        </div>
+
+                        <!-- Question Count Selector -->
+                        <div class="flex flex-wrap items-center gap-1.5">
+                            <span class="font-pixel-title text-[9px] text-[#7be3f6]">🔢 JUMLAH SOAL:</span>
+                            <button onclick="setQuizQuestionCount(3)" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[8px]">3 Soal</button>
+                            <button onclick="setQuizQuestionCount(5)" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[8px]">5 Soal</button>
+                            <button onclick="setQuizQuestionCount(10)" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[8px]">10 Soal</button>
+                            <button onclick="setQuizQuestionCount(15)" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[8px]">15 Soal</button>
+                            <div class="flex items-center gap-1 ml-1">
+                                <input type="number" id="custom-quiz-count" min="1" max="30" value="5" class="w-14 p-1 bg-[#120b1d] text-[#ffd942] border border-white font-pixel-mono text-sm text-center">
+                                <button onclick="applyCustomQuizCount()" class="rpg-btn bg-[#ffd942] text-[#181026] px-2 py-1 font-pixel-title text-[8px]">SET</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="quiz-config-summary" class="font-pixel-mono text-xs text-amber-200 border-t border-[#3a2b52] pt-1.5">
+                        Mode Aktif: SEDANG (Normal) • 5 Soal • Hadiah: +25 EXP / Jawaban Benar
+                    </div>
+                </div>
+
+                <div id="quiz-questions-container" class="space-y-4"></div>
+            </div>
+
+            <!-- BOAT 6 VIEW: SIMULASI UJIAN (CUSTOM TIMER & BOSS BATTLE) -->
+            <div id="view-ujian" class="hidden space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b-4 border-[#181026] pb-3">
+                    <div class="flex items-center gap-3">
+                        <span class="bg-[#d92b3a] text-white font-pixel-title text-[10px] px-2.5 py-1 border-2 border-[#181026]">PERAHU #6 • UJIAN</span>
+                        <h3 class="font-pixel-title text-xs sm:text-sm">SIMULASI UJIAN AKADEMIK & PENGATUR WAKTU</h3>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span id="exam-timer-display" class="bg-[#181026] text-[#ffd942] font-pixel-title text-xs px-3 py-1.5 border-2 border-[#ffd942]">⏱️ 10:00</span>
+                        <button onclick="togglePauseExamTimer()" id="exam-pause-btn" class="rpg-btn bg-[#2398f5] text-white px-2.5 py-1.5 font-pixel-title text-[8px]">⏸️ JEDA</button>
+                        <button onclick="resetExamSimulation()" class="rpg-btn bg-[#ff8811] text-white px-2.5 py-1.5 font-pixel-title text-[8px]">🔄 RESET</button>
+                    </div>
+                </div>
+
+                <!-- Flexible Exam Timer, Difficulty & Question Count Config Bar -->
+                <div class="bg-[#231934] text-white border-4 border-[#181026] p-3.5 space-y-3">
+                    <!-- Difficulty & Question Count Row -->
+                    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-[#3a2b52] pb-2.5">
+                        <div class="flex flex-wrap items-center gap-1.5">
+                            <span class="font-pixel-title text-[9px] text-[#ff9ebb]">⚔️ KESULITAN UJIAN:</span>
+                            <button onclick="setExamDifficulty('easy')" id="exam-diff-easy" class="rpg-btn bg-[#3a2b52] text-white px-2.5 py-1 font-pixel-title text-[8px]">🟢 MUDAH</button>
+                            <button onclick="setExamDifficulty('normal')" id="exam-diff-normal" class="rpg-btn bg-[#ffd942] text-[#181026] px-2.5 py-1 font-pixel-title text-[8px]">🟡 SEDANG</button>
+                            <button onclick="setExamDifficulty('hard')" id="exam-diff-hard" class="rpg-btn bg-[#3a2b52] text-white px-2.5 py-1 font-pixel-title text-[8px]">🔴 SULIT (HOTS)</button>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-1.5">
+                            <span class="font-pixel-title text-[9px] text-[#7be3f6]">📋 JUMLAH SOAL UJIAN:</span>
+                            <button onclick="setExamQuestionCount(5)" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[8px]">5 Soal</button>
+                            <button onclick="setExamQuestionCount(10)" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[8px]">10 Soal</button>
+                            <button onclick="setExamQuestionCount(15)" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[8px]">15 Soal</button>
+                            <button onclick="setExamQuestionCount(20)" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[8px]">20 Soal</button>
+                            <div class="flex items-center gap-1 ml-1">
+                                <input type="number" id="custom-exam-count" min="1" max="40" value="5" class="w-14 p-1 bg-[#120b1d] text-[#ffd942] border border-white font-pixel-mono text-sm text-center">
+                                <button onclick="applyCustomExamCount()" class="rpg-btn bg-[#4cd964] text-[#181026] px-2 py-1 font-pixel-title text-[8px]">SET</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <span class="font-pixel-title text-[9px] text-[#ffd942]">⚙️ ATUR DURASI WAKTU SIMULASI UJIAN:</span>
+                        <div class="flex flex-wrap items-center gap-1.5">
+                            <button onclick="setExamCustomTime(5, 0)" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[8px]">5 Menit</button>
+                            <button onclick="setExamCustomTime(10, 0)" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[8px]">10 Menit</button>
+                            <button onclick="setExamCustomTime(15, 0)" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[8px]">15 Menit</button>
+                            <button onclick="setExamCustomTime(30, 0)" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[8px]">30 Menit</button>
+                            <button onclick="setExamCustomTime(60, 0)" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[8px]">60 Menit</button>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
+                        <div class="flex items-center gap-2 text-xs">
+                            <span>Kustom:</span>
+                            <input type="number" id="custom-exam-min" min="0" max="180" value="10" class="w-16 p-1 bg-[#120b1d] text-[#ffd942] border border-white font-pixel-mono text-base text-center">
+                            <span>Menit</span>
+                            <input type="number" id="custom-exam-sec" min="0" max="59" value="0" class="w-16 p-1 bg-[#120b1d] text-[#ffd942] border border-white font-pixel-mono text-base text-center">
+                            <span>Detik</span>
+                            <button onclick="applyCustomExamInput()" class="rpg-btn bg-[#4cd964] text-[#181026] px-2.5 py-1 font-pixel-title text-[8px]">TERAPKAN WAKTU</button>
+                        </div>
+                        <div class="flex-1 min-w-[160px] h-3 bg-[#120b1d] border border-white overflow-hidden">
+                            <div id="exam-timer-bar" class="h-full bg-gradient-to-r from-[#4cd964] via-[#ffd942] to-[#d92b3a] transition-all duration-300" style="width: 100%;"></div>
+                        </div>
+                    </div>
+
+                    <div id="exam-config-summary" class="font-pixel-mono text-xs text-amber-200 border-t border-[#3a2b52] pt-1.5">
+                        Konfigurasi Ujian: Tingkat SEDANG • 5 Soal • Hadiah Lulus: +100 EXP
+                    </div>
+                </div>
+
+                <div id="exam-result-banner" class="hidden rpg-box-dark p-4 border-4 border-[#4cd964]"></div>
+                <div id="exam-questions-container" class="space-y-4"></div>
+
+                <div class="pt-2">
+                    <button id="submit-exam-btn" onclick="submitExamSimulation()" class="w-full rpg-btn bg-[#45b849] text-white py-3 px-4 font-pixel-title text-xs">
+                        ✅ KUMPULKAN LEMBAR JAWABAN UJIAN (+100 EXP)
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ==========================================================
+         GUILD MODAL: LOGIN GOOGLE, CUSTOM HERO NAME, 4 ROLES & 3 EVOLUTIONS
+         ========================================================== -->
+    <div id="guild-modal" class="hidden fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+        <div class="rpg-box max-w-3xl w-full p-4 sm:p-6 space-y-4 my-auto max-h-[92vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b-4 border-[#181026] pb-3">
+                <div>
+                    <div class="font-pixel-title text-xs sm:text-sm text-[#d84327]">⛺ GUILD MAHASISWA PIXTBEACH</div>
+                    <p id="guild-auth-status" class="font-pixel-mono text-sm text-stone-700">Status: Mode Tamu Lokal (Klik Login Google untuk Sinkronisasi)</p>
+                </div>
+                <button onclick="closeGuildModal()" class="rpg-btn bg-[#d92b3a] text-white px-3 py-1.5 font-pixel-title text-[9px]">✕ TUTUP</button>
+            </div>
+
+            <!-- Google Login & Hero Name Setting -->
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 bg-[#ffefc1] p-3.5 border-3 border-[#181026]">
+                <div class="sm:col-span-5 flex flex-col justify-between gap-2">
+                    <span class="font-pixel-title text-[9px] text-[#181026]">1. AKUN GOOGLE KAMPUS:</span>
+                    <button id="modal-google-btn" onclick="handleGoogleSignIn()" class="rpg-btn bg-[#2374e1] text-white py-2.5 px-3 font-pixel-title text-[9px] flex items-center justify-center gap-2">
+                        <span>🔑</span>
+                        <span>HUBUNGKAN GOOGLE</span>
+                    </button>
+                </div>
+                <div class="sm:col-span-7 flex flex-col justify-between gap-2">
+                    <span class="font-pixel-title text-[9px] text-[#181026]">2. ATUR NAMA HERO / MAHASISWA:</span>
+                    <div class="flex gap-2">
+                        <input type="text" id="guild-hero-name-input" maxlength="18" placeholder="Ketik Nama Hero..."
+                               class="flex-1 p-2 bg-white border-2 border-[#181026] font-pixel-title text-[10px] text-[#181026] focus:outline-none">
+                        <button onclick="saveHeroNameFromInput()" class="rpg-btn bg-[#45b849] text-white px-3 py-2 font-pixel-title text-[9px]">
+                            SIMPAN
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4 Roles Selector -->
+            <div class="space-y-2">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <span class="font-pixel-title text-[10px] text-[#181026]">3. PILIH ROLE KARAKTER (WARRIOR, MAGE, PALADIN, SUPPORT):</span>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button onclick="addExp(100)" class="rpg-btn bg-[#4cd964] text-[#181026] px-2 py-1 font-pixel-title text-[7px]">⚡ +1 LEVEL</button>
+                        <button onclick="simulateJumpLevel(10)" class="rpg-btn bg-[#ffd942] text-[#181026] px-2 py-1 font-pixel-title text-[7px]">🌟 EVO II (LV.10)</button>
+                        <button onclick="simulateJumpLevel(20)" class="rpg-btn bg-[#ff6b35] text-white px-2 py-1 font-pixel-title text-[7px]">🔥 EVO III (LV.20)</button>
+                    </div>
+                </div>
+                <div id="role-selector-cards" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5"></div>
+            </div>
+
+            <!-- 3 Evolution Stages Preview -->
+            <div class="space-y-2">
+                <span class="font-pixel-title text-[10px] text-[#181026]">4. GALERI 3 TAHAP EVOLUSI AVATAR (BEREVOLUSI SETIAP NAIK 10 LEVEL):</span>
+                <div id="role-evolution-gallery" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================
+         GENERAL NOTIFICATION MODAL
+         ========================================================== -->
+    <div id="pixel-modal" class="hidden fixed inset-0 z-50 bg-black/75 flex items-center justify-center p-4">
+        <div class="rpg-box max-w-md w-full p-5 text-center space-y-4">
+            <div id="pixel-modal-title" class="font-pixel-title text-xs sm:text-sm text-[#d84327]">INFO QUEST</div>
+            <p id="pixel-modal-body" class="text-sm text-stone-800 leading-relaxed"></p>
+            <button onclick="closePixelModal()" class="rpg-btn bg-[#ffd942] text-[#181026] px-6 py-2 font-pixel-title text-[10px]">
+                OK, SIAP!
+            </button>
+        </div>
+    </div>
+
+    <!-- ==========================================================
+         CREDIT & CREATOR MODAL (TARAA / RAIHAN ALI & SAWERIA SUPPORT)
+         ========================================================== -->
+    <div id="credit-modal" class="hidden fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="rpg-box max-w-lg w-full p-5 sm:p-6 text-center space-y-4 my-auto">
+            <div class="flex items-center justify-between border-b-4 border-[#181026] pb-3">
+                <div class="font-pixel-title text-xs sm:text-sm text-[#d84327]">📜 CREDIT & CREATOR</div>
+                <button onclick="closeCreditModal()" class="rpg-btn bg-[#d92b3a] text-white px-3 py-1 font-pixel-title text-[9px]">✕ TUTUP</button>
+            </div>
+
+            <!-- Creator Pixel Badge & Avatar -->
+            <div class="bg-[#231934] text-white border-4 border-[#181026] p-4 space-y-3">
+                <div class="w-16 h-16 mx-auto bg-[#120b1d] border-3 border-[#ffd942] p-1.5 avatar-sprite">
+                    <svg class="w-full h-full pixel-svg mythic-aura" viewBox="0 0 32 32">
+                        <polygon points="4,10 28,10 16,2" fill="#ffd942"/>
+                        <rect x="9" y="10" width="14" height="10" fill="#ffcc99"/>
+                        <rect x="11" y="13" width="3" height="3" fill="#181026"/>
+                        <rect x="18" y="13" width="3" height="3" fill="#181026"/>
+                        <rect x="8" y="20" width="16" height="10" fill="#d92b3a"/>
+                        <rect x="12" y="21" width="8" height="8" fill="#ffd942"/>
+                    </svg>
+                </div>
+                <div class="space-y-1">
+                    <span class="bg-[#ff6b35] text-white font-pixel-title text-[8px] px-2.5 py-1 border border-white inline-block">
+                        👑 GAME MASTER & DEVELOPER
+                    </span>
+                    <h3 class="font-pixel-title text-sm sm:text-base text-[#ffd942] pt-1">
+                        Taraa (Raihan Ali)
+                    </h3>
+                    <p class="text-xs sm:text-sm text-amber-100 leading-relaxed pt-1">
+                        Website <b>PixTBeach - Pelabuhan Belajar Mahasiswa</b> ini dirancang dan dibuat oleh <b>Taraa (Raihan Ali)</b> untuk membantu mempermudah aktivitas perkuliahan mahasiswa dengan nuansa RPG Pixel Art yang seru!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Support via Saweria Section -->
+            <div class="bg-[#ffefc1] border-3 border-[#181026] p-4 space-y-3">
+                <div class="font-pixel-title text-[9px] text-[#181026]">💖 DUKUNG PENGEMBANGAN PIXTBEACH</div>
+                <p class="text-xs text-stone-700 leading-relaxed">
+                    Suka dengan fitur-fitur di PixTBeach? Kamu bisa memberikan dukungan semangat dan traktir kopi untuk <b>Taraa (Raihan Ali)</b> melalui tombol Saweria di bawah ini:
+                </p>
+                <a href="https://saweria.co/taraaamazingg" target="_blank" rel="noopener noreferrer"
+                   onclick="playPixelSound('levelup')"
+                   class="rpg-btn bg-[#ff9f1c] hover:bg-[#ffd942] text-[#181026] py-3 px-5 font-pixel-title text-[10px] sm:text-xs inline-flex items-center justify-center gap-2 w-full">
+                    <span>☕</span>
+                    <span>SUPPORT DI SAWERIA</span>
+                </a>
+                <div class="font-pixel-mono text-xs text-stone-600">
+                    Link: https://saweria.co/taraaamazingg
+                </div>
+            </div>
+
+            <button onclick="closeCreditModal()" class="rpg-btn bg-[#2374e1] text-white px-6 py-2 font-pixel-title text-[9px] w-full sm:w-auto">
+                KEMBALI BERLAYAR ⚓
+            </button>
+        </div>
+    </div>
+
+    <!-- ==========================================================
+         BOTTOM SAND DOCK MENU BAR (ALL CONTROLS NEATLY ORGANIZED AT BOTTOM)
+         ========================================================== -->
+    <footer class="w-full bg-[#2b1d12] text-white border-t-4 border-[#181026] px-3 py-2.5 z-40 sticky bottom-0 shadow-[0_-4px_0_#181026]">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2.5">
+            <!-- Left: Brand & Return to Beach Hub + Current Location -->
+            <div class="flex items-center gap-2">
+                <button onclick="returnToBeachHub()" class="rpg-btn bg-[#ff6b35] text-white px-3 py-1.5 font-pixel-title text-[9px] sm:text-[10px] flex items-center gap-1.5" title="Kembali ke Menu Utama Pantai">
+                    <span>🏖️</span>
+                    <span>PixTBeach</span>
+                </button>
+                <span id="top-location-badge" class="hidden lg:inline-block bg-[#181026] text-[#ffd942] font-pixel-mono text-sm px-2.5 py-1 border border-[#ffd942]">
+                    📍 MENU UTAMA PANTAI
+                </span>
+            </div>
+
+            <!-- Center: Hero Status Bar (Role, Evolution Tier, Level, EXP) -->
+            <div class="flex items-center gap-2.5 bg-[#181026] border-2 border-[#ffd942] px-3 py-1 cursor-pointer hover:bg-[#251a3a]" onclick="openGuildModal()">
+                <div id="hud-hero-avatar" class="w-8 h-8 bg-[#120b1d] border border-white flex items-center justify-center p-0.5 shrink-0"></div>
+                <div class="text-left">
+                    <div class="flex items-center gap-1.5">
+                        <span id="hud-hero-name" class="font-pixel-title text-[8px] text-[#ffd942]">PETUALANG</span>
+                        <span id="hud-hero-role" class="bg-[#d92b3a] text-white font-pixel-title text-[7px] px-1.5 py-0.5">WARRIOR I</span>
+                    </div>
+                    <div class="flex items-center gap-2 mt-0.5">
+                        <span id="hud-hero-lvl" class="font-pixel-mono text-xs text-emerald-300 font-bold">LV.1</span>
+                        <div class="w-20 sm:w-24 h-2 bg-[#120b1d] border border-white overflow-hidden">
+                            <div id="hud-exp-bar" class="h-full bg-gradient-to-r from-[#4cd964] to-[#ffd942] transition-all duration-300" style="width: 15%;"></div>
+                        </div>
+                        <span id="hud-exp-text" class="font-pixel-mono text-xs text-amber-200">15/100 EXP</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: BGM 8-Bit Controls, Day/Night Switch, Google Login & Role -->
+            <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                <!-- BGM Controls -->
+                <div class="flex items-center gap-1 bg-[#181026] border-2 border-[#ffd942]/60 px-2 py-1">
+                    <button id="bgm-toggle-btn" onclick="toggleBgmPlayback()" class="rpg-btn bg-[#4cd964] text-[#181026] px-2 py-0.5 font-pixel-title text-[8px]">
+                        🎵 BGM: OFF
+                    </button>
+                    <select id="bgm-track-select" onchange="changeBgmTrack(this.value)" class="bg-[#120b1d] text-[#ffd942] font-pixel-mono text-xs px-1.5 py-0.5 border border-stone-600 focus:outline-none cursor-pointer">
+                        <option value="sunset">🌅 Sunset Breeze + Ombak</option>
+                        <option value="night">🌙 Night Starlight 8-Bit</option>
+                        <option value="boss">⚔️ Boss Exam Battle</option>
+                        <option value="waves">🌊 Deburan Ombak Saja</option>
+                    </select>
+                </div>
+
+                <!-- Day / Night Button -->
+                <button id="day-night-btn" onclick="toggleDayNightMode()" class="rpg-btn bg-[#ff9f1c] text-[#181026] px-2.5 py-1.5 font-pixel-title text-[8px] flex items-center gap-1">
+                    <span id="day-night-icon">🌅</span>
+                    <span id="day-night-label">MODE: SENJA</span>
+                </button>
+
+                <!-- Login Google / Role Modal Button -->
+                <button id="google-auth-btn" onclick="openGuildModal()" class="rpg-btn bg-[#2374e1] text-white px-2.5 py-1.5 font-pixel-title text-[8px] flex items-center gap-1">
+                    <span>🔑</span>
+                    <span id="google-auth-label">LOGIN GOOGLE & ROLE</span>
+                </button>
+
+                <!-- Credit Modal Button -->
+                <button onclick="openCreditModal()" class="rpg-btn bg-[#ffd942] text-[#181026] px-2.5 py-1.5 font-pixel-title text-[8px] flex items-center gap-1">
+                    <span>📜</span>
+                    <span>CREDIT</span>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================================
+         JAVASCRIPT ENGINE: ROLES, EVOLUTIONS, AUDIO, FILES & QUESTS
+         ========================================================== -->
+    <script>
+        if (window.pdfjsLib) {
+            window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        }
+
+        // ==========================================================
+        // HERO STATE, ROLES & 3 EVOLUTION STAGES (EVERY 10 LEVELS)
+        // ==========================================================
+        let heroName = "PETUALANG";
+        let heroRole = "warrior"; // warrior | mage | paladin | support
+        let heroLevel = 1;
+        let heroExp = 15;
+        let isNightMode = false;
+        let activeBoat = "rangkuman";
+        let uploadedDocTitle = "";
+        let isGoogleSignedIn = false;
+
+        const ROLE_DEFINITIONS = {
+            warrior: {
+                name: "WARRIOR",
+                color: "#d92b3a",
+                desc: "Petarung garis depan pemberani penakluk SKS & tugas berat.",
+                tiers: [
+                    {
+                        tierName: "Tier I (Lv.1-9): Novice Swordman",
+                        svg: `<svg class="w-full h-full pixel-svg" viewBox="0 0 32 32">
+                            <rect x="10" y="6" width="12" height="4" fill="#b81d2c"/>
+                            <rect x="10" y="10" width="12" height="9" fill="#ffcc99"/>
+                            <rect x="12" y="12" width="2" height="3" fill="#181026"/>
+                            <rect x="18" y="12" width="2" height="3" fill="#181026"/>
+                            <rect x="9" y="19" width="14" height="9" fill="#8c4a27"/>
+                            <rect x="24" y="9" width="3" height="14" fill="#c0c8d1"/>
+                            <rect x="23" y="21" width="5" height="2" fill="#ffd942"/>
+                        </svg>`
+                    },
+                    {
+                        tierName: "Tier II (Lv.10-19): Knight Commander",
+                        svg: `<svg class="w-full h-full pixel-svg" viewBox="0 0 32 32">
+                            <rect x="12" y="2" width="8" height="4" fill="#d92b3a"/>
+                            <rect x="9" y="6" width="14" height="12" fill="#99a8b8"/>
+                            <rect x="11" y="11" width="10" height="3" fill="#181026"/>
+                            <rect x="8" y="18" width="16" height="10" fill="#b81d2c"/>
+                            <rect x="10" y="19" width="12" height="7" fill="#d1dce5"/>
+                            <rect x="25" y="5" width="4" height="18" fill="#7be3f6"/>
+                            <rect x="24" y="21" width="6" height="3" fill="#ffd942"/>
+                        </svg>`
+                    },
+                    {
+                        tierName: "Tier III (Lv.20+): Crimson Dragonlord",
+                        svg: `<svg class="w-full h-full pixel-svg mythic-aura" viewBox="0 0 32 32">
+                            <polygon points="6,8 10,2 12,8" fill="#ffd942"/>
+                            <polygon points="26,8 22,2 20,8" fill="#ffd942"/>
+                            <rect x="9" y="6" width="14" height="12" fill="#d92b3a"/>
+                            <rect x="11" y="11" width="4" height="3" fill="#fff36b"/>
+                            <rect x="17" y="11" width="4" height="3" fill="#fff36b"/>
+                            <rect x="7" y="18" width="18" height="11" fill="#181026"/>
+                            <rect x="10" y="19" width="12" height="8" fill="#ff5500"/>
+                            <rect x="26" y="3" width="4" height="22" fill="#ffd942"/>
+                        </svg>`
+                    }
+                ]
+            },
+            mage: {
+                name: "MAGE",
+                color: "#2374e1",
+                desc: "Penyihir pengetahuan yang merangkum ratusan halaman dengan sekali mantra.",
+                tiers: [
+                    {
+                        tierName: "Tier I (Lv.1-9): Apprentice Scholar",
+                        svg: `<svg class="w-full h-full pixel-svg" viewBox="0 0 32 32">
+                            <polygon points="6,10 26,10 16,2" fill="#2374e1"/>
+                            <rect x="10" y="10" width="12" height="9" fill="#ffcc99"/>
+                            <rect x="12" y="13" width="2" height="3" fill="#181026"/>
+                            <rect x="18" y="13" width="2" height="3" fill="#181026"/>
+                            <rect x="9" y="19" width="14" height="10" fill="#2374e1"/>
+                            <rect x="25" y="10" width="2" height="18" fill="#8c4a27"/>
+                            <rect x="24" y="7" width="4" height="4" fill="#7be3f6"/>
+                        </svg>`
+                    },
+                    {
+                        tierName: "Tier II (Lv.10-19): Arcane Archmage",
+                        svg: `<svg class="w-full h-full pixel-svg" viewBox="0 0 32 32">
+                            <polygon points="4,10 28,10 16,1" fill="#5a2ca0"/>
+                            <rect x="8" y="9" width="16" height="2" fill="#ffd942"/>
+                            <rect x="10" y="11" width="12" height="8" fill="#ffcc99"/>
+                            <rect x="11" y="13" width="3" height="3" fill="#7be3f6"/>
+                            <rect x="18" y="13" width="3" height="3" fill="#7be3f6"/>
+                            <rect x="8" y="19" width="16" height="10" fill="#5a2ca0"/>
+                            <rect x="25" y="8" width="3" height="20" fill="#ffd942"/>
+                            <rect x="23" y="4" width="7" height="5" fill="#00f5d4"/>
+                        </svg>`
+                    },
+                    {
+                        tierName: "Tier III (Lv.20+): Astral Grandmaster",
+                        svg: `<svg class="w-full h-full pixel-svg mythic-aura" viewBox="0 0 32 32">
+                            <polygon points="3,10 29,10 16,0" fill="#181026"/>
+                            <rect x="7" y="8" width="18" height="3" fill="#ffd942"/>
+                            <rect x="10" y="11" width="12" height="8" fill="#3a2b52"/>
+                            <rect x="11" y="13" width="3" height="3" fill="#fff36b"/>
+                            <rect x="18" y="13" width="3" height="3" fill="#fff36b"/>
+                            <rect x="7" y="19" width="18" height="10" fill="#2374e1"/>
+                            <rect x="12" y="20" width="8" height="8" fill="#ffd942"/>
+                            <rect x="25" y="3" width="5" height="6" fill="#ff6b9d"/>
+                            <rect x="26" y="9" width="3" height="19" fill="#fff36b"/>
+                        </svg>`
+                    }
+                ]
+            },
+            paladin: {
+                name: "PALADIN",
+                color: "#f59e0b",
+                desc: "Keseimbangan sempurna antara pertahanan mental & ketepatan waktu ujian.",
+                tiers: [
+                    {
+                        tierName: "Tier I (Lv.1-9): Squire Defender",
+                        svg: `<svg class="w-full h-full pixel-svg" viewBox="0 0 32 32">
+                            <rect x="10" y="6" width="12" height="4" fill="#ffd942"/>
+                            <rect x="10" y="10" width="12" height="9" fill="#ffcc99"/>
+                            <rect x="12" y="13" width="2" height="3" fill="#181026"/>
+                            <rect x="18" y="13" width="2" height="3" fill="#181026"/>
+                            <rect x="9" y="19" width="14" height="9" fill="#e2e8f0"/>
+                            <rect x="3" y="14" width="6" height="11" fill="#ffd942"/>
+                        </svg>`
+                    },
+                    {
+                        tierName: "Tier II (Lv.10-19): Holy Templar",
+                        svg: `<svg class="w-full h-full pixel-svg" viewBox="0 0 32 32">
+                            <rect x="9" y="5" width="14" height="13" fill="#f8fafc"/>
+                            <rect x="14" y="5" width="4" height="13" fill="#ffd942"/>
+                            <rect x="11" y="11" width="10" height="3" fill="#2398f5"/>
+                            <rect x="8" y="18" width="16" height="10" fill="#ffd942"/>
+                            <rect x="2" y="12" width="7" height="13" fill="#2398f5"/>
+                            <rect x="4" y="14" width="3" height="9" fill="#ffd942"/>
+                        </svg>`
+                    },
+                    {
+                        tierName: "Tier III (Lv.20+): Celestial Seraphim",
+                        svg: `<svg class="w-full h-full pixel-svg mythic-aura" viewBox="0 0 32 32">
+                            <rect x="11" y="1" width="10" height="3" fill="#fff36b"/>
+                            <rect x="2" y="9" width="6" height="12" fill="#ffffff"/>
+                            <rect x="24" y="9" width="6" height="12" fill="#ffffff"/>
+                            <rect x="9" y="5" width="14" height="13" fill="#ffd942"/>
+                            <rect x="11" y="11" width="10" height="3" fill="#ffffff"/>
+                            <rect x="8" y="18" width="16" height="11" fill="#ffffff"/>
+                            <rect x="13" y="19" width="6" height="9" fill="#ffd942"/>
+                        </svg>`
+                    }
+                ]
+            },
+            support: {
+                name: "SUPPORT",
+                color: "#198737",
+                desc: "Penyembuh & pemberi buff fokus belajar agar IPK satu tim meroket.",
+                tiers: [
+                    {
+                        tierName: "Tier I (Lv.1-9): Herbalist Healer",
+                        svg: `<svg class="w-full h-full pixel-svg" viewBox="0 0 32 32">
+                            <rect x="9" y="6" width="14" height="4" fill="#4cd964"/>
+                            <rect x="10" y="10" width="12" height="9" fill="#ffcc99"/>
+                            <rect x="12" y="13" width="2" height="3" fill="#181026"/>
+                            <rect x="18" y="13" width="2" height="3" fill="#181026"/>
+                            <rect x="9" y="19" width="14" height="9" fill="#198737"/>
+                            <rect x="24" y="12" width="4" height="12" fill="#ff9ebb"/>
+                        </svg>`
+                    },
+                    {
+                        tierName: "Tier II (Lv.10-19): Melody Bard",
+                        svg: `<svg class="w-full h-full pixel-svg" viewBox="0 0 32 32">
+                            <polygon points="7,9 25,9 19,3 11,3" fill="#198737"/>
+                            <rect x="21" y="2" width="4" height="6" fill="#ffd942"/>
+                            <rect x="10" y="9" width="12" height="9" fill="#ffcc99"/>
+                            <rect x="12" y="12" width="2" height="3" fill="#181026"/>
+                            <rect x="18" y="12" width="2" height="3" fill="#181026"/>
+                            <rect x="8" y="18" width="16" height="10" fill="#4cd964"/>
+                            <rect x="23" y="12" width="6" height="10" fill="#ffd942"/>
+                        </svg>`
+                    },
+                    {
+                        tierName: "Tier III (Lv.20+): Emerald Sage Oracle",
+                        svg: `<svg class="w-full h-full pixel-svg mythic-aura" viewBox="0 0 32 32">
+                            <rect x="9" y="2" width="14" height="4" fill="#00f5d4"/>
+                            <rect x="9" y="6" width="14" height="12" fill="#ffcc99"/>
+                            <rect x="11" y="11" width="3" height="3" fill="#198737"/>
+                            <rect x="18" y="11" width="3" height="3" fill="#198737"/>
+                            <rect x="7" y="18" width="18" height="11" fill="#198737"/>
+                            <rect x="11" y="19" width="10" height="9" fill="#00f5d4"/>
+                            <rect x="25" y="5" width="4" height="22" fill="#ffd942"/>
+                        </svg>`
+                    }
+                ]
+            }
+        };
+
+        function getEvolutionTierIndex(level) {
+            if (level >= 20) return 2; // Tier III (Lv.20+)
+            if (level >= 10) return 1; // Tier II (Lv.10-19)
+            return 0;                  // Tier I (Lv.1-9)
+        }
+
+        // ==========================================================
+        // BUILT-IN RICH STUDY DATASETS FOR INSTANT DEMO & TESTING
+        // ==========================================================
+        const DEMO_DATASETS = {
+            ai: {
+                title: "Kecerdasan Buatan & Machine Learning",
+                rawText: "Kecerdasan Buatan (Artificial Intelligence) merupakan cabang ilmu komputer yang merancang sistem agar mampu mengeksekusi tugas yang membutuhkan kecerdasan manusia seperti pengenalan pola, pengambilan keputusan, dan pemrosesan bahasa alami. Machine Learning adalah sub-bidang AI di mana algoritma belajar secara otomatis dari data historis tanpa diprogram secara eksplisit untuk setiap aturan. Dalam proses pelatihan model, terdapat tiga paradigma utama yaitu Supervised Learning yang menggunakan data berlabel, Unsupervised Learning yang mencari klaster pola tersembunyi tanpa label, serta Reinforcement Learning yang belajar melalui mekanisme reward dan penalti. Tantangan kritis dalam pengembangan model meliputi overfitting, di mana model terlalu menghafal data latih sehingga gagal melakukan generalisasi pada data uji baru.",
+                rangkuman: [
+                    "Artificial Intelligence (AI) memampukan sistem komputer meniru kognisi manusia seperti mengenali pola dan mengambil keputusan.",
+                    "Machine Learning melatih model secara otomatis dari pola data historis tanpa penulisan aturan manual satu per satu.",
+                    "Tiga pendekatan utama pembelajaran mesin adalah Supervised Learning (berlabel), Unsupervised Learning (tanpa label), dan Reinforcement Learning (berbasis reward).",
+                    "Overfitting terjadi ketika model terlalu menghafal noise pada data latih sehingga akurasinya turun drastis saat diuji pada data baru."
+                ],
+                keywords: ["Artificial Intelligence", "Machine Learning", "Supervised Learning", "Unsupervised", "Reinforcement", "Overfitting"],
+                tldr: "AI dan Machine Learning membangun model prediktif berbasis data menggunakan pendekatan berlabel, tanpa label, maupun berbasis umpan balik dengan menjaga agar model tidak mengalami overfitting.",
+                penjelasan: [
+                    {
+                        konsep: "Machine Learning vs Pemrograman Tradisional",
+                        definisi: "Pada pemrograman biasa kita menulis aturan jika-maka, sedangkan pada Machine Learning kita memberikan contoh data beserta hasilnya agar komputer menemukan rumusnya sendiri.",
+                        analogi: "Mirip mahasiswa yang belajar dari puluhan contoh soal tahun lalu sampai paham polanya sendiri tanpa harus menghafal satu per satu kalimat buku."
+                    },
+                    {
+                        konsep: "Supervised vs Unsupervised Learning",
+                        definisi: "Supervised Learning belajar dengan kunci jawaban (label), sementara Unsupervised Learning mengelompokkan data berdasarkan kemiripan ciri tanpa kunci jawaban.",
+                        analogi: "Supervised itu seperti latihan soal yang ada kunci jawabannya di halaman belakang, sedangkan Unsupervised seperti mengelompokkan teman sekelas berdasarkan hobi yang mirip."
+                    },
+                    {
+                        konsep: "Bahaya Overfitting pada Model",
+                        definisi: "Kondisi saat model memiliki akurasi hampir 100% di latihan, tetapi gagal menjawab soal baru karena terlalu menghafal detail sepele.",
+                        analogi: "Seperti mahasiswa yang menghafal urutan abjad jawaban A-B-C-D dari kisi-kisi, begitu angkanya diganti sedikit oleh dosen saat UAS langsung bingung!"
+                    },
+                    {
+                        konsep: "Reinforcement Learning",
+                        definisi: "Metode belajar melalui percobaan berulang (trial and error) dengan sistem poin hadiah (reward) saat benar dan penalti saat salah.",
+                        analogi: "Persis seperti memainkan karakter RPG di PixTBeach—setiap menyelesaikan Quest dapat EXP, jadi kamu makin tahu strategi terbaik untuk naik level!"
+                    }
+                ],
+                quiz: [
+                    {
+                        tanya: "Pendekatan Machine Learning yang melatih algoritma menggunakan data yang sudah memiliki kunci jawaban (label) disebut...",
+                        opsi: ["Supervised Learning", "Unsupervised Learning", "Reinforcement Learning", "Overfitting Clustering"],
+                        benar: 0,
+                        bahas: "Supervised Learning menggunakan pasangan data input dan label target yang sudah diketahui."
+                    },
+                    {
+                        tanya: "Apa yang dimaksud dengan fenomena Overfitting pada pelatihan model?",
+                        opsi: [
+                            "Model gagal membaca file PDF",
+                            "Model terlalu menghafal data latih sehingga buruk saat diuji pada data baru",
+                            "Model berjalan terlalu cepat di komputer",
+                            "Data latih tidak memiliki kolom angka"
+                        ],
+                        benar: 1,
+                        bahas: "Overfitting membuat model kehilangan kemampuan generalisasi pada data baru di luar data latih."
+                    },
+                    {
+                        tanya: "Metode pembelajaran mesin yang bekerja dengan sistem hadiah (reward) dan penalti berdasarkan aksi agen adalah...",
+                        opsi: ["Supervised Regression", "Reinforcement Learning", "Static Rule Engine", "Data Normalization"],
+                        benar: 1,
+                        bahas: "Reinforcement Learning mengoptimalkan keputusan agen melalui umpan balik reward dan penalti."
+                    }
+                ]
+            },
+            ekonomi: {
+                title: "Pengantar Ekonomi Makro & Inflasi",
+                rawText: "Ekonomi Makro menganalisis kinerja perekonomian secara agregat yang mencakup Produk Domestik Bruto (PDB), tingkat pengangguran, serta stabilitas harga. Inflasi didefinisikan sebagai kenaikan harga barang dan jasa secara umum dan terus-menerus dalam periode waktu tertentu yang menyebabkan daya beli uang menurun. Bank Sentral mengendalikan laju inflasi melalui Kebijakan Moneter seperti pengaturan suku bunga acuan dan operasi pasar terbuka. Sementara itu, pemerintah menjalankan Kebijakan Fiskal melalui pengaturan anggaran belanja negara serta instrumen perpajakan untuk menjaga pertumbuhan ekonomi tetap stabil.",
+                rangkuman: [
+                    "Ekonomi Makro berfokus pada variabel ekonomi berskala nasional seperti PDB, inflasi, dan pengangguran.",
+                    "Inflasi adalah kenaikan harga secara umum dan berkelanjutan yang menggerus daya beli masyarakat.",
+                    "Kebijakan Moneter dijalankan oleh Bank Sentral melalui pengendalian suku bunga dan jumlah uang beredar.",
+                    "Kebijakan Fiskal dikelola pemerintah pusat melalui instrumen pajak dan belanja negara (APBN)."
+                ],
+                keywords: ["Ekonomi Makro", "Inflasi", "Produk Domestik Bruto", "Kebijakan Moneter", "Kebijakan Fiskal", "Bank Sentral"],
+                tldr: "Stabilitas ekonomi makro dijaga melalui sinergi Kebijakan Moneter (Bank Sentral) dan Kebijakan Fiskal (Pemerintah) guna mengendalikan inflasi serta mendorong pertumbuhan PDB.",
+                penjelasan: [
+                    {
+                        konsep: "Inflasi & Daya Beli",
+                        definisi: "Kenaikan harga barang secara terus-menerus yang membuat nominal uang yang sama mendapatkan jumlah barang lebih sedikit.",
+                        analogi: "Dulu uang Rp15.000 di kantin kampus sudah dapat nasi ayam komplit plus es teh, sekarang karena inflasi cuma dapat nasi ayamnya saja!"
+                    },
+                    {
+                        konsep: "Kebijakan Moneter vs Kebijakan Fiskal",
+                        definisi: "Moneter mengatur suku bunga dan jumlah uang oleh Bank Sentral, sedangkan Fiskal mengatur pajak dan belanja oleh Pemerintah.",
+                        analogi: "Bank Sentral mengatur keran aliran uang di bank, sedangkan Pemerintah mengatur kas anggaran pembangunan dan pajak."
+                    }
+                ],
+                quiz: [
+                    {
+                        tanya: "Instrumen kebijakan ekonomi yang dilakukan oleh Bank Sentral dengan cara menaikkan atau menurunkan suku bunga acuan disebut...",
+                        opsi: ["Kebijakan Fiskal", "Kebijakan Moneter", "Subsidi Silang", "Audit Pajak Daerah"],
+                        benar: 1,
+                        bahas: "Pengaturan suku bunga acuan dan jumlah uang beredar adalah wewenang Bank Sentral dalam Kebijakan Moneter."
+                    },
+                    {
+                        tanya: "Dampak langsung dari inflasi yang tinggi terhadap uang yang dipegang masyarakat adalah...",
+                        opsi: ["Daya beli uang menurun", "Harga barang pokok otomatis turun", "Nilai tabungan berlipat ganda", "Pajak otomatis dihapus"],
+                        benar: 0,
+                        bahas: "Saat harga barang naik secara umum, nilai riil atau daya beli uang mengalami penurunan."
+                    }
+                ]
+            },
+            hukum: {
+                title: "Asas Hukum Perdata & Perikatan Kontrak",
+                rawText: "Hukum Perdata mengatur hubungan hukum antara subjek hukum yang satu dengan subjek hukum lainnya dengan menitikberatkan pada kepentingan perseorangan. Dalam Hukum Perikatan, syarat sahnya suatu perjanjian diatur dalam Pasal 1320 KUHPerdata yang meliputi empat unsur pokok: kesepakatan mereka yang mengikatkan dirinya, kecakapan untuk membuat suatu perikatan, suatu pokok persoalan tertentu, dan suatu sebab yang halal. Dua syarat pertama disebut syarat subjektif yang jika dilanggar membuat perjanjian dapat dibatalkan, sedangkan dua syarat terakhir disebut syarat objektif yang jika dilanggar membuat perjanjian batal demi hukum.",
+                rangkuman: [
+                    "Hukum Perdata mengatur hak dan kewajiban antar-individu atau badan hukum dalam lingkup privat.",
+                    "Pasal 1320 KUHPerdata menetapkan 4 syarat sah perjanjian: Kesepakatan, Kecakapan, Hal Tertentu, dan Sebab yang Halal.",
+                    "Kesepakatan dan Kecakapan merupakan syarat subjektif (perjanjian dapat dibatalkan jika dilanggar).",
+                    "Hal Tertentu dan Sebab yang Halal merupakan syarat objektif (perjanjian batal demi hukum sejak awal jika dilanggar)."
+                ],
+                keywords: ["Hukum Perdata", "Pasal 1320", "Syarat Subjektif", "Syarat Objektif", "Perikatan", "Batal Demi Hukum"],
+                tldr: "Keabsahan kontrak perdata bergantung pada terpenuhinya 2 syarat subjektif dan 2 syarat objektif sesuai Pasal 1320 KUHPerdata.",
+                penjelasan: [
+                    {
+                        konsep: "Syarat Subjektif vs Syarat Objektif (Pasal 1320)",
+                        definisi: "Syarat subjektif berkaitan dengan orangnya (sepakat & cakap), sedangkan syarat objektif berkaitan dengan isi kontraknya (objek jelas & halal).",
+                        analogi: "Ingat saja: Subjek = Orangnya (kalau bermasalah bisa dimintakan pembatalan), Objek = Barang/Isinya (kalau melanggar hukum otomatis gugur sejak awal!)."
+                    }
+                ],
+                quiz: [
+                    {
+                        tanya: "Apabila suatu perjanjian melanggar syarat objektif (misalnya objek perjanjiannya dilarang undang-undang), maka status hukum perjanjian tersebut adalah...",
+                        opsi: ["Tetap sah asalkan bermeterai", "Batal demi hukum (null and void)", "Hanya dikenai denda administrasi ringan", "Menunggu persetujuan notaris"],
+                        benar: 1,
+                        bahas: "Pelanggaran terhadap syarat objektif (hal tertentu dan sebab yang halal) mengakibatkan perjanjian batal demi hukum sejak semula."
+                    }
+                ]
+            }
+        };
+
+        // Active Study State & Multi-File Library (Up to 15 Materials)
+        const MAX_MATERI_FILES = 15;
+        let materialsLibrary = [];
+        let activeMaterialId = "";
+
+        let studyData = {
+            id: "",
+            title: "",
+            sourceType: "Preset Demo",
+            rawText: "",
+            rangkuman: [],
+            keywords: [],
+            tldr: "",
+            penjelasan: [],
+            quiz: [],
+            ujian: []
+        };
+
+        let quizScore = 0;
+        let quizAnsweredCount = 0;
+        let examUserAnswers = {};
+
+        // Quiz & Exam Difficulty and Question Count Settings
+        let quizDifficulty = 'normal'; // 'easy' | 'normal' | 'hard'
+        let quizTargetCount = 5;
+        let activeQuizQuestions = [];
+
+        let examDifficulty = 'normal'; // 'easy' | 'normal' | 'hard'
+        let examTargetCount = 5;
+        let activeExamQuestions = [];
+
+        // Exam Timer State
+        let examTotalSeconds = 600;
+        let examRemainingSeconds = 600;
+        let examInterval = null;
+        let examPaused = false;
+        let examSubmitted = false;
+
+        // JPG to PDF State
+        let jpgItemsList = [];
+
+        // ==========================================================
+        // AVATAR PORTRAIT SVG & RPG DIALOG NARRATOR SYSTEM
+        // ==========================================================
+        const AVATAR_SPEAKERS = {
+            jpg: {
+                name: "ARTY SI AVATAR JPG",
+                role: "Pelukis Catatan & Konverter PDF (Perahu #1)",
+                badgeBg: "#2398f5",
+                svg: `<svg class="w-full h-full pixel-svg" viewBox="0 0 32 32">
+                    <rect x="5" y="6" width="22" height="22" fill="#181026"/>
+                    <rect x="7" y="8" width="18" height="18" fill="#2398f5"/>
+                    <rect x="9" y="10" width="14" height="10" fill="#7be3f6"/>
+                    <rect x="9" y="17" width="14" height="3" fill="#32a852"/>
+                    <rect x="10" y="3" width="14" height="5" fill="#f26419"/>
+                    <rect x="11" y="12" width="3" height="3" fill="#ffd942"/>
+                    <rect x="18" y="12" width="3" height="3" fill="#ffd942"/>
+                    <rect x="13" y="16" width="6" height="2" fill="#181026"/>
+                </svg>`
+            },
+            word: {
+                name: "WIZZY SI AVATAR WORD",
+                role: "Penyihir Dokumen .DOCX (Perahu #2)",
+                badgeBg: "#2374e1",
+                svg: `<svg class="w-full h-full pixel-svg" viewBox="0 0 32 32">
+                    <rect x="6" y="5" width="20" height="24" fill="#181026"/>
+                    <rect x="8" y="7" width="16" height="20" fill="#2374e1"/>
+                    <rect x="4" y="11" width="3" height="8" fill="#36c5f0"/>
+                    <rect x="25" y="11" width="3" height="8" fill="#36c5f0"/>
+                    <rect x="11" y="12" width="3" height="3" fill="#181026"/>
+                    <rect x="18" y="12" width="3" height="3" fill="#181026"/>
+                    <text x="16" y="24" text-anchor="middle" fill="#ffffff" font-family="Press Start 2P" font-size="7">W</text>
+                </svg>`
+            },
+            pdf: {
+                name: "MAESTRO SI AVATAR PDF",
+                role: "Penjaga Arsip .PDF (Perahu #2)",
+                badgeBg: "#b81d2c",
+                svg: `<svg class="w-full h-full pixel-svg" viewBox="0 0 32 32">
+                    <rect x="6" y="7" width="20" height="22" fill="#181026"/>
+                    <rect x="8" y="9" width="16" height="18" fill="#b81d2c"/>
+                    <rect x="10" y="10" width="12" height="9" fill="#ffffff"/>
+                    <polygon points="4,8 28,8 20,2 12,2" fill="#7a4419"/>
+                    <rect x="10" y="13" width="5" height="3" fill="#181026"/>
+                    <rect x="17" y="13" width="5" height="3" fill="#181026"/>
+                    <text x="16" y="25" text-anchor="middle" fill="#ffffff" font-family="Press Start 2P" font-size="5">PDF</text>
+                </svg>`
+            },
+            rangkuman: {
+                name: "PINKY SUM SI PERANGKUM",
+                role: "Ninja Intisari & Catatan Kilat (Perahu #3)",
+                badgeBg: "#ff6b9d",
+                svg: `<svg class="w-full h-full pixel-svg" viewBox="0 0 32 32">
+                    <rect x="6" y="5" width="20" height="24" fill="#181026"/>
+                    <rect x="8" y="7" width="16" height="20" fill="#ff9ebb"/>
+                    <rect x="6" y="8" width="20" height="4" fill="#d92b3a"/>
+                    <rect x="11" y="15" width="3" height="3" fill="#181026"/>
+                    <rect x="18" y="15" width="3" height="3" fill="#181026"/>
+                    <rect x="14" y="20" width="4" height="2" fill="#d92b3a"/>
+                </svg>`
+            },
+            penjelasan: {
+                name: "PROF. INFO SI BUKU BIJAK",
+                role: "Dosen Pembimbing Analogi Santai (Perahu #4)",
+                badgeBg: "#198737",
+                svg: `<svg class="w-full h-full pixel-svg" viewBox="0 0 32 32">
+                    <rect x="5" y="7" width="22" height="22" fill="#198737"/>
+                    <rect x="8" y="9" width="16" height="18" fill="#ffffff"/>
+                    <polygon points="4,7 28,7 16,2" fill="#181026"/>
+                    <rect x="9" y="13" width="6" height="5" fill="#a8e6ff" stroke="#181026" stroke-width="1.5"/>
+                    <rect x="17" y="13" width="6" height="5" fill="#a8e6ff" stroke="#181026" stroke-width="1.5"/>
+                    <rect x="14" y="21" width="4" height="2" fill="#181026"/>
+                </svg>`
+            },
+            quiz: {
+                name: "BUZZY SI MASTER QUIZ",
+                role: "Host Kuis Buzzer & Tantangan Kilat (Perahu #5)",
+                badgeBg: "#ff8811",
+                svg: `<svg class="w-full h-full pixel-svg" viewBox="0 0 32 32">
+                    <rect x="6" y="7" width="20" height="22" fill="#ff8811"/>
+                    <rect x="8" y="9" width="16" height="18" fill="#ffd13b"/>
+                    <polygon points="10,7 18,7 14,1" fill="#36c5f0"/>
+                    <rect x="11" y="13" width="3" height="4" fill="#181026"/>
+                    <rect x="18" y="13" width="3" height="4" fill="#181026"/>
+                    <rect x="14" y="19" width="4" height="2" fill="#d92b3a"/>
+                </svg>`
+            },
+            ujian: {
+                name: "KOMANDAN UJIAN",
+                role: "Pengawas Boss Battle & Timer Akademik (Perahu #6)",
+                badgeBg: "#d92b3a",
+                svg: `<svg class="w-full h-full pixel-svg" viewBox="0 0 32 32">
+                    <rect x="6" y="5" width="20" height="24" fill="#5a7684"/>
+                    <rect x="8" y="7" width="16" height="20" fill="#cfe8f7"/>
+                    <rect x="11" y="12" width="3" height="3" fill="#181026"/>
+                    <rect x="18" y="12" width="3" height="3" fill="#181026"/>
+                    <rect x="10" y="18" width="3" height="3" fill="#198737"/>
+                    <rect x="15" y="18" width="7" height="2" fill="#5a7684"/>
+                </svg>`
+            }
+        };
+
+        function updateAvatarDialogBanner(boatKey) {
+            const portraitEl = document.getElementById('dialog-avatar-portrait');
+            const badgeEl = document.getElementById('dialog-speaker-badge');
+            const roleEl = document.getElementById('dialog-speaker-role');
+            const speechEl = document.getElementById('dialog-speech-text');
+            if (!portraitEl || !speechEl) return;
+
+            let speaker = AVATAR_SPEAKERS[boatKey] || AVATAR_SPEAKERS.rangkuman;
+            let message = "";
+
+            if (boatKey === 'jpg') {
+                speaker = AVATAR_SPEAKERS.jpg;
+                message = `"Halo ${heroName}! Aku Arty si Avatar JPG! Serahkan semua foto catatan papan tulis atau lembar tugasmu, akan kugabungkan menjadi 1 dokumen PDF yang rapi!"`;
+            } else if (boatKey === 'dokumen') {
+                speaker = AVATAR_SPEAKERS.word;
+                message = `"Salam ${heroName}! Aku Wizzy (Word) bersama rekanku Maestro (PDF). Di dermaga ini kamu bisa mengunggah hingga 15 file materi kuliah sekaligus, lalu memilih materi mana saja untuk dirangkum atau dijelaskan!"`;
+            } else if (boatKey === 'rangkuman') {
+                speaker = AVATAR_SPEAKERS.rangkuman;
+                message = `"Hai ${heroName}! Aku Pinky SUM! Aku sudah membaca materi '${studyData.title}' dengan kaca pembesarku. Kamu bisa memilih materi lain lewat menu dropdown di kanan atas kapan saja!"`;
+            } else if (boatKey === 'penjelasan') {
+                speaker = AVATAR_SPEAKERS.penjelasan;
+                message = `"Selamat datang di kelasku, ${heroName}! Aku Prof. INFO bersama teman-teman avatarku akan berdialog menjelaskan setiap konsep dari '${studyData.title}' menggunakan bahasa tongkrongan mahasiswa!"`;
+            } else if (boatKey === 'quiz') {
+                speaker = AVATAR_SPEAKERS.quiz;
+                message = `"Waktunya uji kecepatan berpikir, ${heroName}! Aku Buzzy si Master Quiz! Tekan jawaban yang paling tepat dari materi '${studyData.title}' untuk mengumpulkan EXP dan menaikkan levelmu!"`;
+            } else if (boatKey === 'ujian') {
+                speaker = AVATAR_SPEAKERS.ujian;
+                message = `"Siapkan pensil dan fokusmu, ${heroName}! Aku Komandan UJIAN. Kamu bisa mengatur sendiri durasi waktu ujian di bawah sebelum menaklukkan soal-soal dari '${studyData.title}'!"`;
+            }
+
+            portraitEl.innerHTML = speaker.svg;
+            badgeEl.textContent = speaker.name;
+            badgeEl.style.backgroundColor = speaker.badgeBg;
+            roleEl.textContent = speaker.role;
+            speechEl.textContent = message;
+        }
+
+        // ==========================================================
+        // INITIALIZATION ON LOAD (START AT BEACH MAIN MENU)
+        // ==========================================================
+        window.onload = function() {
+            renderBoatAvatarSpritesOnBeach();
+            initializeDefaultLibrary();
+            addSampleCanvasJpg();
+            syncHeroUIAndPersist();
+            returnToBeachHub();
+        };
+
+        function renderBoatAvatarSpritesOnBeach() {
+            const map = {
+                'boat-sprite-jpg': AVATAR_SPEAKERS.jpg.svg,
+                'boat-sprite-word': AVATAR_SPEAKERS.word.svg,
+                'boat-sprite-pdf': AVATAR_SPEAKERS.pdf.svg,
+                'boat-sprite-rangkuman': AVATAR_SPEAKERS.rangkuman.svg,
+                'boat-sprite-penjelasan': AVATAR_SPEAKERS.penjelasan.svg,
+                'boat-sprite-quiz': AVATAR_SPEAKERS.quiz.svg,
+                'boat-sprite-ujian': AVATAR_SPEAKERS.ujian.svg
+            };
+            Object.entries(map).forEach(([id, svg]) => {
+                const el = document.getElementById(id);
+                if (el) el.innerHTML = svg;
+            });
+        }
+
+        function initializeDefaultLibrary() {
+            materialsLibrary = [];
+            ['ai', 'ekonomi', 'hukum'].forEach(key => {
+                const preset = DEMO_DATASETS[key];
+                const item = {
+                    id: `preset_${key}`,
+                    title: preset.title,
+                    sourceType: "Preset Demo Kampus",
+                    rawText: preset.rawText,
+                    rangkuman: [...preset.rangkuman],
+                    keywords: [...preset.keywords],
+                    tldr: preset.tldr,
+                    penjelasan: [...preset.penjelasan],
+                    quiz: [...preset.quiz],
+                    ujian: []
+                };
+                item.ujian = buildExamQuestionsFromMaterial(item.rawText, item.quiz, item.title);
+                materialsLibrary.push(item);
+            });
+            switchActiveMaterial(materialsLibrary[0].id, true);
+        }
+
+        // ==========================================================
+        // GAMIFICATION, LEVELING & EVOLUTION CELEBRATION HELPERS
+        // ==========================================================
+        function addExp(amount) {
+            const oldTier = getEvolutionTierIndex(heroLevel);
+            heroExp += amount;
+            let leveledUp = false;
+
+            while (heroExp >= 100) {
+                heroExp -= 100;
+                heroLevel += 1;
+                leveledUp = true;
+            }
+
+            const newTier = getEvolutionTierIndex(heroLevel);
+            syncHeroUIAndPersist();
+
+            if (newTier > oldTier) {
+                playPixelSound('levelup');
+                const roleObj = ROLE_DEFINITIONS[heroRole];
+                showPixelModal(
+                    `🌟 EVOLUSI AVATAR! (${roleObj.name} TIER ${newTier + 1})`,
+                    `Selamat ${heroName}! Karena mencapai Level ${heroLevel}, avatar ${roleObj.name}-mu telah berevolusi menjadi wujud baru: "${roleObj.tiers[newTier].tierName}"!`
+                );
+            } else if (leveledUp) {
+                playPixelSound('levelup');
+            }
+        }
+
+        function syncHeroUIAndPersist() {
+            const roleObj = ROLE_DEFINITIONS[heroRole] || ROLE_DEFINITIONS.warrior;
+            const tierIdx = getEvolutionTierIndex(heroLevel);
+            const tierObj = roleObj.tiers[tierIdx];
+            const romanTier = tierIdx === 0 ? "I" : tierIdx === 1 ? "II" : "III";
+
+            // Top HUD
+            const hudAvatar = document.getElementById('hud-hero-avatar');
+            if (hudAvatar) hudAvatar.innerHTML = tierObj.svg;
+            document.getElementById('hud-hero-name').textContent = heroName;
+            const roleBadge = document.getElementById('hud-hero-role');
+            roleBadge.textContent = `${roleObj.name} ${romanTier}`;
+            roleBadge.style.backgroundColor = roleObj.color;
+            document.getElementById('hud-hero-lvl').textContent = `LV.${heroLevel}`;
+            document.getElementById('hud-exp-bar').style.width = `${Math.min(100, heroExp)}%`;
+            document.getElementById('hud-exp-text').textContent = `${heroExp}/100 EXP`;
+
+            // Beach Standing Hero Card
+            const beachSprite = document.getElementById('beach-hero-sprite');
+            if (beachSprite) beachSprite.innerHTML = tierObj.svg;
+            document.getElementById('beach-hero-tier-badge').textContent = `EVOLUSI ${romanTier}`;
+            document.getElementById('beach-hero-lvl-badge').textContent = `LV.${heroLevel}`;
+            document.getElementById('beach-hero-name').textContent = heroName;
+            document.getElementById('beach-hero-class-title').textContent = `${tierObj.tierName}`;
+
+            renderGuildRoleCardsAndGallery();
+        }
+
+        function openGuildModal() {
+            playPixelSound('click');
+            document.getElementById('guild-hero-name-input').value = heroName;
+            renderGuildRoleCardsAndGallery();
+            document.getElementById('guild-modal').classList.remove('hidden');
+        }
+
+        function closeGuildModal() {
+            playPixelSound('click');
+            document.getElementById('guild-modal').classList.add('hidden');
+        }
+
+        function saveHeroNameFromInput() {
+            const val = document.getElementById('guild-hero-name-input').value.trim();
+            if (!val) return;
+            playPixelSound('correct');
+            heroName = val.toUpperCase();
+            syncHeroUIAndPersist();
+            renderAllStudyOutputs();
+            updateAvatarDialogBanner(activeBoat);
+            showPixelModal("NAMA HERO DISIMPAN!", `Selamat datang di PixTBeach, ${heroName}! Seluruh Avatar kini akan menyapamu dengan nama barumu.`);
+        }
+
+        function selectHeroRole(roleKey) {
+            if (!ROLE_DEFINITIONS[roleKey]) return;
+            playPixelSound('correct');
+            heroRole = roleKey;
+            syncHeroUIAndPersist();
+        }
+
+        function simulateJumpLevel(targetLvl) {
+            playPixelSound('levelup');
+            heroLevel = targetLvl;
+            heroExp = 20;
+            syncHeroUIAndPersist();
+        }
+
+        function handleGoogleSignIn() {
+            playPixelSound('levelup');
+            isGoogleSignedIn = true;
+            if (heroName === "PETUALANG") {
+                heroName = "MAHASISWA GG";
+                document.getElementById('guild-hero-name-input').value = heroName;
+            }
+            document.getElementById('guild-auth-status').textContent = `Status: Terhubung dengan Google (${heroName.toLowerCase().replace(/\s+/g, '')}@kampus.ac.id)`;
+            document.getElementById('google-auth-label').textContent = `${heroName} (GOOGLE)`;
+            document.getElementById(' modal-google-btn')?.classList.add('opacity-80');
+            syncHeroUIAndPersist();
+            showPixelModal("LOGIN GOOGLE BERHASIL!", `Akun Google berhasil terhubung! Sekarang kamu bebas mengatur Nama Hero, memilih Role (Warrior, Mage, Paladin, Support), dan melihat 3 tahap evolusi avatarmu.`);
+        }
+
+        function renderGuildRoleCardsAndGallery() {
+            const roleContainer = document.getElementById('role-selector-cards');
+            if (!roleContainer) return;
+
+            const currTierIdx = getEvolutionTierIndex(heroLevel);
+
+            roleContainer.innerHTML = Object.entries(ROLE_DEFINITIONS).map(([key, r]) => {
+                const isSelected = key === heroRole;
+                return `
+                    <div onclick="selectHeroRole('${key}')" class="cursor-pointer p-3 border-4 ${isSelected ? 'border-[#d84327] bg-[#ffefc1]' : 'border-[#181026] bg-white'} flex flex-col items-center text-center space-y-1.5">
+                        <div class="w-14 h-14 bg-[#181026] p-1 border-2 border-white">
+                            ${r.tiers[currTierIdx].svg}
+                        </div>
+                        <span class="font-pixel-title text-[9px] px-2 py-0.5 text-white" style="background-color:${r.color}">${r.name}</span>
+                        <p class="text-[11px] text-stone-700 leading-tight">${r.desc}</p>
+                    </div>
+                `;
+            }).join('');
+
+            const galleryContainer = document.getElementById('role-evolution-gallery');
+            const activeRoleObj = ROLE_DEFINITIONS[heroRole];
+            if (galleryContainer && activeRoleObj) {
+                galleryContainer.innerHTML = activeRoleObj.tiers.map((t, idx) => {
+                    const isCurrent = idx === currTierIdx;
+                    const reqText = idx === 0 ? "Terbuka di Lv. 1" : idx === 1 ? "Evolusi pada Lv. 10" : "Evolusi Mythic Lv. 20+";
+                    return `
+                        <div class="p-3 border-3 ${isCurrent ? 'border-[#198737] bg-[#d8f8e1]' : 'border-[#181026] bg-white'} flex items-center gap-3">
+                            <div class="w-14 h-14 bg-[#181026] p-1 shrink-0 border-2 border-[#ffd942]">
+                                ${t.svg}
+                            </div>
+                            <div class="text-left">
+                                <div class="font-pixel-title text-[8px] text-[#181026]">${t.tierName}</div>
+                                <div class="font-pixel-mono text-xs text-stone-600 mt-0.5">${reqText}</div>
+                                ${isCurrent ? `<span class="inline-block mt-1 bg-[#198737] text-white font-pixel-title text-[7px] px-1.5 py-0.5">WUJUD AKTIF</span>` : ''}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        // ==========================================================
+        // DAY / NIGHT MODE & NAVIGATION BETWEEN BEACH HUB & BOATS
+        // ==========================================================
+        function toggleDayNightMode() {
+            playPixelSound('click');
+            isNightMode = !isNightMode;
+
+            const sky = document.getElementById('scene-sky');
+            const sea = document.getElementById('scene-sea');
+            const sand = document.getElementById('scene-sand');
+            const stars = document.getElementById('night-stars-layer');
+            const celestial = document.getElementById('horizon-celestial');
+            const lanterns = document.querySelectorAll('.boat-lantern');
+
+            if (isNightMode) {
+                sky.classList.replace('sky-sunset', 'sky-night');
+                sea.classList.replace('sea-sunset', 'sea-night');
+                sand.classList.replace('sand-sunset', 'sand-night');
+                stars.classList.remove('hidden');
+                celestial.style.backgroundColor = '#f4f6ff';
+                celestial.style.borderColor = '#a5b4fc';
+                celestial.style.boxShadow = '0 0 35px #e0e7ff';
+                lanterns.forEach(l => l.classList.remove('hidden'));
+                document.getElementById('day-night-icon').textContent = '🌙';
+                document.getElementById('day-night-label').textContent = 'MODE: MALAM';
+            } else {
+                sky.classList.replace('sky-night', 'sky-sunset');
+                sea.classList.replace('sea-night', 'sea-sunset');
+                sand.classList.replace('sand-night', 'sand-sunset');
+                stars.classList.add('hidden');
+                celestial.style.backgroundColor = '#ffe14d';
+                celestial.style.borderColor = '#ff9900';
+                celestial.style.boxShadow = '0 0 35px #ffae00';
+                lanterns.forEach(l => l.classList.add('hidden'));
+                document.getElementById('day-night-icon').textContent = '🌅';
+                document.getElementById('day-night-label').textContent = 'MODE: SENJA';
+            }
+        }
+
+        function returnToBeachHub() {
+            playPixelSound('click');
+            document.getElementById('beach-main-hub').classList.remove('hidden');
+            document.getElementById('workspace-container').classList.add('hidden');
+            const locBadge = document.getElementById('top-location-badge');
+            if (locBadge) locBadge.textContent = "📍 MENU UTAMA PANTAI";
+        }
+
+        function openBoatWorkspace(boatKey) {
+            playPixelSound('click');
+            document.getElementById('beach-main-hub').classList.add('hidden');
+            document.getElementById('workspace-container').classList.remove('hidden');
+            selectBoatFeature(boatKey);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function selectBoatFeature(feature) {
+            activeBoat = feature;
+            const locBadge = document.getElementById('top-location-badge');
+            if (locBadge) locBadge.textContent = `⛵ PERAHU: ${feature.toUpperCase()}`;
+
+            const panelJpg = document.getElementById('panel-jpg');
+            const panelDokumen = document.getElementById('panel-dokumen');
+            const panelStudy = document.getElementById('panel-study-outputs');
+            const materiBar = document.getElementById('study-materi-bar');
+
+            panelJpg.classList.add('hidden');
+            panelDokumen.classList.add('hidden');
+            panelStudy.classList.add('hidden');
+
+            if (feature === 'jpg') {
+                materiBar.classList.add('hidden');
+                panelJpg.classList.remove('hidden');
+            } else if (feature === 'dokumen') {
+                materiBar.classList.remove('hidden');
+                panelDokumen.classList.remove('hidden');
+            } else {
+                materiBar.classList.remove('hidden');
+                panelStudy.classList.remove('hidden');
+
+                ['rangkuman', 'penjelasan', 'quiz', 'ujian'].forEach(v => {
+                    const el = document.getElementById(`view-${v}`);
+                    if (el) el.classList.toggle('hidden', v !== feature);
+                });
+
+                if (feature === 'ujian' && !examInterval && !examSubmitted) {
+                    startExamTimer();
+                }
+            }
+
+            updateAvatarDialogBanner(feature);
+        }
+
+        // ==========================================================
+        // BOAT 1 LOGIC: JPG TO PDF CONVERTER
+        // ==========================================================
+        function addSampleCanvasJpg() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 640;
+            canvas.height = 420;
+            const ctx = canvas.getContext('2d');
+
+            ctx.fillStyle = '#fff9e6';
+            ctx.fillRect(0, 0, 640, 420);
+            ctx.strokeStyle = '#181026';
+            ctx.lineWidth = 8;
+            ctx.strokeRect(12, 12, 616, 396);
+
+            ctx.fillStyle = '#2374e1';
+            ctx.fillRect(28, 28, 584, 54);
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 20px monospace';
+            const pageNum = jpgItemsList.length + 1;
+            ctx.fillText(`CATATAN PAPAN TULIS KULIAH - HALAMAN #${pageNum}`, 45, 62);
+
+            ctx.fillStyle = '#181026';
+            ctx.font = '18px monospace';
+            ctx.fillText('• Rumus Ringkas & Poin Penting Perkuliahan:', 45, 125);
+            ctx.fillText('  1. Analisis Konsep Utama & Studi Kasus', 45, 165);
+            ctx.fillText('  2. Hubungan Variabel Independen & Dependen', 45, 205);
+            ctx.fillText('  3. Evaluasi Kritis Jelang Ujian Tengah Semester', 45, 245);
+
+            ctx.fillStyle = '#d84327';
+            ctx.fillText('Disusun di Pelabuhan Belajar PixTBeach RPG', 45, 340);
+
+            jpgItemsList.push({
+                id: 'jpg_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
+                name: `Catatan_Kuliah_Hal_${pageNum}.jpg`,
+                dataUrl: canvas.toDataURL('image/jpeg', 0.92)
+            });
+
+            renderJpgPreviewGrid();
+        }
+
+        function handleJpgFilesUpload(event) {
+            const files = Array.from(event.target.files || []);
+            if (!files.length) return;
+            playPixelSound('click');
+
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    jpgItemsList.push({
+                        id: 'jpg_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
+                        name: file.name,
+                        dataUrl: e.target.result
+                    });
+                    renderJpgPreviewGrid();
+                };
+                reader.readAsDataURL(file);
+            });
+            event.target.value = '';
+        }
+
+        function renderJpgPreviewGrid() {
+            const grid = document.getElementById('jpg-preview-grid');
+            const badge = document.getElementById('jpg-count-badge');
+            if (!grid || !badge) return;
+
+            badge.textContent = jpgItemsList.length;
+
+            if (jpgItemsList.length === 0) {
+                grid.innerHTML = `<div class="col-span-full py-10 text-center text-xs text-stone-500">Belum ada gambar catatan. Klik "+ Tambah Contoh Gambar Catatan" atau unggah foto!</div>`;
+                return;
+            }
+
+            grid.innerHTML = jpgItemsList.map((item, idx) => `
+                <div class="border-3 border-[#181026] bg-[#fff6d6] p-2 flex flex-col justify-between space-y-2">
+                    <div class="relative">
+                        <img src="${item.dataUrl}" alt="${item.name}" class="w-full h-28 object-cover border-2 border-[#181026]">
+                        <span class="absolute top-1 left-1 bg-[#181026] text-[#ffd942] font-pixel-title text-[8px] px-1.5 py-0.5">HAL ${idx + 1}</span>
+                    </div>
+                    <div class="text-[11px] font-bold truncate text-stone-800">${item.name}</div>
+                    <div class="flex items-center justify-between gap-1">
+                        <button onclick="moveJpgItem(${idx}, -1)" class="rpg-btn bg-white px-2 py-0.5 text-xs">⬅</button>
+                        <button onclick="moveJpgItem(${idx}, 1)" class="rpg-btn bg-white px-2 py-0.5 text-xs">➡</button>
+                        <button onclick="removeJpgItem(${idx})" class="rpg-btn bg-[#d92b3a] text-white px-2 py-0.5 text-xs">✕</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function moveJpgItem(index, dir) {
+            const target = index + dir;
+            if (target < 0 || target >= jpgItemsList.length) return;
+            playPixelSound('click');
+            const temp = jpgItemsList[index];
+            jpgItemsList[index] = jpgItemsList[target];
+            jpgItemsList[target] = temp;
+            renderJpgPreviewGrid();
+        }
+
+        function removeJpgItem(index) {
+            playPixelSound('click');
+            jpgItemsList.splice(index, 1);
+            renderJpgPreviewGrid();
+        }
+
+        function clearAllJpgItems() {
+            playPixelSound('click');
+            jpgItemsList = [];
+            renderJpgPreviewGrid();
+        }
+
+        function generatePdfFromJpgList() {
+            if (jpgItemsList.length === 0) {
+                showPixelModal("BELUM ADA GAMBAR!", "Tambahkan minimal 1 gambar catatan terlebih dahulu sebelum mengonversi ke PDF.");
+                return;
+            }
+            playPixelSound('correct');
+            try {
+                const { jsPDF } = window.jspdf;
+                const format = document.getElementById('pdf-page-size').value || 'a4';
+                const orientation = document.getElementById('pdf-orientation').value || 'portrait';
+                const doc = new jsPDF({ orientation, unit: 'mm', format });
+
+                const pageW = doc.internal.pageSize.getWidth();
+                const pageH = doc.internal.pageSize.getHeight();
+
+                jpgItemsList.forEach((item, index) => {
+                    if (index > 0) doc.addPage();
+                    doc.addImage(item.dataUrl, 'JPEG', 10, 10, pageW - 20, pageH - 20);
+                });
+
+                doc.save(`Catatan_PixTBeach_${Date.now()}.pdf`);
+                addExp(45);
+                showPixelModal("KONVERSI JPG KE PDF BERHASIL!", `${jpgItemsList.length} halaman gambar berhasil digabungkan menjadi file PDF dan diunduh ke perangkatmu (+45 EXP)!`);
+            } catch (err) {
+                showPixelModal("GAGAL MEMBUAT PDF", err.message);
+            }
+        }
+
+        // ==========================================================
+        // BOAT 2 LOGIC: MULTI-FILE UPLOAD (MAX 15 FILES) & MATERIAL SWITCHER
+        // ==========================================================
+        function updateWordCount() {
+            const text = document.getElementById('materi-textarea').value.trim();
+            const words = text ? text.split(/\s+/).length : 0;
+            document.getElementById('word-count-badge').textContent = `${words} Kata`;
+        }
+
+        function switchActiveMaterial(materialId, silent = false) {
+            const found = materialsLibrary.find(m => m.id === materialId) || materialsLibrary[0];
+            if (!found) return;
+            if (!silent) playPixelSound('click');
+
+            activeMaterialId = found.id;
+            uploadedDocTitle = found.title;
+            studyData = found;
+
+            const titleInput = document.getElementById('custom-materi-title-input');
+            if (titleInput) titleInput.value = found.title;
+
+            const textArea = document.getElementById('materi-textarea');
+            if (textArea) {
+                textArea.value = found.rawText;
+                updateWordCount();
+            }
+
+            const wordCount = found.rawText.split(/\s+/).length;
+            const metaEl = document.getElementById('active-doc-meta');
+            if (metaEl) {
+                metaEl.textContent = `Sumber: ${found.sourceType} • ${wordCount} Kata • (${materialsLibrary.length}/${MAX_MATERI_FILES} File di Pustaka)`;
+            }
+
+            syncAllMaterialSelectors();
+            renderAllStudyOutputs();
+            updateAvatarDialogBanner(activeBoat);
+        }
+
+        function syncAllMaterialSelectors() {
+            const countEl = document.getElementById('materi-library-count');
+            if (countEl) countEl.textContent = materialsLibrary.length;
+
+            const slotBadge = document.getElementById('multi-upload-slot-badge');
+            if (slotBadge) slotBadge.textContent = `${materialsLibrary.length} / ${MAX_MATERI_FILES} SLOT TERISI`;
+
+            const optionsHtml = materialsLibrary.map((m, idx) => {
+                const selected = m.id === activeMaterialId ? 'selected' : '';
+                return `<option value="${m.id}" ${selected}>[${idx + 1}/${materialsLibrary.length}] ${m.title}</option>`;
+            }).join('');
+
+            ['global-materi-selector', 'rangkuman-materi-selector', 'penjelasan-materi-selector'].forEach(selId => {
+                const sel = document.getElementById(selId);
+                if (sel) sel.innerHTML = optionsHtml;
+            });
+
+            const listContainer = document.getElementById('uploaded-materials-list');
+            if (listContainer) {
+                listContainer.innerHTML = materialsLibrary.map((m, idx) => {
+                    const isAct = m.id === activeMaterialId;
+                    return `
+                        <div class="flex items-center justify-between gap-2 p-1.5 border ${isAct ? 'bg-[#ffefc1] border-[#d84327] font-bold' : 'bg-stone-50 border-stone-300'} text-xs">
+                            <button onclick="switchActiveMaterial('${m.id}')" class="text-left truncate flex-1 text-stone-900 hover:underline">
+                                ${idx + 1}. ${m.title} <span class="text-[10px] text-stone-500">(${m.sourceType})</span>
+                            </button>
+                            ${materialsLibrary.length > 1 ? `<button onclick="removeMaterialFromLibrary('${m.id}')" title="Hapus Materi" class="bg-[#d92b3a] text-white px-1.5 py-0.5 text-[9px] font-bold">✕</button>` : ''}
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        function removeMaterialFromLibrary(idToRemove) {
+            if (materialsLibrary.length <= 1) return;
+            playPixelSound('click');
+            materialsLibrary = materialsLibrary.filter(m => m.id !== idToRemove);
+            if (activeMaterialId === idToRemove) {
+                switchActiveMaterial(materialsLibrary[0].id, true);
+            } else {
+                syncAllMaterialSelectors();
+            }
+        }
+
+        function clearCustomUploadedMaterials() {
+            playPixelSound('click');
+            initializeDefaultLibrary();
+            showPixelModal("PUSTAKA DIRESET", "Pustaka materi telah dikembalikan ke 3 materi demo kampus awal.");
+        }
+
+        function loadDemoMaterial(key, silent = false) {
+            const targetId = `preset_${key}`;
+            const exists = materialsLibrary.find(m => m.id === targetId);
+            if (exists) {
+                switchActiveMaterial(targetId, silent);
+            } else {
+                const preset = DEMO_DATASETS[key] || DEMO_DATASETS.ai;
+                const item = {
+                    id: targetId,
+                    title: preset.title,
+                    sourceType: "Preset Demo Kampus",
+                    rawText: preset.rawText,
+                    rangkuman: [...preset.rangkuman],
+                    keywords: [...preset.keywords],
+                    tldr: preset.tldr,
+                    penjelasan: [...preset.penjelasan],
+                    quiz: [...preset.quiz],
+                    ujian: buildExamQuestionsFromMaterial(preset.rawText, preset.quiz, preset.title)
+                };
+                if (materialsLibrary.length >= MAX_MATERI_FILES) materialsLibrary.shift();
+                materialsLibrary.push(item);
+                switchActiveMaterial(item.id, silent);
+            }
+        }
+
+        async function extractTextFromSingleFile(file) {
+            const ext = file.name.split('.').pop().toLowerCase();
+            if (ext === 'txt') {
+                return await file.text();
+            } else if (ext === 'docx') {
+                const arrayBuffer = await file.arrayBuffer();
+                const result = await window.mammoth.extractRawText({ arrayBuffer });
+                return result.value;
+            } else if (ext === 'pdf') {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                let pageTexts = [];
+                const maxPages = Math.min(pdf.numPages, 25);
+                for (let i = 1; i <= maxPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const content = await page.getTextContent();
+                    const strings = content.items.map(item => item.str);
+                    pageTexts.push(strings.join(' '));
+                }
+                return pageTexts.join('\n\n');
+            }
+            return "";
+        }
+
+        async function handleWordOrPdfUpload(event) {
+            const rawFiles = Array.from(event.target.files || []);
+            if (!rawFiles.length) return;
+            playPixelSound('click');
+
+            if (rawFiles.length > MAX_MATERI_FILES) {
+                showPixelModal(
+                    "BATAS MAKSIMAL 15 FILE!",
+                    `Kamu memilih ${rawFiles.length} file sekaligus. Sistem hanya memproses maksimal ${MAX_MATERI_FILES} file pertama dalam satu kali unggahan.`
+                );
+            }
+
+            const filesToProcess = rawFiles.slice(0, MAX_MATERI_FILES);
+            const statusEl = document.getElementById('doc-upload-status');
+            statusEl.textContent = `Mengekstrak ${filesToProcess.length} file materi...`;
+
+            let successCount = 0;
+            let lastAddedId = null;
+
+            for (let i = 0; i < filesToProcess.length; i++) {
+                const file = filesToProcess[i];
+                try {
+                    const extractedText = await extractTextFromSingleFile(file);
+                    if (extractedText && extractedText.trim().length >= 30) {
+                        const cleanTitle = file.name.replace(/\.[^/.]+$/, "");
+                        const extUpper = file.name.split('.').pop().toUpperCase();
+                        const newEntry = buildMaterialObjectFromText(cleanTitle, extractedText.trim(), `File ${extUpper}`);
+
+                        if (materialsLibrary.length >= MAX_MATERI_FILES) {
+                            materialsLibrary.shift();
+                        }
+                        materialsLibrary.push(newEntry);
+                        lastAddedId = newEntry.id;
+                        successCount++;
+                    }
+                } catch (err) {
+                    console.warn("Gagal membaca file:", file.name, err);
+                }
+            }
+
+            event.target.value = '';
+
+            if (successCount === 0) {
+                statusEl.textContent = `Gagal membaca teks dari file yang dipilih.`;
+                showPixelModal("TEKS DOKUMEN KOSONG / TERLALU PENDEK", "Pastikan dokumen .PDF, .DOCX, atau .TXT yang diunggah memiliki teks yang dapat dibaca (bukan hasil scan gambar kosong).");
+                return;
+            }
+
+            if (lastAddedId) {
+                switchActiveMaterial(lastAddedId, true);
+            }
+
+            const expGained = successCount * 35;
+            addExp(expGained);
+            statusEl.textContent = `Berhasil mengunggah ${successCount} file materi! (${materialsLibrary.length}/${MAX_MATERI_FILES} di Pustaka)`;
+
+            if (activeBoat === 'dokumen' || activeBoat === 'jpg') {
+                selectBoatFeature('rangkuman');
+            }
+
+            showPixelModal(
+                `🎉 ${successCount} FILE MATERI DIUNGGAH!`,
+                `Wizzy (Avatar Word) & Maestro (Avatar PDF) telah memproses ${successCount} dokumen ke dalam Pustaka! Sekarang kamu bisa memilih materi mana saja melalui dropdown "PILIH MATERI" di fitur Rangkuman dan Penjelasan (+${expGained} EXP).`
+            );
+        }
+
+        function processCustomTextAndSail(targetBoat) {
+            const raw = document.getElementById('materi-textarea').value.trim();
+            const customTitle = document.getElementById('custom-materi-title-input')?.value?.trim() || `Materi Catatan #${materialsLibrary.length + 1}`;
+            if (raw.length < 40) {
+                showPixelModal("TEKS MATERI BELUM CUKUP", "Masukkan atau tempelkan minimal 1 paragraf materi kuliah (minimal 40 karakter) agar para Avatar dapat berdialog menjelaskan materimu!");
+                return;
+            }
+            playPixelSound('correct');
+
+            const existingIdx = materialsLibrary.findIndex(m => m.id === activeMaterialId && m.title === customTitle);
+            const builtObj = buildMaterialObjectFromText(customTitle, raw, "Input Teks Mahasiswa");
+
+            if (existingIdx !== -1) {
+                builtObj.id = materialsLibrary[existingIdx].id;
+                materialsLibrary[existingIdx] = builtObj;
+            } else {
+                if (materialsLibrary.length >= MAX_MATERI_FILES) {
+                    materialsLibrary.shift();
+                }
+                materialsLibrary.push(builtObj);
+            }
+
+            switchActiveMaterial(builtObj.id, true);
+            addExp(40);
+            selectBoatFeature(targetBoat);
+        }
+
+        // Intelligent Client-Side Academic Analyzer (Returns Material Object)
+        function buildMaterialObjectFromText(title, text, sourceType = "Dokumen Diunggah") {
+            const cleanText = text.replace(/\s+/g, ' ').trim();
+            const sentences = cleanText
+                .split(/(?<=[.!?])\s+/)
+                .map(s => s.trim())
+                .filter(s => s.length > 35 && s.length < 320);
+
+            const stopWords = new Set(['yang', 'dan', 'di', 'ke', 'dari', 'ini', 'itu', 'dengan', 'untuk', 'pada', 'adalah', 'sebagai', 'dalam', 'atau', 'oleh', 'juga', 'dapat', 'akan', 'tersebut', 'karena', 'secara', 'merupakan', 'suatu', 'the', 'and', 'of', 'to', 'in', 'is', 'for', 'with', 'that', 'on', 'as', 'are', 'by']);
+            const freqMap = {};
+            const words = cleanText.toLowerCase().match(/[a-zA-Z]{5,}/g) || [];
+            words.forEach(w => {
+                if (!stopWords.has(w)) {
+                    freqMap[w] = (freqMap[w] || 0) + 1;
+                }
+            });
+
+            const sortedKeywords = Object.entries(freqMap)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 8)
+                .map(entry => entry[0].charAt(0).toUpperCase() + entry[0].slice(1));
+
+            const scoredSentences = sentences.map((s, idx) => {
+                let score = 0;
+                sortedKeywords.forEach(kw => {
+                    if (s.toLowerCase().includes(kw.toLowerCase())) score += 2;
+                });
+                if (idx === 0) score += 3;
+                return { s, idx, score };
+            });
+
+            scoredSentences.sort((a, b) => b.score - a.score);
+            const topBullets = scoredSentences
+                .slice(0, Math.min(5, Math.max(3, scoredSentences.length)))
+                .sort((a, b) => a.idx - b.idx)
+                .map(item => item.s);
+
+            const penjelasanCards = topBullets.slice(0, 4).map((sentence, idx) => {
+                const kw = sortedKeywords[idx] || `Konsep Inti #${idx + 1}`;
+                return {
+                    konsep: `Fokus Konsep: ${kw}`,
+                    definisi: sentence,
+                    analogi: `Bayangkan "${kw}" seperti kompas utama saat kamu berlayar di bab "${title}"—kalau kamu pegang kata kunci ini, soal turunan apa pun di ujian bakal langsung kelihatan polanya!`
+                };
+            });
+
+            const generatedQuiz = topBullets.map((sentence, idx) => {
+                const targetKw = sortedKeywords.find(k => sentence.toLowerCase().includes(k.toLowerCase())) || sortedKeywords[0] || "Konsep Utama";
+                const regex = new RegExp(targetKw, 'i');
+                const blankedSentence = sentence.replace(regex, "__________");
+
+                const distractors = sortedKeywords
+                    .filter(k => k.toLowerCase() !== targetKw.toLowerCase())
+                    .slice(0, 3);
+                while (distractors.length < 3) {
+                    const fallbackPool = ["Variabel Eksternal", "Reduksi Sistemik", "Parameter Statis", "Anomali Sekunder"];
+                    const pick = fallbackPool[distractors.length];
+                    if (!distractors.includes(pick)) distractors.push(pick);
+                }
+
+                const options = [targetKw, ...distractors];
+                const correctShift = idx % 4;
+                const rotated = [];
+                for (let i = 0; i < 4; i++) {
+                    rotated[(i + correctShift) % 4] = options[i];
+                }
+
+                return {
+                    tanya: `Berdasarkan materi "${title}", istilah yang tepat untuk melengkapi pernyataan berikut: "${blankedSentence}" adalah...`,
+                    opsi: rotated,
+                    benar: correctShift,
+                    bahas: `Kalimat lengkap sesuai dokumen materi: "${sentence}"`
+                };
+            });
+
+            const finalRangkuman = topBullets.length ? topBullets : [cleanText.substring(0, 220)];
+            const finalKeywords = sortedKeywords.length ? sortedKeywords : ["Konsep Utama", "Analisis Materi", "Evaluasi"];
+
+            return {
+                id: 'mat_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+                title: title,
+                sourceType: sourceType,
+                rawText: cleanText,
+                rangkuman: finalRangkuman,
+                keywords: finalKeywords,
+                tldr: `Materi "${title}" ini menitikberatkan pada pembahasan ${finalKeywords.slice(0, 4).join(', ')} beserta hubungan aplikatifnya dalam perkuliahan.`,
+                penjelasan: penjelasanCards,
+                quiz: generatedQuiz,
+                ujian: buildExamQuestionsFromMaterial(cleanText, generatedQuiz, title)
+            };
+        }
+
+        function buildExamQuestionsFromMaterial(rawText, baseQuiz, docTitle = uploadedDocTitle) {
+            const examList = baseQuiz.map(q => ({ ...q }));
+
+            examList.push({
+                tanya: `Manakah pernyataan sintesis yang PALING TEPAT menggambarkan inti pembahasan dari dokumen "${docTitle}"?`,
+                opsi: [
+                    baseQuiz?.[0]?.bahas?.replace('Kalimat lengkap sesuai dokumen materi: ', '') || "Pemahaman sistematis terhadap konsep utama dan penerapannya sesuai struktur materi.",
+                    "Materi ini hanya membahas sejarah kuno tanpa kaitan dengan analisis keilmuan modern.",
+                    "Seluruh variabel dalam materi bersifat acak dan tidak memiliki hubungan sebab-akibat.",
+                    "Pengujian konsep dilakukan tanpa memerlukan data ataupun landasan teori."
+                ],
+                benar: 0,
+                bahas: "Pernyataan pertama merupakan gagasan pokok (main idea) yang diekstrak langsung dari dokumen materi."
+            });
+
+            examList.push({
+                tanya: "Dalam konteks evaluasi akademik atas materi di atas, langkah analisis apa yang paling krusial bagi mahasiswa?",
+                opsi: [
+                    "Mengabaikan definisi istilah kunci dan langsung menebak kesimpulan",
+                    "Memahami hubungan antar-konsep kunci serta menghindari penghafalan buta tanpa konteks",
+                    "Menghapus seluruh data pendukung agar laporan terlihat singkat",
+                    "Mengganti seluruh terminologi ilmiah dengan opini tanpa dasar"
+                ],
+                benar: 1,
+                bahas: "Pemahaman konseptual yang utuh mencegah kesalahan analisis saat menghadapi studi kasus ujian."
+            });
+
+            return examList;
+        }
+
+        // ==========================================================
+        // RENDERERS FOR BOATS 3, 4, 5, 6 (WITH AVATAR DIALOGS)
+        // ==========================================================
+        function renderAllStudyOutputs() {
+            renderRangkumanView();
+            renderPenjelasanView();
+            renderQuizView();
+            renderUjianView();
+        }
+
+        function renderRangkumanView() {
+            document.getElementById('summary-heading').textContent = `RANGKUMAN INTI: ${studyData.title.toUpperCase()}`;
+
+            const sumDialogCard = document.getElementById('sum-avatar-dialog-card');
+            if (sumDialogCard) {
+                sumDialogCard.innerHTML = `
+                    <div class="w-14 h-14 bg-[#120b1d] border-2 border-[#ff9ebb] p-1 shrink-0 avatar-sprite">
+                        ${AVATAR_SPEAKERS.rangkuman.svg}
+                    </div>
+                    <div class="flex-1 text-xs sm:text-sm leading-relaxed">
+                        <div class="font-pixel-title text-[9px] text-[#ff9ebb] mb-1">💬 PINKY SUM (AVATAR RANGKUMAN) BERKATA:</div>
+                        <p class="text-amber-100">"Halo <b>${heroName}</b>! Aku sudah menyaring dokumen <b>${studyData.title}</b> menjadi <b>${studyData.rangkuman.length} poin inti</b> di bawah ini supaya kamu tidak perlu pusing membaca puluhan halaman sebelum ujian!"</p>
+                    </div>
+                `;
+            }
+
+            const listEl = document.getElementById('summary-bullets');
+            listEl.innerHTML = studyData.rangkuman.map((point, i) => `
+                <li class="flex items-start gap-2.5 bg-white p-3 border-2 border-[#181026]">
+                    <span class="bg-[#d84327] text-white font-pixel-title text-[9px] px-2 py-1 shrink-0">POIN #${i + 1}</span>
+                    <div class="space-y-1">
+                        <span class="font-pixel-title text-[8px] text-[#d92b3a] block">PINKY SUM: "Catat bagian penting ini ya!"</span>
+                        <p>${point}</p>
+                    </div>
+                </li>
+            `).join('');
+
+            const kwEl = document.getElementById('summary-keywords');
+            kwEl.innerHTML = studyData.keywords.map(k => `
+                <span class="bg-[#ff8a27] text-[#181026] font-pixel-title text-[8px] px-2.5 py-1 border border-white">
+                    #${k}
+                </span>
+            `).join('');
+
+            document.getElementById('summary-tldr').innerHTML = `<b>Pinky SUM:</b> "${studyData.tldr}"`;
+        }
+
+        function copySummaryToClipboard() {
+            playPixelSound('click');
+            const textToCopy = `RANGKUMAN PIXTBEACH: ${studyData.title}\n\n` +
+                studyData.rangkuman.map((p, i) => `${i + 1}. ${p}`).join('\n') +
+                `\n\nIstilah Kunci: ${studyData.keywords.join(', ')}\nIntisari: ${studyData.tldr}`;
+
+            const tempArea = document.createElement('textarea');
+            tempArea.value = textToCopy;
+            document.body.appendChild(tempArea);
+            tempArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempArea);
+
+            addExp(15);
+            showPixelModal("RANGKUMAN DISALIN!", "Catatan rangkuman berhasil disalin ke Clipboard (+15 EXP). Siap ditempel ke aplikasi catatanmu!");
+        }
+
+        function exportSummaryToPdf() {
+            playPixelSound('correct');
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+                doc.setFontSize(14);
+                doc.text(`RANGKUMAN MATERI PIXTBEACH`, 15, 18);
+                doc.setFontSize(11);
+                doc.text(`Judul: ${studyData.title}`, 15, 26);
+
+                let y = 36;
+                doc.setFontSize(10);
+                studyData.rangkuman.forEach((pt, idx) => {
+                    const lines = doc.splitTextToSize(`${idx + 1}. ${pt}`, 180);
+                    doc.text(lines, 15, y);
+                    y += lines.length * 6 + 3;
+                });
+
+                y += 4;
+                const kwLines = doc.splitTextToSize(`Kata Kunci: ${studyData.keywords.join(', ')}`, 180);
+                doc.text(kwLines, 15, y);
+
+                doc.save(`Rangkuman_${studyData.title.replace(/\s+/g, '_')}.pdf`);
+                addExp(30);
+                showPixelModal("PDF RANGKUMAN TERSIMPAN!", "File PDF rangkuman materi berhasil diunduh ke perangkatmu (+30 EXP)!");
+            } catch (e) {
+                showPixelModal("ERROR PDF", e.message);
+            }
+        }
+
+        function renderPenjelasanView() {
+            const container = document.getElementById('explanation-cards-container');
+            const mentorOrder = ['penjelasan', 'word', 'pdf', 'rangkuman'];
+
+            container.innerHTML = studyData.penjelasan.map((item, idx) => {
+                const mentorKey = mentorOrder[idx % mentorOrder.length];
+                const mentor = AVATAR_SPEAKERS[mentorKey];
+                return `
+                <div class="bg-[#ffefc1] border-4 border-[#181026] p-4 flex flex-col justify-between space-y-3">
+                    <div class="space-y-2.5">
+                        <!-- Avatar Mentor Dialog Header -->
+                        <div class="flex items-center gap-3 bg-[#181026] text-white p-2.5 border-2 border-[#ffd942]">
+                            <div class="w-12 h-12 bg-[#231934] border border-white p-1 shrink-0 avatar-sprite">
+                                ${mentor.svg}
+                            </div>
+                            <div>
+                                <span class="font-pixel-title text-[8px] px-2 py-0.5 text-white inline-block mb-1" style="background-color:${mentor.badgeBg}">
+                                    ${mentor.name}
+                                </span>
+                                <div class="font-pixel-mono text-xs text-amber-200">Menjelaskan Konsep #${idx + 1} kepada ${heroName}:</div>
+                            </div>
+                        </div>
+
+                        <h4 class="font-pixel-title text-xs text-[#181026] pt-1">📖 ${item.konsep}</h4>
+
+                        <!-- Conversational Speech Bubble for Definition -->
+                        <div class="bg-white p-3 border-2 border-[#181026] relative">
+                            <span class="font-pixel-title text-[8px] text-[#198737] block mb-1">💬 PENJELASAN AVATAR:</span>
+                            <p class="text-xs sm:text-sm text-stone-800 leading-relaxed">
+                                "Jadi begini <b>${heroName}</b>, dalam materi <i>${studyData.title}</i>: ${item.definisi}"
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Conversational Speech Bubble for Campus Analogy -->
+                    <div class="bg-[#231934] text-amber-100 p-3 border-2 border-[#181026] text-xs leading-relaxed">
+                        <span class="font-pixel-title text-[8px] text-[#ffd942] block mb-1">🍍 DIALOG ANALOGI TONGKRONGAN KAMPUS:</span>
+                        "${item.analogi}"
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        // ==========================================================
+        // DYNAMIC QUESTION GENERATOR FOR DIFFICULTY & QUESTION COUNT
+        // ==========================================================
+        function generateDynamicQuestionsPool(mode, difficulty, desiredCount) {
+            const count = Math.max(1, Math.min(40, parseInt(desiredCount, 10) || 5));
+            const basePool = mode === 'quiz' ? (studyData.quiz || []) : (studyData.ujian || []);
+            const bullets = studyData.rangkuman || [];
+            const keywords = studyData.keywords && studyData.keywords.length ? studyData.keywords : ["Konsep Utama", "Analisis Teori", "Evaluasi Data", "Implementasi"];
+            const explanations = studyData.penjelasan || [];
+            const title = studyData.title || "Materi Kuliah";
+
+            const diffLabel = difficulty === 'easy' ? 'MUDAH' : difficulty === 'normal' ? 'SEDANG' : 'SULIT (HOTS)';
+            const result = [];
+
+            for (let i = 0; i < count; i++) {
+                const kw = keywords[i % keywords.length];
+                const bullet = bullets[i % Math.max(1, bullets.length)] || studyData.tldr || "Konsep dasar materi perkuliahan.";
+                const expObj = explanations[i % Math.max(1, explanations.length)];
+
+                if (i < basePool.length) {
+                    const baseQ = basePool[i];
+                    let modifiedPrompt = baseQ.tanya;
+                    if (difficulty === 'easy') {
+                        modifiedPrompt = `[Level Mudah • Petunjuk: Fokus pada konsep "${kw}"] ${baseQ.tanya}`;
+                    } else if (difficulty === 'hard') {
+                        modifiedPrompt = `[Studi Kasus HOTS • Analisis Kritis] Dalam skenario evaluasi mendalam pada materi "${title}", ${baseQ.tanya.charAt(0).toLowerCase() + baseQ.tanya.slice(1)}`;
+                    }
+                    result.push({
+                        tanya: modifiedPrompt,
+                        opsi: [...baseQ.opsi],
+                        benar: baseQ.benar,
+                        bahas: `[Pembahasan Tingkat ${diffLabel}] ${baseQ.bahas}`
+                    });
+                } else {
+                    const correctPos = i % 4;
+                    let tanyaText = "";
+                    let correctAns = "";
+                    let distractors = [];
+                    let bahasText = "";
+
+                    if (difficulty === 'easy') {
+                        tanyaText = `[Level Mudah #${i + 1}] Berdasarkan rangkuman materi "${title}", manakah pernyataan dasar yang benar mengenai "${kw}"?`;
+                        correctAns = bullet;
+                        distractors = [
+                            `Konsep "${kw}" sama sekali tidak dibahas dan bertentangan dengan isi dokumen.`,
+                            `Istilah "${kw}" hanya berlaku di luar topik "${title}" tanpa dasar teori.`,
+                            `Tidak ada hubungan antara "${kw}" dengan pokok bahasan utama.`
+                        ];
+                        bahasText = `Pada tingkat Mudah, ingat poin inti rangkuman: "${bullet}"`;
+                    } else if (difficulty === 'normal') {
+                        const analogyHint = expObj ? expObj.analogi : bullet;
+                        tanyaText = `[Level Sedang #${i + 1}] Bagaimana penerapan konsep "${kw}" jika dikaitkan dengan penjelasan materi "${title}"?`;
+                        correctAns = expObj ? expObj.definisi : bullet;
+                        distractors = [
+                            `Mengabaikan peran "${kw}" dalam menyusun kerangka analisis utama.`,
+                            `Menganggap "${kw}" sebagai variabel pasif yang tidak memengaruhi hasil akhir.`,
+                            `Mengganti "${kw}" dengan asumsi acak tanpa pengujian materi.`
+                        ];
+                        bahasText = `Penjelasan Avatar: "${correctAns}" (Analogi: ${analogyHint})`;
+                    } else {
+                        tanyaText = `[Level Sulit / HOTS #${i + 1}] Apabila seorang mahasiswa menghadapi permasalahan kompleks terkait "${kw}" dalam topik "${title}", evaluasi kritis manakah yang paling akurat?`;
+                        correctAns = `Menganalisis keterkaitan "${kw}" secara komprehensif sesuai prinsip: ${bullet}`;
+                        distractors = [
+                            `Memisahkan "${kw}" dari konteks keseluruhan walaupun menyebabkan bias kesimpulan.`,
+                            `Menyimpulkan bahwa "${kw}" bersifat mutlak tanpa mempertimbangkan variabel pendukung lainnya.`,
+                            `Menerapkan rumus secara mekanis tanpa memverifikasi syarat berlakunya konsep "${kw}".`
+                        ];
+                        bahasText = `Analisis HOTS menuntut sintesis mendalam: "${bullet}"`;
+                    }
+
+                    const options = [];
+                    let dIdx = 0;
+                    for (let slot = 0; slot < 4; slot++) {
+                        if (slot === correctPos) {
+                            options.push(correctAns);
+                        } else {
+                            options.push(distractors[dIdx++]);
+                        }
+                    }
+
+                    result.push({
+                        tanya: tanyaText,
+                        opsi: options,
+                        benar: correctPos,
+                        bahas: bahasText
+                    });
+                }
+            }
+
+            return result;
+        }
+
+        // ==========================================================
+        // BOAT 5: QUIZ KILAT LOGIC (WITH DIFFICULTY & QUESTION COUNT)
+        // ==========================================================
+        function setQuizDifficulty(diff) {
+            playPixelSound('click');
+            quizDifficulty = diff;
+            updateQuizConfigUI();
+            renderQuizView();
+        }
+
+        function setQuizQuestionCount(count) {
+            playPixelSound('click');
+            quizTargetCount = Math.max(1, Math.min(30, parseInt(count, 10) || 5));
+            const inputEl = document.getElementById('custom-quiz-count');
+            if (inputEl) inputEl.value = quizTargetCount;
+            updateQuizConfigUI();
+            renderQuizView();
+        }
+
+        function applyCustomQuizCount() {
+            const val = parseInt(document.getElementById('custom-quiz-count')?.value || '5', 10);
+            setQuizQuestionCount(val);
+        }
+
+        function getQuizExpPerCorrect() {
+            return quizDifficulty === 'easy' ? 15 : quizDifficulty === 'normal' ? 25 : 40;
+        }
+
+        function updateQuizConfigUI() {
+            const btnMap = {
+                easy: document.getElementById('quiz-diff-easy'),
+                normal: document.getElementById('quiz-diff-normal'),
+                hard: document.getElementById('quiz-diff-hard')
+            };
+            Object.entries(btnMap).forEach(([k, btn]) => {
+                if (!btn) return;
+                if (k === quizDifficulty) {
+                    const activeBg = k === 'easy' ? 'bg-[#4cd964] text-[#181026]' : k === 'normal' ? 'bg-[#ffd942] text-[#181026]' : 'bg-[#d92b3a] text-white';
+                    btn.className = `rpg-btn ${activeBg} px-2.5 py-1 font-pixel-title text-[8px]`;
+                } else {
+                    btn.className = "rpg-btn bg-[#3a2b52] text-white px-2.5 py-1 font-pixel-title text-[8px]";
+                }
+            });
+
+            const labelMap = { easy: 'MUDAH (Easy)', normal: 'SEDANG (Normal)', hard: 'SULIT (Hard / HOTS)' };
+            const summaryEl = document.getElementById('quiz-config-summary');
+            if (summaryEl) {
+                summaryEl.textContent = `Mode Aktif: ${labelMap[quizDifficulty]} • ${quizTargetCount} Soal • Hadiah: +${getQuizExpPerCorrect()} EXP / Jawaban Benar`;
+            }
+        }
+
+        function renderQuizView() {
+            quizScore = 0;
+            quizAnsweredCount = 0;
+            updateQuizConfigUI();
+
+            activeQuizQuestions = generateDynamicQuestionsPool('quiz', quizDifficulty, quizTargetCount);
+            const total = activeQuizQuestions.length;
+            document.getElementById('quiz-score-badge').textContent = `SKOR: 0 / ${total} BENAR`;
+
+            const diffBadgeColor = quizDifficulty === 'easy' ? 'bg-[#4cd964] text-[#181026]' : quizDifficulty === 'normal' ? 'bg-[#ffd942] text-[#181026]' : 'bg-[#d92b3a] text-white';
+            const diffBadgeText = quizDifficulty === 'easy' ? 'MUDAH' : quizDifficulty === 'normal' ? 'SEDANG' : 'SULIT';
+
+            const container = document.getElementById('quiz-questions-container');
+            container.innerHTML = activeQuizQuestions.map((q, qIdx) => `
+                <div class="bg-[#ffefc1] border-4 border-[#181026] p-4 space-y-3" id="quiz-card-${qIdx}">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <div class="flex items-center gap-2">
+                            <span class="bg-[#ff8811] text-white font-pixel-title text-[8px] px-2 py-1 border border-[#181026]">BUZZY QUIZ #${qIdx + 1} / ${total}</span>
+                            <span class="${diffBadgeColor} font-pixel-title text-[8px] px-2 py-1 border border-[#181026]">LEVEL: ${diffBadgeText}</span>
+                        </div>
+                        <span class="font-pixel-mono text-sm text-stone-700">+${getQuizExpPerCorrect()} EXP jika benar</span>
+                    </div>
+                    <p class="text-sm font-bold text-[#181026]">${q.tanya}</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="quiz-options-${qIdx}">
+                        ${q.opsi.map((opt, oIdx) => `
+                            <button onclick="answerQuizQuestion(${qIdx}, ${oIdx})" id="quiz-btn-${qIdx}-${oIdx}"
+                                    class="rpg-btn bg-white text-left p-2.5 text-xs sm:text-sm font-medium text-[#181026] hover:bg-[#ffd942]">
+                                <b>${String.fromCharCode(65 + oIdx)}.</b> ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div id="quiz-feedback-${qIdx}" class="hidden p-3 border-2 border-[#181026] text-xs leading-relaxed"></div>
+                </div>
+            `).join('');
+        }
+
+        function answerQuizQuestion(qIdx, selectedIdx) {
+            const q = activeQuizQuestions[qIdx];
+            const feedbackEl = document.getElementById(`quiz-feedback-${qIdx}`);
+            if (!q || !feedbackEl || !feedbackEl.classList.contains('hidden')) return;
+
+            const isCorrect = selectedIdx === q.benar;
+            const expReward = getQuizExpPerCorrect();
+            quizAnsweredCount++;
+
+            q.opsi.forEach((_, oIdx) => {
+                const btn = document.getElementById(`quiz-btn-${qIdx}-${oIdx}`);
+                if (!btn) return;
+                btn.disabled = true;
+                if (oIdx === q.benar) {
+                    btn.className = "rpg-btn bg-[#4cd964] text-[#181026] text-left p-2.5 text-xs sm:text-sm font-bold";
+                } else if (oIdx === selectedIdx) {
+                    btn.className = "rpg-btn bg-[#d92b3a] text-white text-left p-2.5 text-xs sm:text-sm font-bold";
+                }
+            });
+
+            feedbackEl.classList.remove('hidden');
+            if (isCorrect) {
+                quizScore++;
+                playPixelSound('correct');
+                addExp(expReward);
+                feedbackEl.className = "p-3 border-2 border-[#181026] bg-[#d8f8e1] text-[#181026] text-xs";
+                feedbackEl.innerHTML = `<b>✅ BUZZY: "TEPAT SEKALI (+${expReward} EXP)!"</b><br>${q.bahas}`;
+            } else {
+                playPixelSound('wrong');
+                feedbackEl.className = "p-3 border-2 border-[#181026] bg-[#ffd6d6] text-[#181026] text-xs";
+                feedbackEl.innerHTML = `<b>❌ BUZZY: "KURANG TEPAT!"</b><br>${q.bahas}`;
+            }
+
+            document.getElementById('quiz-score-badge').textContent = `SKOR: ${quizScore} / ${activeQuizQuestions.length} BENAR`;
+        }
+
+        // ==========================================================
+        // BOAT 6: SIMULASI UJIAN, DIFFICULTY, QUESTION COUNT & TIMER LOGIC
+        // ==========================================================
+        function setExamDifficulty(diff) {
+            playPixelSound('click');
+            examDifficulty = diff;
+            updateExamConfigUI();
+            renderUjianView();
+        }
+
+        function setExamQuestionCount(count) {
+            playPixelSound('click');
+            examTargetCount = Math.max(1, Math.min(40, parseInt(count, 10) || 5));
+            const inputEl = document.getElementById('custom-exam-count');
+            if (inputEl) inputEl.value = examTargetCount;
+            updateExamConfigUI();
+            renderUjianView();
+        }
+
+        function applyCustomExamCount() {
+            const val = parseInt(document.getElementById('custom-exam-count')?.value || '5', 10);
+            setExamQuestionCount(val);
+        }
+
+        function getExamCompletionExp() {
+            const base = examDifficulty === 'easy' ? 75 : examDifficulty === 'normal' ? 110 : 160;
+            return base + (examTargetCount * 5);
+        }
+
+        function updateExamConfigUI() {
+            const btnMap = {
+                easy: document.getElementById('exam-diff-easy'),
+                normal: document.getElementById('exam-diff-normal'),
+                hard: document.getElementById('exam-diff-hard')
+            };
+            Object.entries(btnMap).forEach(([k, btn]) => {
+                if (!btn) return;
+                if (k === examDifficulty) {
+                    const activeBg = k === 'easy' ? 'bg-[#4cd964] text-[#181026]' : k === 'normal' ? 'bg-[#ffd942] text-[#181026]' : 'bg-[#d92b3a] text-white';
+                    btn.className = `rpg-btn ${activeBg} px-2.5 py-1 font-pixel-title text-[8px]`;
+                } else {
+                    btn.className = "rpg-btn bg-[#3a2b52] text-white px-2.5 py-1 font-pixel-title text-[8px]";
+                }
+            });
+
+            const labelMap = { easy: 'MUDAH (Easy)', normal: 'SEDANG (Normal)', hard: 'SULIT (HOTS)' };
+            const expTotal = getExamCompletionExp();
+            const summaryEl = document.getElementById('exam-config-summary');
+            if (summaryEl) {
+                summaryEl.textContent = `Konfigurasi Ujian: Tingkat ${labelMap[examDifficulty]} • ${examTargetCount} Soal • Hadiah Selesai: +${expTotal} EXP`;
+            }
+            const submitBtn = document.getElementById('submit-exam-btn');
+            if (submitBtn) {
+                submitBtn.textContent = `✅ KUMPULKAN LEMBAR JAWABAN UJIAN (+${expTotal} EXP)`;
+            }
+        }
+
+        function renderUjianView() {
+            examUserAnswers = {};
+            examSubmitted = false;
+            updateExamConfigUI();
+
+            activeExamQuestions = generateDynamicQuestionsPool('ujian', examDifficulty, examTargetCount);
+            const total = activeExamQuestions.length;
+
+            document.getElementById('exam-result-banner').classList.add('hidden');
+            document.getElementById('submit-exam-btn').classList.remove('hidden');
+
+            const diffBadgeColor = examDifficulty === 'easy' ? 'bg-[#4cd964] text-[#181026]' : examDifficulty === 'normal' ? 'bg-[#ffd942] text-[#181026]' : 'bg-[#d92b3a] text-white';
+            const diffBadgeText = examDifficulty === 'easy' ? 'MUDAH' : examDifficulty === 'normal' ? 'SEDANG' : 'SULIT (HOTS)';
+
+            const container = document.getElementById('exam-questions-container');
+            container.innerHTML = activeExamQuestions.map((q, qIdx) => `
+                <div class="bg-[#ffefc1] border-4 border-[#181026] p-4 space-y-3">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <div class="flex items-center gap-2">
+                            <span class="bg-[#d92b3a] text-white font-pixel-title text-[8px] px-2 py-1">SOAL UJIAN #${qIdx + 1} / ${total}</span>
+                            <span class="${diffBadgeColor} font-pixel-title text-[8px] px-2 py-1 border border-[#181026]">${diffBadgeText}</span>
+                        </div>
+                        <span id="exam-status-${qIdx}" class="font-pixel-mono text-xs text-stone-600">Belum Dijawab</span>
+                    </div>
+                    <p class="text-sm font-bold text-[#181026]">${q.tanya}</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        ${q.opsi.map((opt, oIdx) => `
+                            <button onclick="selectExamAnswer(${qIdx}, ${oIdx})" id="exam-opt-${qIdx}-${oIdx}"
+                                    class="rpg-btn bg-white text-left p-2.5 text-xs sm:text-sm text-[#181026]">
+                                <b>${String.fromCharCode(65 + oIdx)}.</b> ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div id="exam-explain-${qIdx}" class="hidden p-3 border-2 border-[#181026] bg-white text-xs"></div>
+                </div>
+            `).join('');
+
+            updateExamTimerUI();
+        }
+
+        function selectExamAnswer(qIdx, oIdx) {
+            if (examSubmitted) return;
+            playPixelSound('click');
+            examUserAnswers[qIdx] = oIdx;
+
+            const q = activeExamQuestions[qIdx];
+            if (!q) return;
+            q.opsi.forEach((_, idx) => {
+                const btn = document.getElementById(`exam-opt-${qIdx}-${idx}`);
+                if (!btn) return;
+                btn.className = idx === oIdx
+                    ? "rpg-btn bg-[#ffd942] text-[#181026] text-left p-2.5 text-xs sm:text-sm font-bold"
+                    : "rpg-btn bg-white text-left p-2.5 text-xs sm:text-sm text-[#181026]";
+            });
+
+            const st = document.getElementById(`exam-status-${qIdx}`);
+            if (st) st.textContent = `Terpilih: Opsi ${String.fromCharCode(65 + oIdx)}`;
+        }
+
+        function setExamCustomTime(minutes, seconds = 0) {
+            playPixelSound('click');
+            document.getElementById('custom-exam-min').value = minutes;
+            document.getElementById('custom-exam-sec').value = seconds;
+            examTotalSeconds = Math.max(10, (minutes * 60) + seconds);
+            examRemainingSeconds = examTotalSeconds;
+            examPaused = false;
+            updateExamTimerUI();
+            startExamTimer();
+        }
+
+        function applyCustomExamInput() {
+            const min = parseInt(document.getElementById('custom-exam-min').value || '0', 10);
+            const sec = parseInt(document.getElementById('custom-exam-sec').value || '0', 10);
+            setExamCustomTime(min, sec);
+        }
+
+        function startExamTimer() {
+            if (examInterval) clearInterval(examInterval);
+            examInterval = setInterval(() => {
+                if (examPaused || examSubmitted) return;
+                if (examRemainingSeconds > 0) {
+                    examRemainingSeconds--;
+                    updateExamTimerUI();
+                } else {
+                    clearInterval(examInterval);
+                    examInterval = null;
+                    submitExamSimulation(true);
+                }
+            }, 1000);
+        }
+
+        function togglePauseExamTimer() {
+            playPixelSound('click');
+            examPaused = !examPaused;
+            document.getElementById('exam-pause-btn').textContent = examPaused ? "▶️ LANJUT" : "⏸️ JEDA";
+        }
+
+        function resetExamSimulation() {
+            playPixelSound('click');
+            examRemainingSeconds = examTotalSeconds;
+            examPaused = false;
+            document.getElementById('exam-pause-btn').textContent = "⏸️ JEDA";
+            renderUjianView();
+            startExamTimer();
+        }
+
+        function updateExamTimerUI() {
+            const m = String(Math.floor(examRemainingSeconds / 60)).padStart(2, '0');
+            const s = String(examRemainingSeconds % 60).padStart(2, '0');
+            const disp = document.getElementById('exam-timer-display');
+            if (disp) disp.textContent = `⏱️ ${m}:${s}`;
+
+            const pct = examTotalSeconds > 0 ? (examRemainingSeconds / examTotalSeconds) * 100 : 0;
+            const bar = document.getElementById('exam-timer-bar');
+            if (bar) bar.style.width = `${Math.max(0, pct)}%`;
+        }
+
+        function submitExamSimulation(isAutoTimeout = false) {
+            if (examSubmitted) return;
+            examSubmitted = true;
+            if (examInterval) {
+                clearInterval(examInterval);
+                examInterval = null;
+            }
+
+            let correctCount = 0;
+            const total = activeExamQuestions.length;
+
+            activeExamQuestions.forEach((q, qIdx) => {
+                const picked = examUserAnswers[qIdx];
+                const isRight = picked === q.benar;
+                if (isRight) correctCount++;
+
+                q.opsi.forEach((_, oIdx) => {
+                    const btn = document.getElementById(`exam-opt-${qIdx}-${oIdx}`);
+                    if (!btn) return;
+                    btn.disabled = true;
+                    if (oIdx === q.benar) {
+                        btn.className = "rpg-btn bg-[#4cd964] text-[#181026] text-left p-2.5 text-xs sm:text-sm font-bold";
+                    } else if (oIdx === picked) {
+                        btn.className = "rpg-btn bg-[#d92b3a] text-white text-left p-2.5 text-xs sm:text-sm font-bold";
+                    }
+                });
+
+                const expBox = document.getElementById(`exam-explain-${qIdx}`);
+                if (expBox) {
+                    expBox.classList.remove('hidden');
+                    expBox.innerHTML = `<b>${isRight ? '✅ BENAR' : '❌ SALAH'} — Pembahasan Komandan Ujian:</b> ${q.bahas}`;
+                }
+            });
+
+            const finalScore = Math.round((correctCount / total) * 100);
+            const grade = finalScore >= 85 ? 'A (Cumlaude Boss Slayer!)' : finalScore >= 70 ? 'B (Lulus Memuaskan)' : 'C (Perlu Baca Rangkuman Lagi)';
+            const expEarned = getExamCompletionExp();
+            addExp(expEarned);
+
+            const banner = document.getElementById('exam-result-banner');
+            banner.classList.remove('hidden');
+            banner.innerHTML = `
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div>
+                        <div class="font-pixel-title text-xs text-[#ffd942]">${isAutoTimeout ? '⏰ WAKTU HABIS! ' : ''}HASIL SIMULASI UJIAN: ${finalScore} / 100</div>
+                        <p class="text-xs sm:text-sm text-white mt-1">Benar: <b>${correctCount} dari ${total} Soal</b> • Tingkat: <b>${examDifficulty.toUpperCase()}</b> • Predikat: <b>${grade}</b> (+${expEarned} EXP)</p>
+                    </div>
+                    <button onclick="resetExamSimulation()" class="rpg-btn bg-[#ffd942] text-[#181026] px-3 py-2 font-pixel-title text-[9px]">COBA UJIAN LAGI</button>
+                </div>
+            `;
+            document.getElementById('submit-exam-btn').classList.add('hidden');
+            playPixelSound('levelup');
+        }
+
+        // ==========================================================
+        // WEB AUDIO API: 8-BIT CHIPTUNE BGM & OCEAN WAVE SYNTHESIZER
+        // ==========================================================
+        let audioCtx = null;
+        let isBgmPlaying = false;
+        let currentBgmTrack = 'sunset';
+        let bgmNoteTimer = null;
+        let waveNoiseNode = null;
+        let waveGainNode = null;
+
+        function ensureAudioContext() {
+            if (!audioCtx) {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContextClass();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function toggleBgmPlayback() {
+            ensureAudioContext();
+            isBgmPlaying = !isBgmPlaying;
+            const btn = document.getElementById('bgm-toggle-btn');
+
+            if (isBgmPlaying) {
+                btn.textContent = "🎵 BGM: ON";
+                btn.className = "rpg-btn bg-[#ffd942] text-[#181026] px-2 py-0.5 font-pixel-title text-[8px]";
+                startBgmLoop();
+            } else {
+                btn.textContent = "🎵 BGM: OFF";
+                btn.className = "rpg-btn bg-[#4cd964] text-[#181026] px-2 py-0.5 font-pixel-title text-[8px]";
+                stopBgmLoop();
+            }
+        }
+
+        function changeBgmTrack(track) {
+            currentBgmTrack = track;
+            if (isBgmPlaying) {
+                stopBgmLoop();
+                startBgmLoop();
+            }
+        }
+
+        function startBgmLoop() {
+            stopBgmLoop();
+            if (!audioCtx) return;
+
+            // Gentle Ocean Waves Pink-ish Noise
+            const bufferSize = audioCtx.sampleRate * 2;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = (Math.random() * 2 - 1) * 0.15;
+            }
+
+            waveNoiseNode = audioCtx.createBufferSource();
+            waveNoiseNode.buffer = buffer;
+            waveNoiseNode.loop = true;
+
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.value = 380;
+
+            waveGainNode = audioCtx.createGain();
+            waveGainNode.gain.value = currentBgmTrack === 'waves' ? 0.08 : 0.03;
+
+            waveNoiseNode.connect(filter);
+            filter.connect(waveGainNode);
+            waveGainNode.connect(audioCtx.destination);
+            waveNoiseNode.start();
+
+            if (currentBgmTrack === 'waves') return;
+
+            const melodies = {
+                sunset: [261.63, 329.63, 392.00, 523.25, 392.00, 329.63, 293.66, 349.23],
+                night:  [220.00, 261.63, 329.63, 392.00, 329.63, 261.63, 196.00, 246.94],
+                boss:   [196.00, 233.08, 261.63, 293.66, 311.13, 293.66, 261.63, 233.08]
+            };
+
+            const notes = melodies[currentBgmTrack] || melodies.sunset;
+            let step = 0;
+            const tempoMs = currentBgmTrack === 'boss' ? 210 : 360;
+
+            bgmNoteTimer = setInterval(() => {
+                if (!isBgmPlaying || !audioCtx) return;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = currentBgmTrack === 'boss' ? 'sawtooth' : 'square';
+                osc.frequency.setValueAtTime(notes[step % notes.length], audioCtx.currentTime);
+
+                gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (tempoMs / 1000) * 0.9);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + (tempoMs / 1000));
+                step++;
+            }, tempoMs);
+        }
+
+        function stopBgmLoop() {
+            if (bgmNoteTimer) {
+                clearInterval(bgmNoteTimer);
+                bgmNoteTimer = null;
+            }
+            if (waveNoiseNode) {
+                try { waveNoiseNode.stop(); } catch (e) {}
+                waveNoiseNode = null;
+            }
+        }
+
+        function playPixelSound(type) {
+            try {
+                ensureAudioContext();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'square';
+
+                const now = audioCtx.currentTime;
+                if (type === 'click') {
+                    osc.frequency.setValueAtTime(520, now);
+                    gain.gain.setValueAtTime(0.03, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.06);
+                } else if (type === 'correct') {
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.setValueAtTime(659.25, now + 0.08);
+                    gain.gain.setValueAtTime(0.04, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.22);
+                } else if (type === 'wrong') {
+                    osc.frequency.setValueAtTime(190, now);
+                    osc.frequency.setValueAtTime(140, now + 0.1);
+                    gain.gain.setValueAtTime(0.05, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.25);
+                } else if (type === 'levelup') {
+                    osc.frequency.setValueAtTime(440, now);
+                    osc.frequency.setValueAtTime(554.37, now + 0.08);
+                    osc.frequency.setValueAtTime(659.25, now + 0.16);
+                    osc.frequency.setValueAtTime(880, now + 0.24);
+                    gain.gain.setValueAtTime(0.05, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.45);
+                }
+            } catch (e) {}
+        }
+
+        // ==========================================================
+        // MODAL HELPER FUNCTIONS
+        // ==========================================================
+        function showPixelModal(title, message) {
+            document.getElementById('pixel-modal-title').textContent = title;
+            document.getElementById('pixel-modal-body').textContent = message;
+            document.getElementById('pixel-modal').classList.remove('hidden');
+        }
+
+        function closePixelModal() {
+            playPixelSound('click');
+            document.getElementById('pixel-modal').classList.add('hidden');
+        }
+
+        function openCreditModal() {
+            playPixelSound('click');
+            document.getElementById('credit-modal').classList.remove('hidden');
+        }
+
+        function closeCreditModal() {
+            playPixelSound('click');
+            document.getElementById('credit-modal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
