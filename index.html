@@ -285,7 +285,6 @@
                     <div class="w-14 h-14 sm:w-16 sm:h-16 avatar-sprite -mb-2.5 relative z-10" id="boat-sprite-jpg"></div>
                     <!-- Detailed Pixel Wooden Boat -->
                     <div class="relative flex flex-col items-center">
-                        <!-- Wooden Prow & Stern Posts -->
                         <div class="w-32 sm:w-36 flex justify-between px-1 -mb-1 relative z-20 pointer-events-none">
                             <div class="w-2 h-3 bg-[#5c2c14] border border-[#181026]"></div>
                             <div class="w-2 h-3 bg-[#5c2c14] border border-[#181026]"></div>
@@ -293,12 +292,10 @@
                         <div class="w-30 sm:w-34 h-10 bg-[#8c4a27] border-3 border-[#181026] relative flex flex-col items-center justify-center shadow-[4px_4px_0px_#181026]" style="clip-path: polygon(0% 0%, 100% 0%, 82% 100%, 18% 100%); width: 8rem;">
                             <div class="w-full h-2 bg-[#c87946] border-b border-[#47210e] absolute top-0"></div>
                             <div class="w-full h-1.5 bg-[#633218] absolute bottom-2"></div>
-                            <!-- Rivets -->
                             <div class="w-1 h-1 bg-[#ffd942] absolute top-2.5 left-4"></div>
                             <div class="w-1 h-1 bg-[#ffd942] absolute top-2.5 right-4"></div>
                             <span class="font-pixel-title text-[7px] text-[#ffd942] relative z-10 mt-0.5 drop-shadow-[1px_1px_0px_#181026]">PERAHU JPG</span>
                         </div>
-                        <!-- Water Splash Foam under Hull -->
                         <div class="w-24 h-1.5 bg-white/90 border-b border-[#7be3f6] -mt-0.5"></div>
                     </div>
                     <div class="boat-lantern hidden w-3.5 h-3.5 bg-[#fff36b] border border-[#ff8800] rounded-full shadow-[0_0_14px_#ffdd00] -mt-9 ml-24 z-30 pointer-events-none"></div>
@@ -379,7 +376,7 @@
                 <!-- PERAHU 5: QUIZ KILAT -->
                 <div onclick="openBoatWorkspace('quiz')" class="boat-anim-1 group cursor-pointer flex flex-col items-center">
                     <div class="bg-[#fff6d6] text-[#181026] border-2 border-[#181026] px-2 py-1 font-pixel-title text-[8px] mb-1.5 shadow-[2px_2px_0px_#181026] group-hover:bg-[#ffd942] text-center">
-                        #5 QUIZ KILAT
+                        #5 QUIZ KULIAH
                     </div>
                     <div class="w-14 h-14 sm:w-16 sm:h-16 avatar-sprite -mb-2.5 relative z-10" id="boat-sprite-quiz"></div>
                     <div class="relative flex flex-col items-center">
@@ -402,7 +399,7 @@
                 <!-- PERAHU 6: SIMULASI UJIAN -->
                 <div onclick="openBoatWorkspace('ujian')" class="boat-anim-2 group cursor-pointer flex flex-col items-center">
                     <div class="bg-[#fff6d6] text-[#181026] border-2 border-[#181026] px-2 py-1 font-pixel-title text-[8px] mb-1.5 shadow-[2px_2px_0px_#181026] group-hover:bg-[#ffd942] text-center">
-                        #6 SIMULASI UJIAN
+                        #6 SIMULASI UTS/UAS
                     </div>
                     <div class="w-14 h-14 sm:w-16 sm:h-16 avatar-sprite -mb-2.5 relative z-10" id="boat-sprite-ujian"></div>
                     <div class="relative flex flex-col items-center">
@@ -469,8 +466,8 @@
                     <button onclick="openBoatWorkspace('dokumen')" class="rpg-btn bg-[#2374e1] text-white px-2.5 py-2 font-pixel-title text-[8px]">
                         📂 UPLOAD 15 FILE
                     </button>
-                    <button onclick="openBoatWorkspace('rangkuman')" class="rpg-btn bg-[#ff6b9d] text-[#181026] px-2.5 py-2 font-pixel-title text-[8px]">
-                        📝 RANGKUMAN
+                    <button onclick="openBoatWorkspace('ujian')" class="rpg-btn bg-[#d92b3a] text-white px-2.5 py-2 font-pixel-title text-[8px]">
+                        ⚔️ SIMULASI UTS/UAS
                     </button>
                 </div>
             </div>
@@ -495,8 +492,8 @@
                 <button onclick="selectBoatFeature('dokumen')" id="tab-btn-dokumen" class="rpg-btn bg-[#b81d2c] text-white px-2.5 py-1.5 font-pixel-title text-[8px]">#2 WORD/PDF (15x)</button>
                 <button onclick="selectBoatFeature('rangkuman')" id="tab-btn-rangkuman" class="rpg-btn bg-[#ff6b9d] text-[#181026] px-2.5 py-1.5 font-pixel-title text-[8px]">#3 RANGKUMAN</button>
                 <button onclick="selectBoatFeature('penjelasan')" id="tab-btn-penjelasan" class="rpg-btn bg-[#4cd964] text-[#181026] px-2.5 py-1.5 font-pixel-title text-[8px]">#4 PENJELASAN</button>
-                <button onclick="selectBoatFeature('quiz')" id="tab-btn-quiz" class="rpg-btn bg-[#ffd942] text-[#181026] px-2.5 py-1.5 font-pixel-title text-[8px]">#5 QUIZ</button>
-                <button onclick="selectBoatFeature('ujian')" id="tab-btn-ujian" class="rpg-btn bg-[#d92b3a] text-white px-2.5 py-1.5 font-pixel-title text-[8px]">#6 UJIAN</button>
+                <button onclick="selectBoatFeature('quiz')" id="tab-btn-quiz" class="rpg-btn bg-[#ffd942] text-[#181026] px-2.5 py-1.5 font-pixel-title text-[8px]">#5 QUIZ S1</button>
+                <button onclick="selectBoatFeature('ujian')" id="tab-btn-ujian" class="rpg-btn bg-[#d92b3a] text-white px-2.5 py-1.5 font-pixel-title text-[8px]">#6 SIMULASI UTS/UAS</button>
             </div>
         </div>
 
@@ -512,7 +509,7 @@
                                 class="w-full sm:min-w-[290px] p-1.5 bg-[#181026] text-[#ffd942] border-2 border-[#181026] font-pixel-title text-[9px] sm:text-[10px] focus:outline-none cursor-pointer">
                         </select>
                         <p id="active-doc-meta" class="text-xs text-stone-600 mt-1">
-                            Sumber: Pustaka Materi • Soal Quiz & Simulasi Ujian dikalibrasi untuk standar UTS/UAS Perguruan Tinggi (S1).
+                            Sumber: Pustaka Materi • 4 Tipe Soal Akademik Kampus (Studi Kasus, Sebab-Akibat, Kompleks 1-2-3-4, Kritik Metodologi).
                         </p>
                     </div>
                 </div>
@@ -627,7 +624,7 @@
                     <span class="bg-[#b81d2c] text-white font-pixel-title text-[10px] px-2.5 py-1.5 border-2 border-[#181026]">PERAHU #2 • WORD & PDF</span>
                     <div>
                         <h3 class="font-pixel-title text-xs sm:text-sm text-[#181026]">DERMAGA MULTI-UPLOAD MATERI (MAKSIMAL 15 FILE SEKALIGUS)</h3>
-                        <p class="text-xs text-stone-600">Unggah hingga 15 dokumen (.PDF / .DOCX / .TXT) sekaligus, lalu pilih materi mana pun untuk dijadikan soal UTS/UAS!</p>
+                        <p class="text-xs text-stone-600">Unggah hingga 15 dokumen (.PDF / .DOCX / .TXT) sekaligus, lalu sistem otomatis merakit 4 tipe soal ujian tingkat universitas!</p>
                     </div>
                 </div>
                 <div class="flex flex-wrap gap-1.5">
@@ -767,43 +764,55 @@
                 <div id="explanation-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </div>
 
-            <!-- BOAT 5 VIEW: QUIZ KILAT (STANDAR KUIS PERKULIAHAN S1) -->
+            <!-- BOAT 5 VIEW: QUIZ PERKULIAHAN (4 TIPE SOAL AKADEMIK KAMPUS) -->
             <div id="view-quiz" class="hidden space-y-4">
                 <div class="flex flex-wrap items-center justify-between gap-2 border-b-4 border-[#181026] pb-3">
                     <div class="flex items-center gap-3">
-                        <span class="bg-[#ffd942] text-[#181026] font-pixel-title text-[10px] px-2.5 py-1 border-2 border-[#181026]">PERAHU #5 • QUIZ</span>
-                        <h3 class="font-pixel-title text-xs sm:text-sm">KUIS ANALISIS KASUS PERKULIAHAN (STANDAR S1)</h3>
+                        <span class="bg-[#ffd942] text-[#181026] font-pixel-title text-[10px] px-2.5 py-1 border-2 border-[#181026]">PERAHU #5 • QUIZ S1</span>
+                        <h3 class="font-pixel-title text-xs sm:text-sm">KUIS AKADEMIK PERGURUAN TINGGI (MULTI-TIPE SOAL KAMPUS)</h3>
                     </div>
                     <div class="flex flex-wrap items-center gap-2">
                         <span id="quiz-score-badge" class="bg-[#181026] text-[#4cd964] font-pixel-title text-[9px] px-3 py-1.5">SKOR: 0 BENAR</span>
-                        <button onclick="renderQuizView()" class="rpg-btn bg-[#ff8811] text-white px-3 py-1.5 font-pixel-title text-[8px]">🔄 ACAK ULANG SOAL</button>
+                        <button onclick="renderQuizView()" class="rpg-btn bg-[#ff8811] text-white px-3 py-1.5 font-pixel-title text-[8px]">🔄 GENERATE SOAL BARU</button>
                     </div>
                 </div>
 
-                <!-- Quiz Difficulty (Bloom Taxonomy C3-C6) & Question Count Config Bar -->
+                <!-- Quiz Difficulty, Question Type Filter & Count Config Bar -->
                 <div class="bg-[#231934] text-white border-4 border-[#181026] p-3.5 space-y-2.5">
                     <div class="flex flex-wrap items-center justify-between gap-3">
                         <div class="flex flex-wrap items-center gap-1.5">
-                            <span class="font-pixel-title text-[9px] text-[#ffd942]">🎓 LEVEL KOGNITIF (BLOOM S1):</span>
-                            <button onclick="setQuizDifficulty('easy')" id="quiz-diff-easy" class="rpg-btn bg-[#3a2b52] text-white px-2.5 py-1 font-pixel-title text-[8px]">🟢 C3 • APLIKASI KONSEP</button>
-                            <button onclick="setQuizDifficulty('normal')" id="quiz-diff-normal" class="rpg-btn bg-[#ffd942] text-[#181026] px-2.5 py-1 font-pixel-title text-[8px]">🟡 C4 • ANALISIS MEKANISME</button>
-                            <button onclick="setQuizDifficulty('hard')" id="quiz-diff-hard" class="rpg-btn bg-[#3a2b52] text-white px-2.5 py-1 font-pixel-title text-[8px]">🔴 C5/C6 • EVALUASI & SINTESIS</button>
+                            <span class="font-pixel-title text-[9px] text-[#ffd942]">🎓 LEVEL KOGNITIF KULIAH:</span>
+                            <button onclick="setQuizDifficulty('easy')" id="quiz-diff-easy" class="rpg-btn bg-[#3a2b52] text-white px-2.5 py-1 font-pixel-title text-[8px]">🟢 C3 • APLIKASI KASUS</button>
+                            <button onclick="setQuizDifficulty('normal')" id="quiz-diff-normal" class="rpg-btn bg-[#ffd942] text-[#181026] px-2.5 py-1 font-pixel-title text-[8px]">🟡 C4 • ANALISIS UTS</button>
+                            <button onclick="setQuizDifficulty('hard')" id="quiz-diff-hard" class="rpg-btn bg-[#3a2b52] text-white px-2.5 py-1 font-pixel-title text-[8px]">🔴 C5/C6 • EVALUASI & SINTESIS UAS</button>
                         </div>
 
                         <div class="flex flex-wrap items-center gap-1.5">
                             <span class="font-pixel-title text-[9px] text-[#7be3f6]">🔢 JUMLAH SOAL:</span>
-                            <button onclick="setQuizQuestionCount(3)" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[8px]">3 Soal</button>
-                            <button onclick="setQuizQuestionCount(5)" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[8px]">5 Soal</button>
-                            <button onclick="setQuizQuestionCount(10)" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[8px]">10 Soal</button>
-                            <button onclick="setQuizQuestionCount(15)" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[8px]">15 Soal</button>
+                            <button onclick="setQuizQuestionCount(4)" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[8px]">4 Soal</button>
+                            <button onclick="setQuizQuestionCount(8)" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[8px]">8 Soal</button>
+                            <button onclick="setQuizQuestionCount(12)" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[8px]">12 Soal</button>
                             <div class="flex items-center gap-1 ml-1">
                                 <input type="number" id="custom-quiz-count" min="1" max="30" value="5" class="w-14 p-1 bg-[#120b1d] text-[#ffd942] border border-white font-pixel-mono text-sm text-center">
                                 <button onclick="applyCustomQuizCount()" class="rpg-btn bg-[#ffd942] text-[#181026] px-2 py-1 font-pixel-title text-[8px]">SET</button>
                             </div>
                         </div>
                     </div>
+
+                    <!-- University Question Type Selector -->
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-t border-[#3a2b52] pt-2">
+                        <div class="flex flex-wrap items-center gap-1.5">
+                            <span class="font-pixel-title text-[8px] text-[#ff9ebb]">🧩 TIPE SOAL KULIAH:</span>
+                            <button onclick="setQuizTypeFilter('all')" id="quiz-type-all" class="rpg-btn bg-[#4cd964] text-[#181026] px-2 py-1 font-pixel-title text-[7px]">SEMUA TIPE (CAMPURAN)</button>
+                            <button onclick="setQuizTypeFilter('vignette')" id="quiz-type-vignette" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[7px]">STUDI KASUS VIGNETTE</button>
+                            <button onclick="setQuizTypeFilter('causal')" id="quiz-type-causal" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[7px]">SEBAB - AKIBAT (KAUSALITAS)</button>
+                            <button onclick="setQuizTypeFilter('complex')" id="quiz-type-complex" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[7px]">MULTI-PROPOSISI (1,2,3,4)</button>
+                            <button onclick="setQuizTypeFilter('critique')" id="quiz-type-critique" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[7px]">AUDIT & KRITIK METODOLOGI</button>
+                        </div>
+                    </div>
+
                     <div id="quiz-config-summary" class="font-pixel-mono text-xs text-amber-200 border-t border-[#3a2b52] pt-1.5">
-                        Standar Aktif: C4 Analisis Mekanisme (Setara Kuis/UTS S1) • 5 Soal • Hadiah: +25 EXP / Jawaban Tepat
+                        Standar Aktif: C4 Analisis Mekanisme (Setara UTS S1) • Tipe Campuran Akademik • 5 Soal
                     </div>
                 </div>
 
@@ -814,8 +823,8 @@
             <div id="view-ujian" class="hidden space-y-4">
                 <div class="flex flex-wrap items-center justify-between gap-2 border-b-4 border-[#181026] pb-3">
                     <div class="flex items-center gap-3">
-                        <span class="bg-[#d92b3a] text-white font-pixel-title text-[10px] px-2.5 py-1 border-2 border-[#181026]">PERAHU #6 • UJIAN</span>
-                        <h3 class="font-pixel-title text-xs sm:text-sm">SIMULASI UTS / UAS PERGURUAN TINGGI (STUDI KASUS & HOTS)</h3>
+                        <span class="bg-[#d92b3a] text-white font-pixel-title text-[10px] px-2.5 py-1 border-2 border-[#181026]">PERAHU #6 • UJIAN S1</span>
+                        <h3 class="font-pixel-title text-xs sm:text-sm">SIMULASI UTS / UAS PERGURUAN TINGGI (STUDI KASUS, SEBAB-AKIBAT & KOMPLEKS)</h3>
                     </div>
                     <div class="flex items-center gap-2">
                         <span id="exam-timer-display" class="bg-[#181026] text-[#ffd942] font-pixel-title text-xs px-3 py-1.5 border-2 border-[#ffd942]">⏱️ 10:00</span>
@@ -824,12 +833,12 @@
                     </div>
                 </div>
 
-                <!-- Flexible Exam Timer, Difficulty (UTS/UAS S1) & Question Count Config Bar -->
+                <!-- Flexible Exam Timer, Difficulty (UTS/UAS S1), Question Type & Count Config Bar -->
                 <div class="bg-[#231934] text-white border-4 border-[#181026] p-3.5 space-y-3">
                     <div class="flex flex-wrap items-center justify-between gap-3 border-b border-[#3a2b52] pb-2.5">
                         <div class="flex flex-wrap items-center gap-1.5">
                             <span class="font-pixel-title text-[9px] text-[#ff9ebb]">⚔️ STANDAR SOAL UTS/UAS:</span>
-                            <button onclick="setExamDifficulty('easy')" id="exam-diff-easy" class="rpg-btn bg-[#3a2b52] text-white px-2.5 py-1 font-pixel-title text-[8px]">🟢 C3 • STUDI KASUS TERAPAN</button>
+                            <button onclick="setExamDifficulty('easy')" id="exam-diff-easy" class="rpg-btn bg-[#3a2b52] text-white px-2.5 py-1 font-pixel-title text-[8px]">🟢 C3 • KASUS TERAPAN</button>
                             <button onclick="setExamDifficulty('normal')" id="exam-diff-normal" class="rpg-btn bg-[#ffd942] text-[#181026] px-2.5 py-1 font-pixel-title text-[8px]">🟡 C4 • ANALISIS KOMPARATIF UTS</button>
                             <button onclick="setExamDifficulty('hard')" id="exam-diff-hard" class="rpg-btn bg-[#3a2b52] text-white px-2.5 py-1 font-pixel-title text-[8px]">🔴 C5/C6 • EVALUASI KRITIS UAS</button>
                         </div>
@@ -841,9 +850,21 @@
                             <button onclick="setExamQuestionCount(15)" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[8px]">15 Soal</button>
                             <button onclick="setExamQuestionCount(20)" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[8px]">20 Soal</button>
                             <div class="flex items-center gap-1 ml-1">
-                                <input type="number" id="custom-exam-count" min="1" max="40" value="5" class="w-14 p-1 bg-[#120b1d] text-[#ffd942] border border-white font-pixel-mono text-sm text-center">
+                                <input type="number" id="custom-exam-count" min="1" max="40" value="6" class="w-14 p-1 bg-[#120b1d] text-[#ffd942] border border-white font-pixel-mono text-sm text-center">
                                 <button onclick="applyCustomExamCount()" class="rpg-btn bg-[#4cd964] text-[#181026] px-2 py-1 font-pixel-title text-[8px]">SET</button>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Exam Question Type Filter -->
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-[#3a2b52] pb-2.5">
+                        <div class="flex flex-wrap items-center gap-1.5">
+                            <span class="font-pixel-title text-[8px] text-[#4cd964]">🧩 FORMAT SOAL UJIAN:</span>
+                            <button onclick="setExamTypeFilter('all')" id="exam-type-all" class="rpg-btn bg-[#4cd964] text-[#181026] px-2 py-1 font-pixel-title text-[7px]">SEMUA FORMAT UTS/UAS</button>
+                            <button onclick="setExamTypeFilter('vignette')" id="exam-type-vignette" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[7px]">STUDI KASUS VIGNETTE</button>
+                            <button onclick="setExamTypeFilter('causal')" id="exam-type-causal" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[7px]">SEBAB - AKIBAT</button>
+                            <button onclick="setExamTypeFilter('complex')" id="exam-type-complex" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[7px]">MULTI-PROPOSISI (1,2,3,4)</button>
+                            <button onclick="setExamTypeFilter('critique')" id="exam-type-critique" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[7px]">KRITIK METODOLOGI</button>
                         </div>
                     </div>
 
@@ -873,7 +894,7 @@
                     </div>
 
                     <div id="exam-config-summary" class="font-pixel-mono text-xs text-amber-200 border-t border-[#3a2b52] pt-1.5">
-                        Konfigurasi Ujian: C4 Analisis Komparatif UTS • 5 Soal • Hadiah Lulus: +135 EXP
+                        Konfigurasi Ujian: C4 Analisis Komparatif UTS • Semua Format Soal Kampus • 6 Soal
                     </div>
                 </div>
 
@@ -882,7 +903,7 @@
 
                 <div class="pt-2">
                     <button id="submit-exam-btn" onclick="submitExamSimulation()" class="w-full rpg-btn bg-[#45b849] text-white py-3 px-4 font-pixel-title text-xs">
-                        ✅ KUMPULKAN LEMBAR JAWABAN UTS/UAS (+135 EXP)
+                        ✅ KUMPULKAN LEMBAR JAWABAN UTS/UAS (+150 EXP)
                     </button>
                 </div>
             </div>
@@ -1077,7 +1098,7 @@
     </footer>
 
     <!-- ==========================================================
-         JAVASCRIPT ENGINE: UNIVERSITY-GRADE (UTS/UAS S1) QUESTION ENGINE
+         JAVASCRIPT ENGINE: UNIVERSITY-GRADE MULTI-FORMAT QUESTION ENGINE
          ========================================================== -->
     <script>
         if (window.pdfjsLib) {
@@ -1279,7 +1300,7 @@
         }
 
         // ==========================================================
-        // UNIVERSITY-GRADE (UTS/UAS S1) DEMO DATASETS
+        // UNIVERSITY-GRADE (UTS/UAS S1) DEMO DATASETS WITH 4 QUESTION FORMATS
         // ==========================================================
         const DEMO_DATASETS = {
             ai: {
@@ -1317,6 +1338,8 @@
                 ],
                 quiz: [
                     {
+                        qType: "vignette",
+                        typeBadge: "STUDI KASUS VIGNETTE",
                         tanya: "Sebuah tim peneliti melatih model Deep Neural Network untuk prediksi kredit macet dan memperoleh akurasi 99,4% pada training set, namun F1-Score anjlok menjadi 58,2% pada validation set independen. Berdasarkan teori Bias-Variance Tradeoff, diagnosis metodologis dan intervensi arsitektural manakah yang paling tepat?",
                         opsi: [
                             "Model mengalami High Variance (Overfitting); perlu ditambahkan penalti regularisasi L2 (weight decay), lapisan Dropout, atau peningkatan rasio data latih terhadap kompleksitas parameter.",
@@ -1328,26 +1351,43 @@
                         bahas: "Kesenjangan ekstrem antara performa training (99,4%) dan validation (58,2%) merupakan indikator klasik High Variance (Overfitting). Solusi ilmiahnya adalah membatasi ruang hipotesis melalui regularisasi L2, Dropout, atau early stopping."
                     },
                     {
-                        tanya: "Dalam perancangan sistem deteksi anomali transaksi perbankan, analis dihadapkan pada jutaan log transaksi waktu nyata namun hanya 0,01% yang memiliki label verifikasi auditor. Pendekatan pemodelan manakah yang paling rasional secara komputasional dan metodologis?",
+                        qType: "causal",
+                        typeBadge: "ANALISIS SEBAB-AKIBAT",
+                        tanya: "PERNYATAAN:\nPenambahan suku penalti Regularisasi L2 (Ridge) pada fungsi objektif model jaringan saraf tiruan mampu menekan risiko overfitting pada data out-of-sample.\n\nSEBAB:\nRegularisasi L2 bekerja dengan mendorong magnitudo bobot parameter yang ekstrem mendekati nol sehingga mengurangi sensitivitas model terhadap fluktuasi noise pada training set.",
                         opsi: [
-                            "Menerapkan Unsupervised / Semi-Supervised Anomaly Detection (seperti Isolation Forest atau Autoencoder) untuk memodelkan distribusi laten transaksi normal dan menandai deviasi rekonstruksi tinggi.",
-                            "Membuang 99,99% data tanpa label dan hanya melatih regresi linier sederhana pada 0,01% data berlabel tanpa validasi silang.",
-                            "Menggunakan Reinforcement Learning murni tanpa mendefinisikan state space maupun fungsi reward sama sekali.",
-                            "Menyandikan nomor urut ID transaksi sebagai fitur prediktor utama pada algoritma Decision Tree tanpa pemangkasan (unpruned)."
+                            "Pernyataan BENAR, alasan BENAR, dan keduanya menunjukkan hubungan SEBAB-AKIBAT yang sahih secara matematis.",
+                            "Pernyataan BENAR dan alasan BENAR, namun keduanya TIDAK memiliki hubungan sebab-akibat.",
+                            "Pernyataan BENAR, sedangkan alasan SALAH secara teoretis.",
+                            "Pernyataan SALAH, sedangkan alasan BENAR secara empiris."
                         ],
                         benar: 0,
-                        bahas: "Ketika label sangat langka dan mahal diperoleh, pendekatan Unsupervised atau Semi-Supervised berbasis rekonstruksi manifold (Autoencoder/Isolation Forest) jauh lebih valid dibanding membuang mayoritas populasi data."
+                        bahas: "Format Sebab-Akibat: Pernyataan pertama benar (efek regularisasi L2 mencegah overfitting) dan alasan kedua menjelaskan mekanisme matematisnya secara tepat (penalti kuadratik menyusutkan bobot parameter L2 norm)."
                     },
                     {
-                        tanya: "Mengapa penggunaan metrik akurasi (Accuracy) semata dianggap cacat metodologis saat mengevaluasi model klasifikasi biner pada dataset medis dengan proporsi kelas positif (penyakit langka) hanya 1%?",
+                        qType: "complex",
+                        typeBadge: "EVALUASI MULTI-PROPOSISI (1-2-3-4)",
+                        tanya: "Manakah di antara proposisi metodologis berikut yang VALID dalam mengevaluasi model klasifikasi biner pada dataset medis yang sangat timpang (99% pasien sehat, 1% pasien terinfeksi)?\n\n(1) Metrik akurasi (Accuracy) tidak reliabel karena model naif yang menebak seluruh sampel 'Sehat' tetap mendapat skor 99%.\n(2) Kurva Precision-Recall AUC dan F1-Score lebih informatif dibanding akurasi biasa dalam mengukur kinerja pada kelas minoritas.\n(3) Pemisahan data wajib dilakukan dengan Stratified K-Fold Cross-Validation agar proporsi kelas terjaga di setiap lipatan.\n(4) Menghapus seluruh fungsi aktivasi dan menggantinya dengan tebakan acak akan menaikkan nilai True Positive secara pasti.",
                         opsi: [
-                            "Karena model naif yang memprediksi seluruh pasien 'Negatif' akan tetap memperoleh akurasi 99% meskipun memiliki Recall (Sensitivitas) 0% terhadap kasus penyakit sebenarnya.",
-                            "Karena metrik akurasi secara matematis tidak dapat dihitung apabila jumlah sampel melebihi 1.000 observasi.",
-                            "Karena akurasi hanya berlaku untuk algoritma Unsupervised Clustering dan tidak terdefinisi pada matriks konfusi (Confusion Matrix).",
-                            "Karena nilai akurasi selalu berbanding terbalik dengan nilai True Negative Rate pada seluruh distribusi data seimbang."
+                            "Proposisi (1), (2), dan (3) BENAR.",
+                            "Hanya proposisi (1) dan (3) yang BENAR.",
+                            "Hanya proposisi (2) dan (4) yang BENAR.",
+                            "Hanya proposisi (4) yang BENAR."
                         ],
                         benar: 0,
-                        bahas: "Pada Imbalanced Dataset (99% negatif : 1% positif), terjadi Accuracy Paradox. Evaluasi tingkat universitas wajib menggunakan Precision-Recall AUC, F1-Score, atau Matthews Correlation Coefficient (MCC)."
+                        bahas: "Pada kasus Imbalanced Dataset: Proposisi (1) menjelaskan Accuracy Paradox, (2) menawarkan metrik evaluasi yang tepat, dan (3) menjaga distribusi lewat Stratified K-Fold. Proposisi (4) jelas keliru."
+                    },
+                    {
+                        qType: "critique",
+                        typeBadge: "AUDIT & KRITIK METODOLOGI",
+                        tanya: "Dalam sebuah sidang skripsi, seorang mahasiswa mengklaim bahwa algoritma K-Means Clustering miliknya berhasil mencapai 'Akurasi Prediksi Label Sebesar 98%' tanpa pernah menggunakan variabel target atau ground-truth sama sekali selama pelatihan maupun evaluasi. Di manakah letak kekeliruan epistemologis pada klaim tersebut?",
+                        opsi: [
+                            "K-Means merupakan algoritma Unsupervised Learning yang meminimalkan inersia jarak intra-klaster (seperti Silhouette Score atau Davies-Bouldin Index), sehingga klaim 'akurasi prediksi label' tanpa ground-truth adalah kekeliruan kategori metrik.",
+                            "K-Means seharusnya dievaluasi menggunakan Mean Squared Error terhadap label regresi kontinu yang diacak secara stokastik.",
+                            "Klaim tersebut sudah benar karena inersia klaster selalu identik secara matematis dengan probabilitas bersyarat pada teorema Bayes.",
+                            "Kekeliruannya hanya terletak pada jumlah iterasi, karena K-Means merupakan algoritma Reinforcement Learning berbasis fungsi reward."
+                        ],
+                        benar: 0,
+                        bahas: "Kritik Metodologi: Unsupervised Clustering tidak memiliki label target (ground-truth), sehingga evaluasi validitas internalnya menggunakan kohesi/separasi klaster (Silhouette Coefficient/Inertia), bukan akurasi klasifikasi."
                     }
                 ]
             },
@@ -1376,6 +1416,8 @@
                 ],
                 quiz: [
                     {
+                        qType: "vignette",
+                        typeBadge: "STUDI KASUS VIGNETTE",
                         tanya: "Suatu perekonomian mengalami guncangan kenaikan harga energi global secara mendadak yang menggeser kurva Penawaran Agregat Jangka Pendek (SRAS) ke kiri, memicu lonjakan harga umum sekaligus kontraksi PDB riil (Stagflasi). Mengapa intervensi tunggal berupa ekspansi moneter agresif (penurunan suku bunga acuan) oleh Bank Sentral berisiko memperburuk ketidakstabilan makro?",
                         opsi: [
                             "Karena stimulus permintaan agregat di tengah hambatan kapasitas pasokan akan memicu spiral ekspektasi inflasi yang jauh lebih tinggi tanpa menyelesaikan akar guncangan biaya produksi.",
@@ -1384,18 +1426,33 @@
                             "Karena pada kondisi stagflasi nilai angka pengganda uang (money multiplier) selalu bernilai negatif tak terhingga."
                         ],
                         benar: 0,
-                        bahas: "Pada kasus Cost-Push Inflation / Stagflasi, pelonggaran moneter agresif mendorong kurva AD ke kanan saat SRAS menyempit, sehingga mengakselerasi inflasi secara tajam. Penanganan seharusnya dikombinasikan dengan kebijakan sisi penawaran (supply-side policy)."
+                        bahas: "Pada kasus Cost-Push Inflation / Stagflasi, pelonggaran moneter agresif mendorong kurva AD ke kanan saat SRAS menyempit, sehingga mengakselerasi inflasi secara tajam."
                     },
                     {
-                        tanya: "Dalam kerangka analisis model IS-LM pada perekonomian tertutup, apabila pemerintah menempuh kebijakan fiskal ekspansif melalui peningkatan belanja infrastruktur yang dibiayai utang tanpa diimbangi akomodasi jumlah uang beredar oleh Bank Sentral, fenomena keseimbangan baru apakah yang akan terjadi?",
+                        qType: "causal",
+                        typeBadge: "ANALISIS SEBAB-AKIBAT",
+                        tanya: "PERNYATAAN:\nDalam model IS-LM tertutup dengan jumlah uang beredar tetap, peningkatan belanja pemerintah yang dibiayai penerbitan surat utang secara masif dapat memicu fenomena Crowding-Out terhadap investasi swasta.\n\nSEBAB:\nPergeseran kurva IS ke kanan meningkatkan permintaan uang untuk transaksi sehingga mendorong kenaikan suku bunga ekuilibrium yang meningkatkan biaya modal bagi sektor swasta.",
                         opsi: [
-                            "Kurva IS bergeser ke kanan yang mendorong kenaikan suku bunga ekuilibrium, sehingga sebagian dampak ekspansi pendapatan nasional teredam oleh penurunan investasi swasta (Crowding-Out Effect).",
-                            "Kurva LM bergeser tajam ke kanan bawah sehingga suku bunga acuan turun mendekati nol persen dan investasi swasta meningkat secara eksponensial.",
-                            "Tingkat pendapatan ekuilibrium (Y) turun drastis karena angka pengganda belanja pemerintah (government expenditure multiplier) selalu lebih kecil dari nol.",
-                            "Pasar barang dan pasar uang mengalami ekuilibrium statis tanpa perubahan pada tingkat bunga maupun output agregat."
+                            "Pernyataan BENAR, alasan BENAR, dan keduanya menunjukkan hubungan SEBAB-AKIBAT yang sahih dalam teori makroekonomi.",
+                            "Pernyataan BENAR dan alasan BENAR, namun keduanya TIDAK memiliki hubungan sebab-akibat.",
+                            "Pernyataan BENAR, sedangkan alasan SALAH.",
+                            "Pernyataan SALAH, sedangkan alasan BENAR."
                         ],
                         benar: 0,
-                        bahas: "Ekspansi fiskal menggeser kurva IS ke kanan. Dengan penawaran uang riil (M/P) tetap di kurva LM, peningkatan transaksi uang menaikkan suku bunga (r), yang kemudian menekan investasi swasta (I)—inilah mekanisme Crowding-Out."
+                        bahas: "Ekspansi fiskal menggeser kurva IS ke kanan; tanpa akomodasi moneter (LM tetap), tingkat bunga ekuilibrium (r) naik dan menekan komponen investasi swasta (I)."
+                    },
+                    {
+                        qType: "complex",
+                        typeBadge: "EVALUASI MULTI-PROPOSISI (1-2-3-4)",
+                        tanya: "Ketika perekonomian mengalami gejala overheating akibat Demand-Pull Inflation yang melampaui target sasaran inflasi, instrumen kebijakan kontraktif manakah yang konsisten secara teoretis?\n\n(1) Bank Sentral menaikkan suku bunga acuan (policy rate) untuk meredam ekspansi kredit konsumsi dan investasi.\n(2) Bank Sentral menaikkan rasio Giro Wajib Minimum (GWM) perbankan guna menyerap ekses likuiditas.\n(3) Pemerintah melakukan konsolidasi fiskal melalui pengendalian defisit anggaran dan rasionalisasi belanja non-prioritas.\n(4) Bank Sentral mencetak uang kartal baru secara masif untuk dibagikan langsung guna menambah permintaan agregat.",
+                        opsi: [
+                            "Proposisi (1), (2), dan (3) BENAR.",
+                            "Hanya proposisi (1) dan (3) yang BENAR.",
+                            "Hanya proposisi (2) dan (4) yang BENAR.",
+                            "Semua proposisi (1), (2), (3), dan (4) BENAR."
+                        ],
+                        benar: 0,
+                        bahas: "Untuk meredam Demand-Pull Inflation diperlukan kebijakan moneter & fiskal kontraktif (poin 1, 2, dan 3). Poin (4) justru bersifat ekspansif ekstrem yang memicu hiperinflasi."
                     }
                 ]
             },
@@ -1419,6 +1476,8 @@
                 ],
                 quiz: [
                     {
+                        qType: "vignette",
+                        typeBadge: "STUDI KASUS VIGNETTE",
                         tanya: "PT Alpha dan PT Beta menandatangani akta perjanjian kerja sama distribusi komoditas impor di hadapan notaris. Belakangan terungkap bahwa objek komoditas yang diperjanjikan merupakan barang larangan impor berdasarkan peraturan perundang-undangan yang berlaku saat kontrak dibuat. Bagaimanakah konstruksi hukum atas status perjanjian tersebut menurut Pasal 1320 jo. Pasal 1335 KUHPerdata?",
                         opsi: [
                             "Perjanjian tersebut Batal Demi Hukum (Nietig / Null and Void ab initio) karena melanggar Syarat Objektif berupa 'suatu sebab yang halal', sehingga dianggap tidak pernah melahirkan perikatan sejak semula.",
@@ -1430,15 +1489,17 @@
                         bahas: "Kausa/sebab yang bertentangan dengan undang-undang melanggar syarat ke-4 Pasal 1320 KUHPerdata (Syarat Objektif). Konsekuensi yuridisnya adalah Batal Demi Hukum (Nietig) secara ex tunc meskipun dibuat dengan akta notaris."
                     },
                     {
-                        tanya: "Seorang direktur menandatangani kontrak pembelian mesin industri karena didasari tipu muslihat (bedrog) berupa pemalsuan spesifikasi teknis yang sengaja dilakukan oleh pihak penjual. Apabila direktur tersebut ingin menuntut pemulihan haknya di pengadilan, dasar kualifikasi hukum manakah yang paling tepat?",
+                        qType: "causal",
+                        typeBadge: "ANALISIS SEBAB-AKIBAT",
+                        tanya: "PERNYATAAN:\nSuatu kontrak jual-beli yang ditandatangani akibat adanya tipu muslihat (bedrog) dari salah satu pihak tidak otomatis batal demi hukum sejak awal, melainkan berstatus dapat dibatalkan (vernietigbaar).\n\nSEBAB:\nTipu muslihat merupakan bentuk cacat kehendak yang mencederai syarat kesepakatan para pihak, yang dikualifikasikan sebagai Syarat Subjektif dalam Pasal 1320 KUHPerdata.",
                         opsi: [
-                            "Mengajukan gugatan pembatalan perjanjian karena adanya cacat kehendak (penipuan/bedrog) yang melanggar Syarat Subjektif Pasal 1320 KUHPerdata, disertai tuntutan ganti rugi.",
-                            "Menyatakan secara sepihak tanpa proses pembuktian bahwa kontrak tersebut batal demi hukum karena tidak memiliki objek tertentu.",
-                            "Mengajukan permohonan pailit langsung ke Pengadilan Negeri tanpa perlu membuktikan adanya rangkaian kebohongan dari pihak penjual.",
-                            "Menuntut pidana penjara melalui gugatan perdata murni berdasarkan asas konsensualisme Pasal 1338 KUHPerdata."
+                            "Pernyataan BENAR, alasan BENAR, dan keduanya menunjukkan hubungan SEBAB-AKIBAT yuridis yang tepat.",
+                            "Pernyataan BENAR dan alasan BENAR, namun keduanya TIDAK memiliki hubungan sebab-akibat.",
+                            "Pernyataan BENAR, sedangkan alasan SALAH.",
+                            "Pernyataan SALAH, sedangkan alasan BENAR."
                         ],
                         benar: 0,
-                        bahas: "Penipuan (bedrog - Pasal 1328 KUHPerdata) merupakan cacat kehendak yang mencederai unsur 'kesepakatan' (Syarat Subjektif), sehingga berimplikasi perjanjian dapat dimintakan pembatalan (vernietigbaar) kepada hakim."
+                        bahas: "Pelanggaran Syarat Subjektif (kesepakatan yang cacat karena bedrog/penipuan) mengakibatkan kontrak berstatus vernietigbaar (dapat dimintakan pembatalan kepada hakim oleh pihak yang dirugikan)."
                     }
                 ]
             }
@@ -1466,13 +1527,15 @@
         let quizAnsweredCount = 0;
         let examUserAnswers = {};
 
-        // Quiz & Exam Difficulty and Question Count Settings
+        // Quiz & Exam Difficulty, Type Filter, and Question Count Settings
         let quizDifficulty = 'normal'; // 'easy' (C3) | 'normal' (C4) | 'hard' (C5/C6)
+        let quizTypeFilter = 'all';    // 'all' | 'vignette' | 'causal' | 'complex' | 'critique'
         let quizTargetCount = 5;
         let activeQuizQuestions = [];
 
         let examDifficulty = 'normal'; // 'easy' (C3) | 'normal' (C4) | 'hard' (C5/C6)
-        let examTargetCount = 5;
+        let examTypeFilter = 'all';    // 'all' | 'vignette' | 'causal' | 'complex' | 'critique'
+        let examTargetCount = 6;
         let activeExamQuestions = [];
 
         // Exam Timer State
@@ -1560,7 +1623,7 @@
             },
             quiz: {
                 name: "BUZZY SI MASTER QUIZ",
-                role: "Penguji Kuis Studi Kasus S1 (Perahu #5)",
+                role: "Penguji Kuis Akademik S1 (Perahu #5)",
                 badgeBg: "#ff8811",
                 svg: `<svg class="w-full h-full pixel-svg" viewBox="0 0 32 32">
                     <rect x="6" y="7" width="20" height="22" fill="#ff8811"/>
@@ -1601,7 +1664,7 @@
                 message = `"Halo ${heroName}! Aku Arty si Avatar JPG! Serahkan semua foto catatan papan tulis atau lembar tugasmu, akan kugabungkan menjadi 1 dokumen PDF yang rapi!"`;
             } else if (boatKey === 'dokumen') {
                 speaker = AVATAR_SPEAKERS.word;
-                message = `"Salam ${heroName}! Aku Wizzy (Word) bersama rekanku Maestro (PDF). Unggah hingga 15 file materi kuliah atau jurnal sekaligus; sistem akan mengekstraksi proposisi ilmiahnya menjadi soal setingkat UTS/UAS!"`;
+                message = `"Salam ${heroName}! Aku Wizzy (Word) bersama rekanku Maestro (PDF). Unggah hingga 15 file materi kuliah atau jurnal sekaligus; sistem akan membedah proposisi ilmiahnya menjadi 4 tipe soal ujian kampus!"`;
             } else if (boatKey === 'rangkuman') {
                 speaker = AVATAR_SPEAKERS.rangkuman;
                 message = `"Hai ${heroName}! Aku Pinky SUM! Aku sudah membedah struktur argumen dari '${studyData.title}' menjadi poin-poin sintesis akademik supaya kamu siap menghadapi diskusi kelas maupun ujian!"`;
@@ -1610,10 +1673,10 @@
                 message = `"Selamat datang di ruang diskusi, ${heroName}! Aku Prof. INFO bersama para avatar akan mengupas konsep teoretis dari '${studyData.title}' beserta analogi praktisnya!"`;
             } else if (boatKey === 'quiz') {
                 speaker = AVATAR_SPEAKERS.quiz;
-                message = `"Perhatian ${heroName}! Aku Buzzy! Soal kuis di sini telah dikalibrasi ke standar Perguruan Tinggi (Taksonomi Bloom C3 Aplikasi hingga C6 Sintesis) berdasarkan materi '${studyData.title}'. Analisis setiap skenario dengan cermat!"`;
+                message = `"Perhatian ${heroName}! Aku Buzzy! Tidak ada lagi soal titik-titik hafalan di sini—kuis ini menggunakan 4 format ujian kuliah (Studi Kasus Vignette, Analisis Sebab-Akibat, Evaluasi Multi-Proposisi 1-2-3-4, dan Audit Metodologi) dari materi '${studyData.title}'!"`;
             } else if (boatKey === 'ujian') {
                 speaker = AVATAR_SPEAKERS.ujian;
-                message = `"Siapkan nalar kritismu, ${heroName}! Aku Komandan UJIAN. Simulasi ini dirancang setingkat UTS/UAS Mahasiswa S1 dengan studi kasus analitis, uji asumsi teoretis, dan pengecoh metodologis dari '${studyData.title}'!"`;
+                message = `"Siapkan nalar kritismu, ${heroName}! Aku Komandan UJIAN. Simulasi UTS/UAS ini menguji kedalaman kognitif mahasiswa (C3 Aplikasi, C4 Analisis, hingga C6 Evaluasi/Sintesis) dengan format soal perguruan tinggi dari '${studyData.title}'!"`;
             }
 
             portraitEl.innerHTML = speaker.svg;
@@ -2248,7 +2311,7 @@
 
             showPixelModal(
                 `🎉 ${successCount} FILE MATERI DIUNGGAH!`,
-                `Wizzy (Word) & Maestro (PDF) telah membedah ${successCount} dokumen ke dalam Pustaka dan merakit soal studi kasus setingkat UTS/UAS Perguruan Tinggi (+${expGained} EXP).`
+                `Wizzy (Word) & Maestro (PDF) telah membedah ${successCount} dokumen ke dalam Pustaka dan merakit 4 tipe soal ujian tingkat universitas (+${expGained} EXP).`
             );
         }
 
@@ -2256,7 +2319,7 @@
             const raw = document.getElementById('materi-textarea').value.trim();
             const customTitle = document.getElementById('custom-materi-title-input')?.value?.trim() || `Materi Kuliah #${materialsLibrary.length + 1}`;
             if (raw.length < 40) {
-                showPixelModal("TEKS MATERI BELUM CUKUP", "Masukkan atau tempelkan minimal 1 paragraf materi kuliah (minimal 40 karakter) agar sistem dapat menyusun soal studi kasus setingkat UTS/UAS!");
+                showPixelModal("TEKS MATERI BELUM CUKUP", "Masukkan atau tempelkan minimal 1 paragraf materi kuliah (minimal 40 karakter) agar sistem dapat menyusun 4 tipe soal akademik tingkat universitas!");
                 return;
             }
             playPixelSound('correct');
@@ -2280,65 +2343,190 @@
         }
 
         // ==========================================================
-        // UNIVERSITY-GRADE (UTS/UAS S1) QUESTION BUILDER FROM UPLOADED TEXT
+        // UNIVERSITY MULTI-FORMAT QUESTION ENGINE (NO FILL-IN-THE-BLANK!)
+        // Supports 4 Authentic University Question Types:
+        // 1. 'vignette' : Studi Kasus Terapan & Analisis Skenario
+        // 2. 'causal'   : Analisis Sebab-Akibat (Pernyataan - SEBAB - Alasan)
+        // 3. 'complex'  : Evaluasi Multi-Proposisi Kompleks (1, 2, 3, 4)
+        // 4. 'critique' : Audit Metodologi, Kausalitas & Paradigma
         // ==========================================================
-        function buildUniversityQuestionItem(idx, title, primaryProp, secondaryProp, kw1, kw2, bloomLevel) {
+        function buildUniversityQuestionItem(idx, title, primaryProp, secondaryProp, kw1, kw2, bloomLevel, forcedType = null) {
             const cleanProp1 = primaryProp.replace(/\.$/, '').trim();
             const cleanProp2 = (secondaryProp || primaryProp).replace(/\.$/, '').trim();
-            const correctSlot = idx % 4;
 
-            let stem = "";
-            let correctOption = "";
-            let distractors = [];
-            let explanation = "";
+            const typeCycle = ['vignette', 'causal', 'complex', 'critique'];
+            const chosenType = (forcedType && forcedType !== 'all') ? forcedType : typeCycle[idx % typeCycle.length];
 
-            if (bloomLevel === 'easy') {
-                // Bloom C3: Applied Case & Operational Implementation
-                stem = `[Studi Kasus Terapan • C3] Dalam implementasi praktis pada mata kuliah "${title}", seorang peneliti atau praktisi menemukan fenomena yang berkaitan langsung dengan konsep "${kw1}" dan "${kw2}". Berdasarkan landasan teoretis dokumen materi, langkah operasional manakah yang paling konsisten secara metodologis?`;
-                correctOption = `Menerapkan kerangka analisis yang berpijak pada prinsip bahwa ${cleanProp1.charAt(0).toLowerCase() + cleanProp1.slice(1)}, sembari memastikan keselarasan variabel "${kw1}" terhadap konteks empiris.`;
-                distractors = [
-                    `Mengeliminasi variabel "${kw1}" dari model analisis karena mengasumsikan bahwa fenomena pada "${title}" bersifat statis dan bebas dari pengaruh "${kw2}".`,
-                    `Menggantikan kaidah "${kw1}" dengan pendekatan spekulatif tanpa verifikasi data, dengan alasan bahwa ${cleanProp2.substring(0, 55).toLowerCase()}... hanya berlaku pada kondisi vakum.`,
-                    `Membalikkan hubungan kausalitas antara "${kw1}" dan "${kw2}" secara sepihak sehingga bertentangan dengan premis utama materi perkuliahan.`
-                ];
-                explanation = `Analisis Tingkat C3 (Aplikasi): Penerapan konsep "${kw1}" pada kasus nyata wajib berpedoman pada proposisi inti materi: "${cleanProp1}." Opsi pengecoh keliru karena mengabaikan atau membalikkan asumsi dasar tersebut.`;
-            } else if (bloomLevel === 'normal') {
-                // Bloom C4: Analytical Mechanism, Cause-Effect & Assumption Breakdown (UTS Standard)
-                stem = `[Analisis Mekanisme UTS • C4] Perhatikan premis akademik dari materi "${title}" berikut:\n"${cleanProp1}."\nApabila dalam suatu skenario ujian terjadi perubahan struktural pada parameter "${kw1}", implikasi analitis manakah yang paling akurat menjelaskan dinamika hubungan terhadap "${kw2}"?`;
-                correctOption = `Perubahan pada "${kw1}" secara sistemik memengaruhi mekanisme kerja "${kw2}" sesuai dengan dalil bahwa ${cleanProp2.charAt(0).toLowerCase() + cleanProp2.slice(1)}.`;
-                distractors = [
-                    `Variabel "${kw1}" dan "${kw2}" bersifat ortogonal (saling bebas sempurna), sehingga guncangan ekstrem pada "${kw1}" sama sekali tidak mengubah ekuilibrium sistem.`,
-                    `Terjadi anomali reduksionis di mana "${kw2}" secara otomatis meniadakan fungsi "${kw1}" akibat hilangnya validitas internal pada seluruh kerangka "${title}".`,
-                    `Hubungan antara "${kw1}" dan "${kw2}" berubah menjadi paradoks sirkular yang membatalkan seluruh proposisi empiris tanpa memerlukan pengujian ulang.`
-                ];
-                explanation = `Analisis Tingkat C4 (UTS S1): Soal ini menguji pembedahan kausalitas dan mekanisme antar-variabel. Sesuai materi, interaksi "${kw1}" dan "${kw2}" terikat pada kaidah: "${cleanProp2}."`;
-            } else {
-                // Bloom C5/C6: Critical Evaluation, Synthesis & Methodological Critique (UAS HOTS Standard)
-                stem = `[Evaluasi Kritis & Sintesis UAS • C5/C6] Dalam sebuah seminar evaluasi atas topik "${title}", seorang analis mengajukan klaim bahwa konsep "${kw1}" dapat dipisahkan sepenuhnya dari "${kw2}" demi menyederhanakan pengambilan keputusan. Berdasarkan sintesis kritis terhadap keseluruhan isi dokumen materi, evaluasi manakah yang paling tepat untuk membedah kelemahan klaim tersebut?`;
-                correctOption = `Klaim tersebut mengandung cacat metodologis (oversimplification fallacy) karena mengabaikan fakta fundamental bahwa ${cleanProp1.charAt(0).toLowerCase() + cleanProp1.slice(1)}, yang secara integral menuntut keterkaitan dengan "${kw2}".`;
-                distractors = [
-                    `Klaim tersebut sepenuhnya valid secara aksiomatis karena di dalam literatur "${title}", keberadaan "${kw1}" memang dirancang untuk menghapus relevansi teoretis dari "${kw2}".`,
-                    `Kelemahan klaim tersebut semata-mata terletak pada aspek teknis penulisan istilah, bukan pada substansi kausalitas antara "${kw1}" dan "${kw2}".`,
-                    `Klaim tersebut hanya dapat dibantah apabila seluruh landasan teori pada "${title}" diganti dengan asumsi deterministik yang menolak pembuktian empiris.`
-                ];
-                explanation = `Evaluasi Tingkat C5/C6 (UAS HOTS S1): Pada level tertinggi Taksonomi Bloom, mahasiswa dituntut mengevaluasi klaim kritis dan melakukan sintesis. Pemisahan "${kw1}" dari "${kw2}" merusak integritas proposisi: "${cleanProp1}."`;
+            const bloomHeader = bloomLevel === 'easy'
+                ? 'C3 • APLIKASI KONSEP'
+                : bloomLevel === 'normal'
+                    ? 'C4 • ANALISIS MEKANISME'
+                    : 'C5/C6 • EVALUASI & SINTESIS HOTS';
+
+            // ----------------------------------------------------------
+            // TYPE 1: STUDI KASUS VIGNETTE (SCENARIO ANALYSIS)
+            // ----------------------------------------------------------
+            if (chosenType === 'vignette') {
+                const correctSlot = idx % 4;
+                let stem = "";
+                let correctOption = "";
+                let distractors = [];
+                let explanation = "";
+
+                if (bloomLevel === 'easy') {
+                    stem = `Sebuah tim riset di perguruan tinggi sedang menyusun rancangan implementasi pada kajian "${title}" yang berfokus pada interaksi antara "${kw1}" dan "${kw2}". Mengacu pada premis literatur bahwa ${cleanProp1.charAt(0).toLowerCase() + cleanProp1.slice(1)}, keputusan operasional manakah yang paling dapat dipertanggungjawabkan secara ilmiah?`;
+                    correctOption = `Mengintegrasikan parameter "${kw1}" secara proporsional ke dalam desain operasional karena ${cleanProp1.charAt(0).toLowerCase() + cleanProp1.slice(1)}.`;
+                    distractors = [
+                        `Mengabaikan variabel "${kw1}" seluruhnya dan mengasumsikan bahwa "${kw2}" dapat bekerja secara otonom di luar kerangka "${title}".`,
+                        `Mengganti landasan empiris "${kw1}" dengan hipotesis spekulatif tanpa pengujian karena menganggap seluruh proposisi pada "${title}" bersifat statis.`,
+                        `Memisahkan analisis "${kw1}" dari "${kw2}" secara mutlak sehingga bertentangan dengan struktur kausalitas yang dijelaskan dalam materi.`
+                    ];
+                    explanation = `Studi Kasus Terapan (${bloomHeader}): Keputusan operasional pada kasus di atas wajib berpedoman pada proposisi materi: "${cleanProp1}."`;
+                } else if (bloomLevel === 'normal') {
+                    stem = `Dalam sebuah studi kasus komparatif mengenai "${title}", ditemukan adanya pergeseran struktural pada variabel "${kw1}". Berdasarkan telaah analitis terhadap dalil bahwa "${cleanProp1}", bagaimanakah mekanisme transmisi dampak yang paling rasional terhadap "${kw2}"?`;
+                    correctOption = `Pergeseran pada "${kw1}" menginduksi penyesuaian sistemik pada "${kw2}", sejalan dengan prinsip bahwa ${cleanProp2.charAt(0).toLowerCase() + cleanProp2.slice(1)}.`;
+                    distractors = [
+                        `Perubahan struktural pada "${kw1}" bersifat ortogonal (saling bebas sempurna) sehingga tidak menimbulkan implikasi apa pun terhadap "${kw2}".`,
+                        `Variabel "${kw2}" secara otomatis mengalami pembatalan fungsi teoretis karena adanya kontradiksi internal pada kerangka "${title}".`,
+                        `Dinamika antara "${kw1}" dan "${kw2}" berubah menjadi hubungan acak tak terukur yang meniadakan seluruh kaidah metodologis.`
+                    ];
+                    explanation = `Analisis Studi Kasus UTS (${bloomHeader}): Mekanisme kausal antara "${kw1}" dan "${kw2}" terikat pada proposisi kedua: "${cleanProp2}."`;
+                } else {
+                    stem = `Sebuah komite penguji mengevaluasi kebijakan strategis pada bidang "${title}" ketika terjadi anomali ekstrem pada komponen "${kw1}". Apabila tim ahli ingin merumuskan sintesis kebijakan yang tetap menjaga integritas "${kw2}", langkah evaluatif manakah yang paling tepat?`;
+                    correctOption = `Melakukan kalibrasi ulang terhadap parameter "${kw1}" dan "${kw2}" secara simultan dengan berpijak pada fondasi bahwa ${cleanProp1.charAt(0).toLowerCase() + cleanProp1.slice(1)} serta ${cleanProp2.charAt(0).toLowerCase() + cleanProp2.slice(1)}.`;
+                    distractors = [
+                        `Mereduksi keseluruhan sistem "${title}" menjadi satu variabel tunggal dengan menghapus "${kw2}" demi efisiensi jangka pendek.`,
+                        `Mempertahankan parameter lama secara dogmatis tanpa memedulikan perubahan empiris pada "${kw1}" maupun "${kw2}".`,
+                        `Mengadopsi paradigma yang bertolak belakang dengan premis materi sehingga merusak koherensi antara "${kw1}" dan "${kw2}".`
+                    ];
+                    explanation = `Evaluasi & Sintesis Studi Kasus UAS (${bloomHeader}): Sintesis tingkat lanjut mengharuskan harmonisasi dua proposisi utama materi terkait "${kw1}" dan "${kw2}".`;
+                }
+
+                const rotatedOptions = [];
+                let dIdx = 0;
+                for (let s = 0; s < 4; s++) {
+                    rotatedOptions.push(s === correctSlot ? correctOption : distractors[dIdx++]);
+                }
+
+                return {
+                    qType: 'vignette',
+                    typeBadge: 'STUDI KASUS VIGNETTE',
+                    tanya: stem,
+                    opsi: rotatedOptions,
+                    benar: correctSlot,
+                    bahas: explanation
+                };
             }
 
-            const rotatedOptions = [];
-            let dIdx = 0;
-            for (let s = 0; s < 4; s++) {
-                if (s === correctSlot) {
-                    rotatedOptions.push(correctOption);
+            // ----------------------------------------------------------
+            // TYPE 2: ANALISIS SEBAB-AKIBAT (ASSERTION - REASON)
+            // ----------------------------------------------------------
+            if (chosenType === 'causal') {
+                const variant = idx % 3; // 0: True-True-Causal, 1: True-False, 2: False-True
+                let pernyataan = "";
+                let alasan = "";
+                let correctIdx = 0;
+                let bahasCausal = "";
+
+                if (variant === 0) {
+                    pernyataan = `Dalam kerangka kajian "${title}", ${cleanProp1.charAt(0).toLowerCase() + cleanProp1.slice(1)}.`;
+                    alasan = `Konstruksi teoretis mengenai "${kw1}" dan "${kw2}" menunjukkan bahwa ${cleanProp2.charAt(0).toLowerCase() + cleanProp2.slice(1)}.`;
+                    correctIdx = 0;
+                    bahasCausal = `Analisis Sebab-Akibat (${bloomHeader}): Baik Pernyataan maupun Alasan diambil dari proposisi sahih di dalam materi "${title}" dan keduanya saling memperkuat secara kausalitas konseptual.`;
+                } else if (variant === 1) {
+                    pernyataan = `Berdasarkan literatur "${title}", ${cleanProp1.charAt(0).toLowerCase() + cleanProp1.slice(1)}.`;
+                    alasan = `Keberadaan konsep "${kw1}" dirancang khusus untuk mengeliminasi seluruh relevansi empiris dari "${kw2}" sehingga keduanya tidak boleh dianalisis bersamaan.`;
+                    correctIdx = 2;
+                    bahasCausal = `Analisis Sebab-Akibat (${bloomHeader}): Pernyataan pertama BENAR sesuai materi ("${cleanProp1}"), tetapi Alasan kedua SALAH karena memalsukan hubungan antara "${kw1}" dan "${kw2}".`;
                 } else {
-                    rotatedOptions.push(distractors[dIdx++]);
+                    pernyataan = `Dalam kajian "${title}", variabel "${kw1}" terbukti tidak memiliki keterkaitan konseptual maupun metodologis sedikit pun terhadap "${kw2}".`;
+                    alasan = `Dokumen materi secara eksplisit menegaskan bahwa ${cleanProp2.charAt(0).toLowerCase() + cleanProp2.slice(1)}.`;
+                    correctIdx = 3;
+                    bahasCausal = `Analisis Sebab-Akibat (${bloomHeader}): Pernyataan pertama SALAH karena mengingkari peran "${kw1}", sedangkan Alasan kedua BENAR sesuai bunyi proposisi materi ("${cleanProp2}").`;
                 }
+
+                return {
+                    qType: 'causal',
+                    typeBadge: 'ANALISIS SEBAB-AKIBAT',
+                    tanya: `Evaluasilah hubungan kausalitas antara Pernyataan dan Alasan (Sebab) berikut:\n\nPERNYATAAN:\n${pernyataan}\n\nSEBAB:\n${alasan}`,
+                    opsi: [
+                        "Pernyataan BENAR, alasan BENAR, dan keduanya menunjukkan hubungan SEBAB-AKIBAT yang sahih secara akademik.",
+                        "Pernyataan BENAR dan alasan BENAR, namun keduanya TIDAK memiliki hubungan sebab-akibat.",
+                        "Pernyataan BENAR, sedangkan alasan SALAH secara teoretis.",
+                        "Pernyataan SALAH, sedangkan alasan BENAR sesuai materi perkuliahan."
+                    ],
+                    benar: correctIdx,
+                    bahas: bahasCausal
+                };
+            }
+
+            // ----------------------------------------------------------
+            // TYPE 3: EVALUASI MULTI-PROPOSISI KOMPLEKS (1, 2, 3, 4)
+            // ----------------------------------------------------------
+            if (chosenType === 'complex') {
+                const modeComplex = idx % 2; // 0 -> (1),(2),(3) benar; 1 -> (1) dan (3) benar
+                let propListText = "";
+                let correctIdx = 0;
+                let bahasComplex = "";
+
+                if (modeComplex === 0) {
+                    propListText =
+                        `(1) ${cleanProp1}.\n` +
+                        `(2) ${cleanProp2}.\n` +
+                        `(3) Analisis komprehensif pada "${title}" menuntut pemetaan keterkaitan antara "${kw1}" dan "${kw2}" secara metodologis.\n` +
+                        `(4) Seluruh asumsi pada "${title}" tetap valid meskipun peneliti memalsukan data empiris dan mengabaikan variabel "${kw1}".`;
+                    correctIdx = 0;
+                    bahasComplex = `Evaluasi Multi-Proposisi (${bloomHeader}): Proposisi (1), (2), dan (3) selaras dengan substansi materi "${title}". Proposisi (4) jelas keliru karena melanggar etika dan validitas metodologi ilmiah.`;
+                } else {
+                    propListText =
+                        `(1) ${cleanProp1}.\n` +
+                        `(2) Variabel "${kw1}" bersifat mutlak menggantikan seluruh fungsi "${kw2}" sehingga "${kw2}" harus dihapus dari literatur "${title}".\n` +
+                        `(3) Dalam kerangka "${title}", ${cleanProp2.charAt(0).toLowerCase() + cleanProp2.slice(1)}.\n` +
+                        `(4) Pendekatan ilmiah pada "${title}" melarang penggunaan verifikasi data maupun evaluasi kausalitas.`;
+                    correctIdx = 1;
+                    bahasComplex = `Evaluasi Multi-Proposisi (${bloomHeader}): Hanya proposisi (1) dan (3) yang sesuai dengan teks materi kuliah, sedangkan proposisi (2) dan (4) merupakan distorsi reduksionis.`;
+                }
+
+                return {
+                    qType: 'complex',
+                    typeBadge: 'EVALUASI MULTI-PROPOSISI (1-2-3-4)',
+                    tanya: `Telaahlah empat proposisi akademik terkait "${title}" di bawah ini:\n\n${propListText}\n\nKombinasi proposisi manakah yang VALID secara teoretis dan metodologis?`,
+                    opsi: [
+                        "Proposisi (1), (2), dan (3) BENAR.",
+                        "Hanya proposisi (1) dan (3) yang BENAR.",
+                        "Hanya proposisi (2) dan (4) yang BENAR.",
+                        "Semua proposisi (1), (2), (3), dan (4) BENAR."
+                    ],
+                    benar: correctIdx,
+                    bahas: bahasComplex
+                };
+            }
+
+            // ----------------------------------------------------------
+            // TYPE 4: AUDIT & KRITIK METODOLOGI (FALLACY / CRITIQUE)
+            // ----------------------------------------------------------
+            const correctSlot = (idx + 1) % 4;
+            const critiqueStem = `Dalam sebuah forum diskusi ilmiah mengenai "${title}", seorang pemakalah menyimpulkan bahwa konsep "${kw1}" dapat dipisahkan secara total dari "${kw2}" tanpa memengaruhi validitas kesimpulan. Mengacu pada isi dokumen materi, kritik metodologis manakah yang paling tajam dan akurat untuk mengoreksi argumen pemakalah tersebut?`;
+            const critiqueCorrect = `Argumen pemakalah terjebak dalam reduksionisme (oversimplification fallacy) karena mengabaikan kaidah bahwa ${cleanProp1.charAt(0).toLowerCase() + cleanProp1.slice(1)}, yang menuntut integrasi analitis dengan "${kw2}".`;
+            const critiqueDistractors = [
+                `Argumen pemakalah sudah hoàn toàn tak terbantahkan karena literatur "${title}" memang menetapkan bahwa "${kw1}" dan "${kw2}" saling meniadakan.`,
+                `Kesalahan pemakalah hanya terletak pada pemilihan istilah semantik, sebab secara substansi "${kw1}" tidak memiliki dampak terhadap "${cleanProp2.substring(0, 45)}...".`,
+                `Koreksi yang tepat adalah menghapus baik "${kw1}" maupun "${kw2}" sekaligus agar penelitian tidak lagi memerlukan kerangka teori "${title}".`
+            ];
+
+            const rotatedCritique = [];
+            let cIdx = 0;
+            for (let s = 0; s < 4; s++) {
+                rotatedCritique.push(s === correctSlot ? critiqueCorrect : critiqueDistractors[cIdx++]);
             }
 
             return {
-                tanya: stem,
-                opsi: rotatedOptions,
+                qType: 'critique',
+                typeBadge: 'AUDIT & KRITIK METODOLOGI',
+                tanya: critiqueStem,
+                opsi: rotatedCritique,
                 benar: correctSlot,
-                bahas: explanation
+                bahas: `Audit & Kritik Metodologi (${bloomHeader}): Memisahkan "${kw1}" dari "${kw2}" secara sepihak melanggar proposisi fundamental materi: "${cleanProp1}."`
             };
         }
 
@@ -2390,7 +2578,7 @@
                 };
             });
 
-            // Build University-Level Base Quiz Questions (Bloom C4)
+            // Build University-Level Base Quiz Questions cycling all 4 formats
             const generatedQuiz = finalRangkuman.map((sentence, idx) => {
                 const nextSentence = finalRangkuman[(idx + 1) % finalRangkuman.length];
                 const kw1 = finalKeywords[idx % finalKeywords.length];
@@ -2425,7 +2613,8 @@
                     props[props.length - 1],
                     kws[0],
                     kws[1],
-                    'hard'
+                    'hard',
+                    'complex'
                 )
             );
 
@@ -2437,7 +2626,8 @@
                     props[0],
                     kws[Math.min(2, kws.length - 1)],
                     kws[0],
-                    'easy'
+                    'hard',
+                    'critique'
                 )
             );
 
@@ -2579,9 +2769,9 @@
         }
 
         // ==========================================================
-        // UNIVERSITY-LEVEL (BLOOM C3, C4, C5/C6) QUESTION POOL GENERATOR
+        // UNIVERSITY-LEVEL MULTI-TYPE QUESTION POOL GENERATOR
         // ==========================================================
-        function generateDynamicQuestionsPool(mode, difficulty, desiredCount) {
+        function generateDynamicQuestionsPool(mode, difficulty, desiredCount, typeFilter = 'all') {
             const count = Math.max(1, Math.min(40, parseInt(desiredCount, 10) || 5));
             const basePool = mode === 'quiz' ? (studyData.quiz || []) : (studyData.ujian || []);
             const bullets = studyData.rangkuman && studyData.rangkuman.length ? studyData.rangkuman : [studyData.tldr || "Proposisi utama perkuliahan."];
@@ -2589,27 +2779,19 @@
             const explanations = studyData.penjelasan || [];
             const title = studyData.title || "Materi Perkuliahan";
 
-            const bloomTag = difficulty === 'easy'
-                ? 'C3 • APLIKASI STUDI KASUS'
-                : difficulty === 'normal'
-                    ? 'C4 • ANALISIS MEKANISME (STANDAR UTS)'
-                    : 'C5/C6 • EVALUASI KRITIS & SINTESIS (STANDAR UAS)';
-
+            const filteredPresets = basePool.filter(q => typeFilter === 'all' || q.qType === typeFilter);
             const result = [];
 
             for (let i = 0; i < count; i++) {
-                // Use preset high-level case study questions first if available and matching
-                if (i < basePool.length && studyData.id.startsWith('preset_')) {
-                    const baseQ = basePool[i];
-                    let stemPrefix = `[${bloomTag}] `;
-                    if (difficulty === 'hard' && !baseQ.tanya.includes('[')) {
-                        stemPrefix = `[${bloomTag} • Studi Kasus Lanjut] `;
-                    }
+                if (i < filteredPresets.length && studyData.id.startsWith('preset_') && difficulty === 'normal') {
+                    const baseQ = filteredPresets[i];
                     result.push({
-                        tanya: baseQ.tanya.startsWith('[') ? baseQ.tanya : (stemPrefix + baseQ.tanya),
+                        qType: baseQ.qType || 'vignette',
+                        typeBadge: baseQ.typeBadge || 'STUDI KASUS VIGNETTE',
+                        tanya: baseQ.tanya,
                         opsi: [...baseQ.opsi],
                         benar: baseQ.benar,
-                        bahas: `[Pembahasan Akademik • ${bloomTag}] ${baseQ.bahas}`
+                        bahas: baseQ.bahas
                     });
                 } else {
                     const prop1 = bullets[i % bullets.length];
@@ -2618,7 +2800,7 @@
                     const kw2 = keywords[(i + 1) % keywords.length];
 
                     result.push(
-                        buildUniversityQuestionItem(i, title, prop1, prop2, kw1, kw2, difficulty)
+                        buildUniversityQuestionItem(i, title, prop1, prop2, kw1, kw2, difficulty, typeFilter)
                     );
                 }
             }
@@ -2626,12 +2808,26 @@
             return result;
         }
 
+        function getQuestionTypeBadgeStyle(qType) {
+            if (qType === 'causal') return 'bg-[#9b5de5] text-white';
+            if (qType === 'complex') return 'bg-[#00bbf9] text-[#181026]';
+            if (qType === 'critique') return 'bg-[#f15bb5] text-white';
+            return 'bg-[#2374e1] text-white';
+        }
+
         // ==========================================================
-        // BOAT 5: QUIZ KILAT LOGIC (STANDAR KUIS PERKULIAHAN S1)
+        // BOAT 5: QUIZ PERKULIAHAN LOGIC (4 TIPE SOAL KAMPUS)
         // ==========================================================
         function setQuizDifficulty(diff) {
             playPixelSound('click');
             quizDifficulty = diff;
+            updateQuizConfigUI();
+            renderQuizView();
+        }
+
+        function setQuizTypeFilter(typeKey) {
+            playPixelSound('click');
+            quizTypeFilter = typeKey;
             updateQuizConfigUI();
             renderQuizView();
         }
@@ -2670,14 +2866,30 @@
                 }
             });
 
+            const typeButtons = ['all', 'vignette', 'causal', 'complex', 'critique'];
+            typeButtons.forEach(tk => {
+                const b = document.getElementById(`quiz-type-${tk}`);
+                if (!b) return;
+                b.className = tk === quizTypeFilter
+                    ? "rpg-btn bg-[#4cd964] text-[#181026] px-2 py-1 font-pixel-title text-[7px]"
+                    : "rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[7px]";
+            });
+
             const labelMap = {
-                easy: 'C3 Aplikasi Studi Kasus (Setara Kuis S1)',
-                normal: 'C4 Analisis Mekanisme (Setara UTS S1)',
-                hard: 'C5/C6 Evaluasi & Sintesis Kritis (Setara UAS S1)'
+                easy: 'C3 Aplikasi Studi Kasus (Kuliah Dasar)',
+                normal: 'C4 Analisis Mekanisme (Standar UTS S1)',
+                hard: 'C5/C6 Evaluasi & Sintesis Kritis (Standar UAS S1)'
+            };
+            const typeLabelMap = {
+                all: 'Campuran 4 Tipe Akademik',
+                vignette: 'Studi Kasus Vignette',
+                causal: 'Analisis Sebab-Akibat',
+                complex: 'Multi-Proposisi (1,2,3,4)',
+                critique: 'Audit & Kritik Metodologi'
             };
             const summaryEl = document.getElementById('quiz-config-summary');
             if (summaryEl) {
-                summaryEl.textContent = `Standar Aktif: ${labelMap[quizDifficulty]} • ${quizTargetCount} Soal • Hadiah: +${getQuizExpPerCorrect()} EXP / Jawaban Tepat`;
+                summaryEl.textContent = `Standar Aktif: ${labelMap[quizDifficulty]} • Format: ${typeLabelMap[quizTypeFilter]} • ${quizTargetCount} Soal (+${getQuizExpPerCorrect()} EXP/Soal)`;
             }
         }
 
@@ -2686,24 +2898,27 @@
             quizAnsweredCount = 0;
             updateQuizConfigUI();
 
-            activeQuizQuestions = generateDynamicQuestionsPool('quiz', quizDifficulty, quizTargetCount);
+            activeQuizQuestions = generateDynamicQuestionsPool('quiz', quizDifficulty, quizTargetCount, quizTypeFilter);
             const total = activeQuizQuestions.length;
             document.getElementById('quiz-score-badge').textContent = `SKOR: 0 / ${total} BENAR`;
 
             const diffBadgeColor = quizDifficulty === 'easy' ? 'bg-[#4cd964] text-[#181026]' : quizDifficulty === 'normal' ? 'bg-[#ffd942] text-[#181026]' : 'bg-[#d92b3a] text-white';
-            const diffBadgeText = quizDifficulty === 'easy' ? 'BLOOM C3 (APLIKASI)' : quizDifficulty === 'normal' ? 'BLOOM C4 (ANALISIS)' : 'BLOOM C5/C6 (EVALUASI HOTS)';
+            const diffBadgeText = quizDifficulty === 'easy' ? 'BLOOM C3 (APLIKASI)' : quizDifficulty === 'normal' ? 'BLOOM C4 (ANALISIS UTS)' : 'BLOOM C5/C6 (EVALUASI UAS)';
 
             const container = document.getElementById('quiz-questions-container');
-            container.innerHTML = activeQuizQuestions.map((q, qIdx) => `
+            container.innerHTML = activeQuizQuestions.map((q, qIdx) => {
+                const typeStyle = getQuestionTypeBadgeStyle(q.qType);
+                return `
                 <div class="bg-[#ffefc1] border-4 border-[#181026] p-4 space-y-3" id="quiz-card-${qIdx}">
                     <div class="flex flex-wrap items-center justify-between gap-2">
-                        <div class="flex items-center gap-2">
-                            <span class="bg-[#ff8811] text-white font-pixel-title text-[8px] px-2 py-1 border border-[#181026]">KUIS S1 #${qIdx + 1} / ${total}</span>
+                        <div class="flex flex-wrap items-center gap-1.5">
+                            <span class="bg-[#ff8811] text-white font-pixel-title text-[8px] px-2 py-1 border border-[#181026]">SOAL #${qIdx + 1}/${total}</span>
+                            <span class="${typeStyle} font-pixel-title text-[8px] px-2 py-1 border border-[#181026]">🧩 ${q.typeBadge || 'STUDI KASUS'}</span>
                             <span class="${diffBadgeColor} font-pixel-title text-[8px] px-2 py-1 border border-[#181026]">${diffBadgeText}</span>
                         </div>
-                        <span class="font-pixel-mono text-sm text-stone-700">+${getQuizExpPerCorrect()} EXP jika tepat</span>
+                        <span class="font-pixel-mono text-sm text-stone-700">+${getQuizExpPerCorrect()} EXP</span>
                     </div>
-                    <p class="text-sm font-bold text-[#181026] leading-relaxed whitespace-pre-line">${q.tanya}</p>
+                    <div class="bg-white border-2 border-[#181026] p-3.5 text-sm font-bold text-[#181026] leading-relaxed whitespace-pre-line">${q.tanya}</div>
                     <div class="grid grid-cols-1 gap-2" id="quiz-options-${qIdx}">
                         ${q.opsi.map((opt, oIdx) => `
                             <button onclick="answerQuizQuestion(${qIdx}, ${oIdx})" id="quiz-btn-${qIdx}-${oIdx}"
@@ -2714,7 +2929,7 @@
                     </div>
                     <div id="quiz-feedback-${qIdx}" class="hidden p-3 border-2 border-[#181026] text-xs leading-relaxed"></div>
                 </div>
-            `).join('');
+            `}).join('');
         }
 
         function answerQuizQuestion(qIdx, selectedIdx) {
@@ -2743,7 +2958,7 @@
                 playPixelSound('correct');
                 addExp(expReward);
                 feedbackEl.className = "p-3 border-2 border-[#181026] bg-[#d8f8e1] text-[#181026] text-xs leading-relaxed";
-                feedbackEl.innerHTML = `<b>✅ BUZZY: "ANALISIS TEPAT (+${expReward} EXP)!"</b><br>${q.bahas}`;
+                feedbackEl.innerHTML = `<b>✅ BUZZY: "ANALISIS AKADEMIK TEPAT (+${expReward} EXP)!"</b><br>${q.bahas}`;
             } else {
                 playPixelSound('wrong');
                 feedbackEl.className = "p-3 border-2 border-[#181026] bg-[#ffd6d6] text-[#181026] text-xs leading-relaxed";
@@ -2763,9 +2978,16 @@
             renderUjianView();
         }
 
+        function setExamTypeFilter(typeKey) {
+            playPixelSound('click');
+            examTypeFilter = typeKey;
+            updateExamConfigUI();
+            renderUjianView();
+        }
+
         function setExamQuestionCount(count) {
             playPixelSound('click');
-            examTargetCount = Math.max(1, Math.min(40, parseInt(count, 10) || 5));
+            examTargetCount = Math.max(1, Math.min(40, parseInt(count, 10) || 6));
             const inputEl = document.getElementById('custom-exam-count');
             if (inputEl) inputEl.value = examTargetCount;
             updateExamConfigUI();
@@ -2773,7 +2995,7 @@
         }
 
         function applyCustomExamCount() {
-            const val = parseInt(document.getElementById('custom-exam-count')?.value || '5', 10);
+            const val = parseInt(document.getElementById('custom-exam-count')?.value || '6', 10);
             setExamQuestionCount(val);
         }
 
@@ -2798,15 +3020,31 @@
                 }
             });
 
+            const typeButtons = ['all', 'vignette', 'causal', 'complex', 'critique'];
+            typeButtons.forEach(tk => {
+                const b = document.getElementById(`exam-type-${tk}`);
+                if (!b) return;
+                b.className = tk === examTypeFilter
+                    ? "rpg-btn bg-[#4cd964] text-[#181026] px-2 py-1 font-pixel-title text-[7px]"
+                    : "rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[7px]";
+            });
+
             const labelMap = {
                 easy: 'C3 Studi Kasus Terapan (UTS Dasar)',
                 normal: 'C4 Analisis Komparatif & Mekanisme (Standar UTS S1)',
                 hard: 'C5/C6 Evaluasi Kritis & Sintesis (Standar UAS S1)'
             };
+            const typeLabelMap = {
+                all: 'Semua Format UTS/UAS',
+                vignette: 'Studi Kasus Vignette',
+                causal: 'Sebab-Akibat',
+                complex: 'Multi-Proposisi (1,2,3,4)',
+                critique: 'Kritik Metodologi'
+            };
             const expTotal = getExamCompletionExp();
             const summaryEl = document.getElementById('exam-config-summary');
             if (summaryEl) {
-                summaryEl.textContent = `Konfigurasi Ujian: ${labelMap[examDifficulty]} • ${examTargetCount} Soal • Hadiah Selesai: +${expTotal} EXP`;
+                summaryEl.textContent = `Konfigurasi Ujian: ${labelMap[examDifficulty]} • Format: ${typeLabelMap[examTypeFilter]} • ${examTargetCount} Soal (+${expTotal} EXP)`;
             }
             const submitBtn = document.getElementById('submit-exam-btn');
             if (submitBtn) {
@@ -2819,7 +3057,7 @@
             examSubmitted = false;
             updateExamConfigUI();
 
-            activeExamQuestions = generateDynamicQuestionsPool('ujian', examDifficulty, examTargetCount);
+            activeExamQuestions = generateDynamicQuestionsPool('ujian', examDifficulty, examTargetCount, examTypeFilter);
             const total = activeExamQuestions.length;
 
             document.getElementById('exam-result-banner').classList.add('hidden');
@@ -2829,16 +3067,19 @@
             const diffBadgeText = examDifficulty === 'easy' ? 'C3 • KASUS TERAPAN' : examDifficulty === 'normal' ? 'C4 • STANDAR UTS S1' : 'C5/C6 • STANDAR UAS HOTS';
 
             const container = document.getElementById('exam-questions-container');
-            container.innerHTML = activeExamQuestions.map((q, qIdx) => `
+            container.innerHTML = activeExamQuestions.map((q, qIdx) => {
+                const typeStyle = getQuestionTypeBadgeStyle(q.qType);
+                return `
                 <div class="bg-[#ffefc1] border-4 border-[#181026] p-4 space-y-3">
                     <div class="flex flex-wrap items-center justify-between gap-2">
-                        <div class="flex items-center gap-2">
-                            <span class="bg-[#d92b3a] text-white font-pixel-title text-[8px] px-2 py-1">SOAL UTS/UAS #${qIdx + 1} / ${total}</span>
+                        <div class="flex flex-wrap items-center gap-1.5">
+                            <span class="bg-[#d92b3a] text-white font-pixel-title text-[8px] px-2 py-1">SOAL UTS/UAS #${qIdx + 1}/${total}</span>
+                            <span class="${typeStyle} font-pixel-title text-[8px] px-2 py-1 border border-[#181026]">🧩 ${q.typeBadge || 'STUDI KASUS'}</span>
                             <span class="${diffBadgeColor} font-pixel-title text-[8px] px-2 py-1 border border-[#181026]">${diffBadgeText}</span>
                         </div>
                         <span id="exam-status-${qIdx}" class="font-pixel-mono text-xs text-stone-600">Belum Dijawab</span>
                     </div>
-                    <p class="text-sm font-bold text-[#181026] leading-relaxed whitespace-pre-line">${q.tanya}</p>
+                    <div class="bg-white border-2 border-[#181026] p-3.5 text-sm font-bold text-[#181026] leading-relaxed whitespace-pre-line">${q.tanya}</div>
                     <div class="grid grid-cols-1 gap-2">
                         ${q.opsi.map((opt, oIdx) => `
                             <button onclick="selectExamAnswer(${qIdx}, ${oIdx})" id="exam-opt-${qIdx}-${oIdx}"
@@ -2849,7 +3090,7 @@
                     </div>
                     <div id="exam-explain-${qIdx}" class="hidden p-3 border-2 border-[#181026] bg-white text-xs leading-relaxed"></div>
                 </div>
-            `).join('');
+            `}).join('');
 
             updateExamTimerUI();
         }
