@@ -512,7 +512,7 @@
                                 class="w-full sm:min-w-[290px] p-1.5 bg-[#181026] text-[#ffd942] border-2 border-[#181026] font-pixel-title text-[9px] sm:text-[10px] focus:outline-none cursor-pointer">
                         </select>
                         <p id="active-doc-meta" class="text-xs text-stone-600 mt-1">
-                            Sumber: Pustaka Materi • Bisa upload hingga 15 file sekaligus & pilih materi di sini!
+                            Sumber: Pustaka Materi • Soal Quiz & Simulasi Ujian dikalibrasi untuk standar UTS/UAS Perguruan Tinggi (S1).
                         </p>
                     </div>
                 </div>
@@ -627,7 +627,7 @@
                     <span class="bg-[#b81d2c] text-white font-pixel-title text-[10px] px-2.5 py-1.5 border-2 border-[#181026]">PERAHU #2 • WORD & PDF</span>
                     <div>
                         <h3 class="font-pixel-title text-xs sm:text-sm text-[#181026]">DERMAGA MULTI-UPLOAD MATERI (MAKSIMAL 15 FILE SEKALIGUS)</h3>
-                        <p class="text-xs text-stone-600">Unggah hingga 15 dokumen (.PDF / .DOCX / .TXT) sekaligus, lalu pilih materi mana pun di fitur Rangkuman & Penjelasan!</p>
+                        <p class="text-xs text-stone-600">Unggah hingga 15 dokumen (.PDF / .DOCX / .TXT) sekaligus, lalu pilih materi mana pun untuk dijadikan soal UTS/UAS!</p>
                     </div>
                 </div>
                 <div class="flex flex-wrap gap-1.5">
@@ -687,8 +687,8 @@
                         <button onclick="processCustomTextAndSail('rangkuman')" class="flex-1 rpg-btn bg-[#45b849] text-white py-2.5 px-3 font-pixel-title text-[9px]">
                             ⚡ SIMPAN KE PUSTAKA & BUKA RANGKUMAN (+40 EXP)
                         </button>
-                        <button onclick="processCustomTextAndSail('penjelasan')" class="rpg-btn bg-[#198737] text-white py-2.5 px-3 font-pixel-title text-[9px]">
-                            🎓 BUKA PENJELASAN AVATAR
+                        <button onclick="processCustomTextAndSail('ujian')" class="rpg-btn bg-[#d92b3a] text-white py-2.5 px-3 font-pixel-title text-[9px]">
+                            ⚔️ BUKA SIMULASI UTS / UAS
                         </button>
                     </div>
                 </div>
@@ -708,7 +708,6 @@
                         <h3 id="summary-heading" class="font-pixel-title text-xs sm:text-sm">RANGKUMAN INTI MATERI KULIAH</h3>
                     </div>
                     <div class="flex flex-wrap items-center gap-2">
-                        <!-- Material Selector directly inside Rangkuman -->
                         <div class="flex items-center gap-1.5 bg-[#181026] px-2 py-1 border-2 border-[#ff6b9d]">
                             <span class="font-pixel-title text-[8px] text-[#ff9ebb]">PILIH MATERI:</span>
                             <select id="rangkuman-materi-selector" onchange="switchActiveMaterial(this.value)"
@@ -756,7 +755,6 @@
                         <h3 class="font-pixel-title text-xs sm:text-sm">DIALOG PENJELASAN KONSEP BERSAMA PARA AVATAR</h3>
                     </div>
                     <div class="flex flex-wrap items-center gap-2">
-                        <!-- Material Selector directly inside Penjelasan -->
                         <div class="flex items-center gap-1.5 bg-[#181026] px-2 py-1 border-2 border-[#4cd964]">
                             <span class="font-pixel-title text-[8px] text-[#4cd964]">PILIH MATERI:</span>
                             <select id="penjelasan-materi-selector" onchange="switchActiveMaterial(this.value)"
@@ -769,31 +767,29 @@
                 <div id="explanation-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </div>
 
-            <!-- BOAT 5 VIEW: QUIZ KILAT (MINI-GAME) -->
+            <!-- BOAT 5 VIEW: QUIZ KILAT (STANDAR KUIS PERKULIAHAN S1) -->
             <div id="view-quiz" class="hidden space-y-4">
                 <div class="flex flex-wrap items-center justify-between gap-2 border-b-4 border-[#181026] pb-3">
                     <div class="flex items-center gap-3">
                         <span class="bg-[#ffd942] text-[#181026] font-pixel-title text-[10px] px-2.5 py-1 border-2 border-[#181026]">PERAHU #5 • QUIZ</span>
-                        <h3 class="font-pixel-title text-xs sm:text-sm">TANTANGAN QUIZ KILAT BERSAMA BUZZY</h3>
+                        <h3 class="font-pixel-title text-xs sm:text-sm">KUIS ANALISIS KASUS PERKULIAHAN (STANDAR S1)</h3>
                     </div>
                     <div class="flex flex-wrap items-center gap-2">
                         <span id="quiz-score-badge" class="bg-[#181026] text-[#4cd964] font-pixel-title text-[9px] px-3 py-1.5">SKOR: 0 BENAR</span>
-                        <button onclick="renderQuizView()" class="rpg-btn bg-[#ff8811] text-white px-3 py-1.5 font-pixel-title text-[8px]">🔄 ULANGI QUIZ</button>
+                        <button onclick="renderQuizView()" class="rpg-btn bg-[#ff8811] text-white px-3 py-1.5 font-pixel-title text-[8px]">🔄 ACAK ULANG SOAL</button>
                     </div>
                 </div>
 
-                <!-- Quiz Difficulty & Question Count Config Bar -->
+                <!-- Quiz Difficulty (Bloom Taxonomy C3-C6) & Question Count Config Bar -->
                 <div class="bg-[#231934] text-white border-4 border-[#181026] p-3.5 space-y-2.5">
                     <div class="flex flex-wrap items-center justify-between gap-3">
-                        <!-- Difficulty Selector -->
                         <div class="flex flex-wrap items-center gap-1.5">
-                            <span class="font-pixel-title text-[9px] text-[#ffd942]">🎯 TINGKAT KESULITAN QUIZ:</span>
-                            <button onclick="setQuizDifficulty('easy')" id="quiz-diff-easy" class="rpg-btn bg-[#4cd964] text-[#181026] px-2.5 py-1 font-pixel-title text-[8px]">🟢 MUDAH (EASY)</button>
-                            <button onclick="setQuizDifficulty('normal')" id="quiz-diff-normal" class="rpg-btn bg-[#3a2b52] text-white px-2.5 py-1 font-pixel-title text-[8px]">🟡 SEDANG (NORMAL)</button>
-                            <button onclick="setQuizDifficulty('hard')" id="quiz-diff-hard" class="rpg-btn bg-[#3a2b52] text-white px-2.5 py-1 font-pixel-title text-[8px]">🔴 SULIT (HARD)</button>
+                            <span class="font-pixel-title text-[9px] text-[#ffd942]">🎓 LEVEL KOGNITIF (BLOOM S1):</span>
+                            <button onclick="setQuizDifficulty('easy')" id="quiz-diff-easy" class="rpg-btn bg-[#3a2b52] text-white px-2.5 py-1 font-pixel-title text-[8px]">🟢 C3 • APLIKASI KONSEP</button>
+                            <button onclick="setQuizDifficulty('normal')" id="quiz-diff-normal" class="rpg-btn bg-[#ffd942] text-[#181026] px-2.5 py-1 font-pixel-title text-[8px]">🟡 C4 • ANALISIS MEKANISME</button>
+                            <button onclick="setQuizDifficulty('hard')" id="quiz-diff-hard" class="rpg-btn bg-[#3a2b52] text-white px-2.5 py-1 font-pixel-title text-[8px]">🔴 C5/C6 • EVALUASI & SINTESIS</button>
                         </div>
 
-                        <!-- Question Count Selector -->
                         <div class="flex flex-wrap items-center gap-1.5">
                             <span class="font-pixel-title text-[9px] text-[#7be3f6]">🔢 JUMLAH SOAL:</span>
                             <button onclick="setQuizQuestionCount(3)" class="rpg-btn bg-[#3a2b52] text-white px-2 py-1 font-pixel-title text-[8px]">3 Soal</button>
@@ -807,19 +803,19 @@
                         </div>
                     </div>
                     <div id="quiz-config-summary" class="font-pixel-mono text-xs text-amber-200 border-t border-[#3a2b52] pt-1.5">
-                        Mode Aktif: SEDANG (Normal) • 5 Soal • Hadiah: +25 EXP / Jawaban Benar
+                        Standar Aktif: C4 Analisis Mekanisme (Setara Kuis/UTS S1) • 5 Soal • Hadiah: +25 EXP / Jawaban Tepat
                     </div>
                 </div>
 
                 <div id="quiz-questions-container" class="space-y-4"></div>
             </div>
 
-            <!-- BOAT 6 VIEW: SIMULASI UJIAN (CUSTOM TIMER & BOSS BATTLE) -->
+            <!-- BOAT 6 VIEW: SIMULASI UJIAN (UTS / UAS PERGURUAN TINGGI) -->
             <div id="view-ujian" class="hidden space-y-4">
                 <div class="flex flex-wrap items-center justify-between gap-2 border-b-4 border-[#181026] pb-3">
                     <div class="flex items-center gap-3">
                         <span class="bg-[#d92b3a] text-white font-pixel-title text-[10px] px-2.5 py-1 border-2 border-[#181026]">PERAHU #6 • UJIAN</span>
-                        <h3 class="font-pixel-title text-xs sm:text-sm">SIMULASI UJIAN AKADEMIK & PENGATUR WAKTU</h3>
+                        <h3 class="font-pixel-title text-xs sm:text-sm">SIMULASI UTS / UAS PERGURUAN TINGGI (STUDI KASUS & HOTS)</h3>
                     </div>
                     <div class="flex items-center gap-2">
                         <span id="exam-timer-display" class="bg-[#181026] text-[#ffd942] font-pixel-title text-xs px-3 py-1.5 border-2 border-[#ffd942]">⏱️ 10:00</span>
@@ -828,15 +824,14 @@
                     </div>
                 </div>
 
-                <!-- Flexible Exam Timer, Difficulty & Question Count Config Bar -->
+                <!-- Flexible Exam Timer, Difficulty (UTS/UAS S1) & Question Count Config Bar -->
                 <div class="bg-[#231934] text-white border-4 border-[#181026] p-3.5 space-y-3">
-                    <!-- Difficulty & Question Count Row -->
                     <div class="flex flex-wrap items-center justify-between gap-3 border-b border-[#3a2b52] pb-2.5">
                         <div class="flex flex-wrap items-center gap-1.5">
-                            <span class="font-pixel-title text-[9px] text-[#ff9ebb]">⚔️ KESULITAN UJIAN:</span>
-                            <button onclick="setExamDifficulty('easy')" id="exam-diff-easy" class="rpg-btn bg-[#3a2b52] text-white px-2.5 py-1 font-pixel-title text-[8px]">🟢 MUDAH</button>
-                            <button onclick="setExamDifficulty('normal')" id="exam-diff-normal" class="rpg-btn bg-[#ffd942] text-[#181026] px-2.5 py-1 font-pixel-title text-[8px]">🟡 SEDANG</button>
-                            <button onclick="setExamDifficulty('hard')" id="exam-diff-hard" class="rpg-btn bg-[#3a2b52] text-white px-2.5 py-1 font-pixel-title text-[8px]">🔴 SULIT (HOTS)</button>
+                            <span class="font-pixel-title text-[9px] text-[#ff9ebb]">⚔️ STANDAR SOAL UTS/UAS:</span>
+                            <button onclick="setExamDifficulty('easy')" id="exam-diff-easy" class="rpg-btn bg-[#3a2b52] text-white px-2.5 py-1 font-pixel-title text-[8px]">🟢 C3 • STUDI KASUS TERAPAN</button>
+                            <button onclick="setExamDifficulty('normal')" id="exam-diff-normal" class="rpg-btn bg-[#ffd942] text-[#181026] px-2.5 py-1 font-pixel-title text-[8px]">🟡 C4 • ANALISIS KOMPARATIF UTS</button>
+                            <button onclick="setExamDifficulty('hard')" id="exam-diff-hard" class="rpg-btn bg-[#3a2b52] text-white px-2.5 py-1 font-pixel-title text-[8px]">🔴 C5/C6 • EVALUASI KRITIS UAS</button>
                         </div>
 
                         <div class="flex flex-wrap items-center gap-1.5">
@@ -878,7 +873,7 @@
                     </div>
 
                     <div id="exam-config-summary" class="font-pixel-mono text-xs text-amber-200 border-t border-[#3a2b52] pt-1.5">
-                        Konfigurasi Ujian: Tingkat SEDANG • 5 Soal • Hadiah Lulus: +100 EXP
+                        Konfigurasi Ujian: C4 Analisis Komparatif UTS • 5 Soal • Hadiah Lulus: +135 EXP
                     </div>
                 </div>
 
@@ -887,7 +882,7 @@
 
                 <div class="pt-2">
                     <button id="submit-exam-btn" onclick="submitExamSimulation()" class="w-full rpg-btn bg-[#45b849] text-white py-3 px-4 font-pixel-title text-xs">
-                        ✅ KUMPULKAN LEMBAR JAWABAN UJIAN (+100 EXP)
+                        ✅ KUMPULKAN LEMBAR JAWABAN UTS/UAS (+135 EXP)
                     </button>
                 </div>
             </div>
@@ -907,7 +902,6 @@
                 <button onclick="closeGuildModal()" class="rpg-btn bg-[#d92b3a] text-white px-3 py-1.5 font-pixel-title text-[9px]">✕ TUTUP</button>
             </div>
 
-            <!-- Google Login & Hero Name Setting -->
             <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 bg-[#ffefc1] p-3.5 border-3 border-[#181026]">
                 <div class="sm:col-span-5 flex flex-col justify-between gap-2">
                     <span class="font-pixel-title text-[9px] text-[#181026]">1. AKUN GOOGLE KAMPUS:</span>
@@ -928,7 +922,6 @@
                 </div>
             </div>
 
-            <!-- 4 Roles Selector -->
             <div class="space-y-2">
                 <div class="flex flex-wrap items-center justify-between gap-2">
                     <span class="font-pixel-title text-[10px] text-[#181026]">3. PILIH ROLE KARAKTER (WARRIOR, MAGE, PALADIN, SUPPORT):</span>
@@ -941,7 +934,6 @@
                 <div id="role-selector-cards" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5"></div>
             </div>
 
-            <!-- 3 Evolution Stages Preview -->
             <div class="space-y-2">
                 <span class="font-pixel-title text-[10px] text-[#181026]">4. GALERI 3 TAHAP EVOLUSI AVATAR (BEREVOLUSI SETIAP NAIK 10 LEVEL):</span>
                 <div id="role-evolution-gallery" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5"></div>
@@ -972,7 +964,6 @@
                 <button onclick="closeCreditModal()" class="rpg-btn bg-[#d92b3a] text-white px-3 py-1 font-pixel-title text-[9px]">✕ TUTUP</button>
             </div>
 
-            <!-- Creator Pixel Badge & Avatar -->
             <div class="bg-[#231934] text-white border-4 border-[#181026] p-4 space-y-3">
                 <div class="w-16 h-16 mx-auto bg-[#120b1d] border-3 border-[#ffd942] p-1.5 avatar-sprite">
                     <svg class="w-full h-full pixel-svg mythic-aura" viewBox="0 0 32 32">
@@ -997,7 +988,6 @@
                 </div>
             </div>
 
-            <!-- Support via Saweria Section -->
             <div class="bg-[#ffefc1] border-3 border-[#181026] p-4 space-y-3">
                 <div class="font-pixel-title text-[9px] text-[#181026]">💖 DUKUNG PENGEMBANGAN PIXTBEACH</div>
                 <p class="text-xs text-stone-700 leading-relaxed">
@@ -1056,7 +1046,6 @@
 
             <!-- Right: BGM 8-Bit Controls, Day/Night Switch, Google Login & Role -->
             <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                <!-- BGM Controls -->
                 <div class="flex items-center gap-1 bg-[#181026] border-2 border-[#ffd942]/60 px-2 py-1">
                     <button id="bgm-toggle-btn" onclick="toggleBgmPlayback()" class="rpg-btn bg-[#4cd964] text-[#181026] px-2 py-0.5 font-pixel-title text-[8px]">
                         🎵 BGM: OFF
@@ -1069,19 +1058,16 @@
                     </select>
                 </div>
 
-                <!-- Day / Night Button -->
                 <button id="day-night-btn" onclick="toggleDayNightMode()" class="rpg-btn bg-[#ff9f1c] text-[#181026] px-2.5 py-1.5 font-pixel-title text-[8px] flex items-center gap-1">
                     <span id="day-night-icon">🌅</span>
                     <span id="day-night-label">MODE: SENJA</span>
                 </button>
 
-                <!-- Login Google / Role Modal Button -->
                 <button id="google-auth-btn" onclick="openGuildModal()" class="rpg-btn bg-[#2374e1] text-white px-2.5 py-1.5 font-pixel-title text-[8px] flex items-center gap-1">
                     <span>🔑</span>
                     <span id="google-auth-label">LOGIN GOOGLE & ROLE</span>
                 </button>
 
-                <!-- Credit Modal Button -->
                 <button onclick="openCreditModal()" class="rpg-btn bg-[#ffd942] text-[#181026] px-2.5 py-1.5 font-pixel-title text-[8px] flex items-center gap-1">
                     <span>📜</span>
                     <span>CREDIT</span>
@@ -1091,7 +1077,7 @@
     </footer>
 
     <!-- ==========================================================
-         JAVASCRIPT ENGINE: ROLES, EVOLUTIONS, AUDIO, FILES & QUESTS
+         JAVASCRIPT ENGINE: UNIVERSITY-GRADE (UTS/UAS S1) QUESTION ENGINE
          ========================================================== -->
     <script>
         if (window.pdfjsLib) {
@@ -1102,7 +1088,7 @@
         // HERO STATE, ROLES & 3 EVOLUTION STAGES (EVERY 10 LEVELS)
         // ==========================================================
         let heroName = "PETUALANG";
-        let heroRole = "warrior"; // warrior | mage | paladin | support
+        let heroRole = "warrior";
         let heroLevel = 1;
         let heroExp = 15;
         let isNightMode = false;
@@ -1287,136 +1273,172 @@
         };
 
         function getEvolutionTierIndex(level) {
-            if (level >= 20) return 2; // Tier III (Lv.20+)
-            if (level >= 10) return 1; // Tier II (Lv.10-19)
-            return 0;                  // Tier I (Lv.1-9)
+            if (level >= 20) return 2;
+            if (level >= 10) return 1;
+            return 0;
         }
 
         // ==========================================================
-        // BUILT-IN RICH STUDY DATASETS FOR INSTANT DEMO & TESTING
+        // UNIVERSITY-GRADE (UTS/UAS S1) DEMO DATASETS
         // ==========================================================
         const DEMO_DATASETS = {
             ai: {
                 title: "Kecerdasan Buatan & Machine Learning",
-                rawText: "Kecerdasan Buatan (Artificial Intelligence) merupakan cabang ilmu komputer yang merancang sistem agar mampu mengeksekusi tugas yang membutuhkan kecerdasan manusia seperti pengenalan pola, pengambilan keputusan, dan pemrosesan bahasa alami. Machine Learning adalah sub-bidang AI di mana algoritma belajar secara otomatis dari data historis tanpa diprogram secara eksplisit untuk setiap aturan. Dalam proses pelatihan model, terdapat tiga paradigma utama yaitu Supervised Learning yang menggunakan data berlabel, Unsupervised Learning yang mencari klaster pola tersembunyi tanpa label, serta Reinforcement Learning yang belajar melalui mekanisme reward dan penalti. Tantangan kritis dalam pengembangan model meliputi overfitting, di mana model terlalu menghafal data latih sehingga gagal melakukan generalisasi pada data uji baru.",
+                rawText: "Kecerdasan Buatan (Artificial Intelligence) merupakan cabang ilmu komputer yang merancang sistem komputasi adaptif untuk mengeksekusi tugas kognitif kompleks seperti inferensi probabilistik, optimasi fungsi objektif, dan pemrosesan bahasa alami. Machine Learning adalah sub-bidang AI di mana parameter model diestimasi secara iteratif dari distribusi data empiris menggunakan algoritma optimasi seperti Gradient Descent. Terdapat tiga paradigma utama: Supervised Learning yang meminimalkan empirical risk pada data berlabel (klasifikasi/regresi), Unsupervised Learning yang mengekstraksi representasi laten atau struktur klaster tanpa variabel target (seperti PCA dan K-Means), serta Reinforcement Learning berbasis proses keputusan Markov (MDP) untuk memaksimumkan ekspektasi cumulative reward. Tantangan teoretis utama adalah bias-variance tradeoff: kapasitas model yang terlalu rendah menyebabkan underfitting (bias tinggi), sedangkan kapasitas berlebih tanpa regularisasi memicu overfitting (varians tinggi) sehingga gagal melakukan generalisasi pada distribusi data out-of-sample.",
                 rangkuman: [
-                    "Artificial Intelligence (AI) memampukan sistem komputer meniru kognisi manusia seperti mengenali pola dan mengambil keputusan.",
-                    "Machine Learning melatih model secara otomatis dari pola data historis tanpa penulisan aturan manual satu per satu.",
-                    "Tiga pendekatan utama pembelajaran mesin adalah Supervised Learning (berlabel), Unsupervised Learning (tanpa label), dan Reinforcement Learning (berbasis reward).",
-                    "Overfitting terjadi ketika model terlalu menghafal noise pada data latih sehingga akurasinya turun drastis saat diuji pada data baru."
+                    "Machine Learning mengestimasi parameter model secara iteratif dari data empiris dengan meminimalkan loss function pada ruang hipotesis.",
+                    "Supervised Learning memetakan fitur input ke target berlabel, Unsupervised Learning mengekstraksi struktur laten tanpa label, dan Reinforcement Learning mengoptimalkan kebijakan (policy) berbasis Markov Decision Process.",
+                    "Bias-Variance Tradeoff menentukan kemampuan generalisasi model: model berkapasitas terlalu kompleks rentan mengalami overfitting (varians tinggi) terhadap noise data latih.",
+                    "Mitigasi overfitting pada arsitektur modern membutuhkan teknik regularisasi (L1/L2, Dropout), k-fold cross-validation, serta pemisahan ketat antara training, validation, dan test set."
                 ],
-                keywords: ["Artificial Intelligence", "Machine Learning", "Supervised Learning", "Unsupervised", "Reinforcement", "Overfitting"],
-                tldr: "AI dan Machine Learning membangun model prediktif berbasis data menggunakan pendekatan berlabel, tanpa label, maupun berbasis umpan balik dengan menjaga agar model tidak mengalami overfitting.",
+                keywords: ["Bias-Variance Tradeoff", "Overfitting", "Regularisasi L1/L2", "Supervised Learning", "Unsupervised Latent", "Markov Decision Process"],
+                tldr: "Pengembangan model Machine Learning tingkat lanjut menuntut keseimbangan Bias-Variance Tradeoff serta pemilihan paradigma pembelajaran (Supervised, Unsupervised, atau Reinforcement) yang tepat agar mampu melakukan generalisasi pada data out-of-sample.",
                 penjelasan: [
                     {
-                        konsep: "Machine Learning vs Pemrograman Tradisional",
-                        definisi: "Pada pemrograman biasa kita menulis aturan jika-maka, sedangkan pada Machine Learning kita memberikan contoh data beserta hasilnya agar komputer menemukan rumusnya sendiri.",
-                        analogi: "Mirip mahasiswa yang belajar dari puluhan contoh soal tahun lalu sampai paham polanya sendiri tanpa harus menghafal satu per satu kalimat buku."
+                        konsep: "Bias-Variance Tradeoff & Generalisasi",
+                        definisi: "Konflik fundamental antara kesalahan akibat asumsi model yang terlalu sederhana (high bias / underfitting) dengan kepekaan berlebih terhadap fluktuasi sampel data latih (high variance / overfitting).",
+                        analogi: "Seperti mahasiswa yang hanya menghafal judul bab (underfitting) vs mahasiswa yang menghafal titik-koma contoh soal tahun lalu tanpa paham konsep (overfitting)—keduanya kesulitan saat dosen mengubah skenario soal UAS!"
                     },
                     {
-                        konsep: "Supervised vs Unsupervised Learning",
-                        definisi: "Supervised Learning belajar dengan kunci jawaban (label), sementara Unsupervised Learning mengelompokkan data berdasarkan kemiripan ciri tanpa kunci jawaban.",
-                        analogi: "Supervised itu seperti latihan soal yang ada kunci jawabannya di halaman belakang, sedangkan Unsupervised seperti mengelompokkan teman sekelas berdasarkan hobi yang mirip."
+                        konsep: "Supervised vs Unsupervised Representation Learning",
+                        definisi: "Supervised Learning mengoptimalkan batas keputusan berdasarkan label eksplisit, sedangkan Unsupervised Learning menemukan struktur topologi atau manifold tersembunyi dari matriks kovarians data.",
+                        analogi: "Supervised seperti praktikum dengan modul kunci jawaban asisten, sementara Unsupervised seperti riset skripsi eksploratif di mana kamu harus menemukan pola klaster responden sendiri dari data mentah."
                     },
                     {
-                        konsep: "Bahaya Overfitting pada Model",
-                        definisi: "Kondisi saat model memiliki akurasi hampir 100% di latihan, tetapi gagal menjawab soal baru karena terlalu menghafal detail sepele.",
-                        analogi: "Seperti mahasiswa yang menghafal urutan abjad jawaban A-B-C-D dari kisi-kisi, begitu angkanya diganti sedikit oleh dosen saat UAS langsung bingung!"
+                        konsep: "Regularisasi (L1 Lasso & L2 Ridge) pada Overfitting",
+                        definisi: "Penambahan suku penalti pada fungsi objektif (loss function) untuk membatasi magnitudo bobot parameter agar model tidak mendominasi fitur yang bersifat noise.",
+                        analogi: "Ibarat pembatasan SKS dan aturan rubrik dosen agar mahasiswa tidak menulis opini melebar ke mana-mana yang justru merusak fokus argumen ilmiah."
                     },
                     {
-                        konsep: "Reinforcement Learning",
-                        definisi: "Metode belajar melalui percobaan berulang (trial and error) dengan sistem poin hadiah (reward) saat benar dan penalti saat salah.",
-                        analogi: "Persis seperti memainkan karakter RPG di PixTBeach—setiap menyelesaikan Quest dapat EXP, jadi kamu makin tahu strategi terbaik untuk naik level!"
+                        konsep: "Exploration vs Exploitation pada Reinforcement Learning",
+                        definisi: "Dilema agen cerdas dalam memilih antara mengeksploitasi kebijakan terbaik yang sudah diketahui saat ini atau mengeksplorasi aksi baru demi menemukan reward jangka panjang yang lebih optimal.",
+                        analogi: "Mirip memilih antara terus mengambil mata kuliah pilihan di zona nyaman demi IPK aman (exploitation) atau mencoba mata kuliah riset baru yang menantang tapi membuka peluang karir besar (exploration)."
                     }
                 ],
                 quiz: [
                     {
-                        tanya: "Pendekatan Machine Learning yang melatih algoritma menggunakan data yang sudah memiliki kunci jawaban (label) disebut...",
-                        opsi: ["Supervised Learning", "Unsupervised Learning", "Reinforcement Learning", "Overfitting Clustering"],
-                        benar: 0,
-                        bahas: "Supervised Learning menggunakan pasangan data input dan label target yang sudah diketahui."
-                    },
-                    {
-                        tanya: "Apa yang dimaksud dengan fenomena Overfitting pada pelatihan model?",
+                        tanya: "Sebuah tim peneliti melatih model Deep Neural Network untuk prediksi kredit macet dan memperoleh akurasi 99,4% pada training set, namun F1-Score anjlok menjadi 58,2% pada validation set independen. Berdasarkan teori Bias-Variance Tradeoff, diagnosis metodologis dan intervensi arsitektural manakah yang paling tepat?",
                         opsi: [
-                            "Model gagal membaca file PDF",
-                            "Model terlalu menghafal data latih sehingga buruk saat diuji pada data baru",
-                            "Model berjalan terlalu cepat di komputer",
-                            "Data latih tidak memiliki kolom angka"
+                            "Model mengalami High Variance (Overfitting); perlu ditambahkan penalti regularisasi L2 (weight decay), lapisan Dropout, atau peningkatan rasio data latih terhadap kompleksitas parameter.",
+                            "Model mengalami High Bias (Underfitting); kapasitas jaringan harus diperbesar dengan menambah jumlah hidden layer dan menghapus seluruh fungsi aktivasi non-linear.",
+                            "Terjadi konvergensi prematur pada Global Minimum; solusi utamanya adalah mengganti evaluasi k-fold cross-validation dengan pengujian langsung menggunakan training set yang sama.",
+                            "Distribusi fitur mengalami homoskedastisitas sempurna; algoritma Supervised Learning harus digantikan sepenuhnya dengan klasterisasi K-Means tanpa label."
                         ],
-                        benar: 1,
-                        bahas: "Overfitting membuat model kehilangan kemampuan generalisasi pada data baru di luar data latih."
+                        benar: 0,
+                        bahas: "Kesenjangan ekstrem antara performa training (99,4%) dan validation (58,2%) merupakan indikator klasik High Variance (Overfitting). Solusi ilmiahnya adalah membatasi ruang hipotesis melalui regularisasi L2, Dropout, atau early stopping."
                     },
                     {
-                        tanya: "Metode pembelajaran mesin yang bekerja dengan sistem hadiah (reward) dan penalti berdasarkan aksi agen adalah...",
-                        opsi: ["Supervised Regression", "Reinforcement Learning", "Static Rule Engine", "Data Normalization"],
-                        benar: 1,
-                        bahas: "Reinforcement Learning mengoptimalkan keputusan agen melalui umpan balik reward dan penalti."
+                        tanya: "Dalam perancangan sistem deteksi anomali transaksi perbankan, analis dihadapkan pada jutaan log transaksi waktu nyata namun hanya 0,01% yang memiliki label verifikasi auditor. Pendekatan pemodelan manakah yang paling rasional secara komputasional dan metodologis?",
+                        opsi: [
+                            "Menerapkan Unsupervised / Semi-Supervised Anomaly Detection (seperti Isolation Forest atau Autoencoder) untuk memodelkan distribusi laten transaksi normal dan menandai deviasi rekonstruksi tinggi.",
+                            "Membuang 99,99% data tanpa label dan hanya melatih regresi linier sederhana pada 0,01% data berlabel tanpa validasi silang.",
+                            "Menggunakan Reinforcement Learning murni tanpa mendefinisikan state space maupun fungsi reward sama sekali.",
+                            "Menyandikan nomor urut ID transaksi sebagai fitur prediktor utama pada algoritma Decision Tree tanpa pemangkasan (unpruned)."
+                        ],
+                        benar: 0,
+                        bahas: "Ketika label sangat langka dan mahal diperoleh, pendekatan Unsupervised atau Semi-Supervised berbasis rekonstruksi manifold (Autoencoder/Isolation Forest) jauh lebih valid dibanding membuang mayoritas populasi data."
+                    },
+                    {
+                        tanya: "Mengapa penggunaan metrik akurasi (Accuracy) semata dianggap cacat metodologis saat mengevaluasi model klasifikasi biner pada dataset medis dengan proporsi kelas positif (penyakit langka) hanya 1%?",
+                        opsi: [
+                            "Karena model naif yang memprediksi seluruh pasien 'Negatif' akan tetap memperoleh akurasi 99% meskipun memiliki Recall (Sensitivitas) 0% terhadap kasus penyakit sebenarnya.",
+                            "Karena metrik akurasi secara matematis tidak dapat dihitung apabila jumlah sampel melebihi 1.000 observasi.",
+                            "Karena akurasi hanya berlaku untuk algoritma Unsupervised Clustering dan tidak terdefinisi pada matriks konfusi (Confusion Matrix).",
+                            "Karena nilai akurasi selalu berbanding terbalik dengan nilai True Negative Rate pada seluruh distribusi data seimbang."
+                        ],
+                        benar: 0,
+                        bahas: "Pada Imbalanced Dataset (99% negatif : 1% positif), terjadi Accuracy Paradox. Evaluasi tingkat universitas wajib menggunakan Precision-Recall AUC, F1-Score, atau Matthews Correlation Coefficient (MCC)."
                     }
                 ]
             },
             ekonomi: {
                 title: "Pengantar Ekonomi Makro & Inflasi",
-                rawText: "Ekonomi Makro menganalisis kinerja perekonomian secara agregat yang mencakup Produk Domestik Bruto (PDB), tingkat pengangguran, serta stabilitas harga. Inflasi didefinisikan sebagai kenaikan harga barang dan jasa secara umum dan terus-menerus dalam periode waktu tertentu yang menyebabkan daya beli uang menurun. Bank Sentral mengendalikan laju inflasi melalui Kebijakan Moneter seperti pengaturan suku bunga acuan dan operasi pasar terbuka. Sementara itu, pemerintah menjalankan Kebijakan Fiskal melalui pengaturan anggaran belanja negara serta instrumen perpajakan untuk menjaga pertumbuhan ekonomi tetap stabil.",
+                rawText: "Ekonomi Makro menganalisis perilaku agregat perekonomian yang mencakup ekuilibrium pasar barang (kurva IS) dan pasar uang (kurva LM), Produk Domestik Bruto (PDB) riil, pengangguran struktural maupun siklikal, serta dinamika inflasi. Inflasi dapat dipicu oleh tarikan permintaan agregat berlebih (Demand-Pull Inflation) maupun guncangan biaya penawaran (Cost-Push Inflation / Supply Shock). Bank Sentral menjalankan Kebijakan Moneter melalui kerangka Inflation Targeting Framework (ITF) dengan menyesuaikan suku bunga acuan (policy rate), rasio Giro Wajib Minimum (GWM), dan Operasi Pasar Terbuka. Di sisi lain, otoritas pemerintah mengeksekusi Kebijakan Fiskal melalui alokasi belanja pemerintah (G) serta struktur perpajakan (T) dengan memperhitungkan efek pengganda (fiscal multiplier) dan risiko crowding-out investasi swasta di pasar dana pinjaman.",
                 rangkuman: [
-                    "Ekonomi Makro berfokus pada variabel ekonomi berskala nasional seperti PDB, inflasi, dan pengangguran.",
-                    "Inflasi adalah kenaikan harga secara umum dan berkelanjutan yang menggerus daya beli masyarakat.",
-                    "Kebijakan Moneter dijalankan oleh Bank Sentral melalui pengendalian suku bunga dan jumlah uang beredar.",
-                    "Kebijakan Fiskal dikelola pemerintah pusat melalui instrumen pajak dan belanja negara (APBN)."
+                    "Keseimbangan makroekonomi ditentukan oleh interaksi pasar barang (IS) dan pasar uang (LM) serta respons penawaran-permintaan agregat (AD-AS).",
+                    "Demand-Pull Inflation muncul akibat ekspansi permintaan agregat melebihi kapasitas output potensial, sedangkan Cost-Push Inflation dipicu guncangan harga input/pasokan.",
+                    "Kebijakan Moneter kontraktif oleh Bank Sentral (kenaikan suku bunga acuan & GWM) bertujuan meredam ekspektasi inflasi melalui transmisi biaya modal.",
+                    "Ekspansi Kebijakan Fiskal yang dibiayai defisit surat utang negara berisiko memicu efek Crowding-Out apabila mendorong kenaikan suku bunga riil yang menekan investasi swasta."
                 ],
-                keywords: ["Ekonomi Makro", "Inflasi", "Produk Domestik Bruto", "Kebijakan Moneter", "Kebijakan Fiskal", "Bank Sentral"],
-                tldr: "Stabilitas ekonomi makro dijaga melalui sinergi Kebijakan Moneter (Bank Sentral) dan Kebijakan Fiskal (Pemerintah) guna mengendalikan inflasi serta mendorong pertumbuhan PDB.",
+                keywords: ["Model IS-LM", "Demand-Pull vs Cost-Push", "Crowding-Out Effect", "Kebijakan Moneter Kontraktif", "Fiscal Multiplier", "Stagflasi"],
+                tldr: "Stabilitas makroekonomi menuntut harmonisasi bauran Kebijakan Moneter (Bank Sentral) dan Kebijakan Fiskal (Pemerintah) dengan membedakan secara presisi sumber guncangan inflasi (Demand-Pull vs Cost-Push) serta mengantisipasi dampak Crowding-Out.",
                 penjelasan: [
                     {
-                        konsep: "Inflasi & Daya Beli",
-                        definisi: "Kenaikan harga barang secara terus-menerus yang membuat nominal uang yang sama mendapatkan jumlah barang lebih sedikit.",
-                        analogi: "Dulu uang Rp15.000 di kantin kampus sudah dapat nasi ayam komplit plus es teh, sekarang karena inflasi cuma dapat nasi ayamnya saja!"
+                        konsep: "Dilema Stagflasi (Cost-Push Inflation)",
+                        definisi: "Kondisi simultan di mana inflasi melonjak tinggi sementara pertumbuhan output PDB riil melambat (pengangguran naik) akibat guncangan penawaran agregat negatif (pergeseran kurva SRAS ke kiri).",
+                        analogi: "Ibarat mahasiswa yang biaya kos dan makanannya naik drastis (inflasi), tapi di saat bersamaan uang kiriman bulanan justru dipotong (resesi)—kebijakan standar jadi serba salah!"
                     },
                     {
-                        konsep: "Kebijakan Moneter vs Kebijakan Fiskal",
-                        definisi: "Moneter mengatur suku bunga dan jumlah uang oleh Bank Sentral, sedangkan Fiskal mengatur pajak dan belanja oleh Pemerintah.",
-                        analogi: "Bank Sentral mengatur keran aliran uang di bank, sedangkan Pemerintah mengatur kas anggaran pembangunan dan pajak."
+                        konsep: "Mekanisme Crowding-Out pada Ekspansi Fiskal",
+                        definisi: "Penurunan investasi sektor swasta akibat kenaikan suku bunga di pasar uang ketika pemerintah membiayai defisit belanja negara secara agresif melalui penerbitan obligasi.",
+                        analogi: "Seperti organisasi besar kampus yang memborong seluruh ruangan aula dan dana sponsor, sehingga komunitas mahasiswa kecil kehabisan tempat dan anggaran untuk bikin acara."
                     }
                 ],
                 quiz: [
                     {
-                        tanya: "Instrumen kebijakan ekonomi yang dilakukan oleh Bank Sentral dengan cara menaikkan atau menurunkan suku bunga acuan disebut...",
-                        opsi: ["Kebijakan Fiskal", "Kebijakan Moneter", "Subsidi Silang", "Audit Pajak Daerah"],
-                        benar: 1,
-                        bahas: "Pengaturan suku bunga acuan dan jumlah uang beredar adalah wewenang Bank Sentral dalam Kebijakan Moneter."
+                        tanya: "Suatu perekonomian mengalami guncangan kenaikan harga energi global secara mendadak yang menggeser kurva Penawaran Agregat Jangka Pendek (SRAS) ke kiri, memicu lonjakan harga umum sekaligus kontraksi PDB riil (Stagflasi). Mengapa intervensi tunggal berupa ekspansi moneter agresif (penurunan suku bunga acuan) oleh Bank Sentral berisiko memperburuk ketidakstabilan makro?",
+                        opsi: [
+                            "Karena stimulus permintaan agregat di tengah hambatan kapasitas pasokan akan memicu spiral ekspektasi inflasi yang jauh lebih tinggi tanpa menyelesaikan akar guncangan biaya produksi.",
+                            "Karena penurunan suku bunga acuan secara teoretis akan langsung menggeser kurva Permintaan Agregat (AD) ke kiri dan memperdalam deflasi.",
+                            "Karena Bank Sentral secara konstitusional hanya memiliki instrumen tarif pajak penghasilan dan tidak dapat memengaruhi likuiditas perbankan.",
+                            "Karena pada kondisi stagflasi nilai angka pengganda uang (money multiplier) selalu bernilai negatif tak terhingga."
+                        ],
+                        benar: 0,
+                        bahas: "Pada kasus Cost-Push Inflation / Stagflasi, pelonggaran moneter agresif mendorong kurva AD ke kanan saat SRAS menyempit, sehingga mengakselerasi inflasi secara tajam. Penanganan seharusnya dikombinasikan dengan kebijakan sisi penawaran (supply-side policy)."
                     },
                     {
-                        tanya: "Dampak langsung dari inflasi yang tinggi terhadap uang yang dipegang masyarakat adalah...",
-                        opsi: ["Daya beli uang menurun", "Harga barang pokok otomatis turun", "Nilai tabungan berlipat ganda", "Pajak otomatis dihapus"],
+                        tanya: "Dalam kerangka analisis model IS-LM pada perekonomian tertutup, apabila pemerintah menempuh kebijakan fiskal ekspansif melalui peningkatan belanja infrastruktur yang dibiayai utang tanpa diimbangi akomodasi jumlah uang beredar oleh Bank Sentral, fenomena keseimbangan baru apakah yang akan terjadi?",
+                        opsi: [
+                            "Kurva IS bergeser ke kanan yang mendorong kenaikan suku bunga ekuilibrium, sehingga sebagian dampak ekspansi pendapatan nasional teredam oleh penurunan investasi swasta (Crowding-Out Effect).",
+                            "Kurva LM bergeser tajam ke kanan bawah sehingga suku bunga acuan turun mendekati nol persen dan investasi swasta meningkat secara eksponensial.",
+                            "Tingkat pendapatan ekuilibrium (Y) turun drastis karena angka pengganda belanja pemerintah (government expenditure multiplier) selalu lebih kecil dari nol.",
+                            "Pasar barang dan pasar uang mengalami ekuilibrium statis tanpa perubahan pada tingkat bunga maupun output agregat."
+                        ],
                         benar: 0,
-                        bahas: "Saat harga barang naik secara umum, nilai riil atau daya beli uang mengalami penurunan."
+                        bahas: "Ekspansi fiskal menggeser kurva IS ke kanan. Dengan penawaran uang riil (M/P) tetap di kurva LM, peningkatan transaksi uang menaikkan suku bunga (r), yang kemudian menekan investasi swasta (I)—inilah mekanisme Crowding-Out."
                     }
                 ]
             },
             hukum: {
                 title: "Asas Hukum Perdata & Perikatan Kontrak",
-                rawText: "Hukum Perdata mengatur hubungan hukum antara subjek hukum yang satu dengan subjek hukum lainnya dengan menitikberatkan pada kepentingan perseorangan. Dalam Hukum Perikatan, syarat sahnya suatu perjanjian diatur dalam Pasal 1320 KUHPerdata yang meliputi empat unsur pokok: kesepakatan mereka yang mengikatkan dirinya, kecakapan untuk membuat suatu perikatan, suatu pokok persoalan tertentu, dan suatu sebab yang halal. Dua syarat pertama disebut syarat subjektif yang jika dilanggar membuat perjanjian dapat dibatalkan, sedangkan dua syarat terakhir disebut syarat objektif yang jika dilanggar membuat perjanjian batal demi hukum.",
+                rawText: "Hukum Perdata mengatur relasi yuridis antar-subjek hukum dalam ranah privat berdasarkan asas kebebasan berkontrak (Pasal 1338 ayat 1 KUHPerdata / Pacta Sunt Servanda), asas konsensualisme, dan asas itikad baik (good faith). Validitas suatu perjanjian diukur melalui empat syarat kumulatif dalam Pasal 1320 KUHPerdata: (1) kesepakatan bebas dari cacat kehendak (dwaling/kekhilafan, dwang/paksaan, bedrog/penipuan), (2) kecakapan bertindak dalam hukum (bekwaamheid), (3) suatu pokok persoalan tertentu yang dapat ditentukan jenisnya, dan (4) suatu kausa atau sebab yang halal (tidak bertentangan dengan undang-undang, kesusilaan, dan ketertiban umum). Syarat pertama dan kedua dikualifikasikan sebagai Syarat Subjektif yang berimplikasi perjanjian 'dapat dibatalkan' (vernietigbaar / voidable) atas permohonan pihak yang dirugikan, sedangkan syarat ketiga dan keempat merupakan Syarat Objektif yang berimplikasi perjanjian 'batal demi hukum' (nietig / null and void ab initio).",
                 rangkuman: [
-                    "Hukum Perdata mengatur hak dan kewajiban antar-individu atau badan hukum dalam lingkup privat.",
-                    "Pasal 1320 KUHPerdata menetapkan 4 syarat sah perjanjian: Kesepakatan, Kecakapan, Hal Tertentu, dan Sebab yang Halal.",
-                    "Kesepakatan dan Kecakapan merupakan syarat subjektif (perjanjian dapat dibatalkan jika dilanggar).",
-                    "Hal Tertentu dan Sebab yang Halal merupakan syarat objektif (perjanjian batal demi hukum sejak awal jika dilanggar)."
+                    "Asas Pacta Sunt Servanda (Pasal 1338 KUHPerdata) menetapkan bahwa perjanjian yang dibuat secara sah berlaku mengikat selayaknya undang-undang bagi para pihak yang menyepakatinya.",
+                    "Syarat Subjektif (Pasal 1320 angka 1 & 2: Sepakat dan Cakap) melindungi subjek hukum; pelanggarannya membuat kontrak berstatus 'Dapat Dibatalkan' (Vernietigbaar).",
+                    "Syarat Objektif (Pasal 1320 angka 3 & 4: Hal Tertentu dan Kausa Halal) melindungi ketertiban umum; pelanggarannya membuat kontrak 'Batal Demi Hukum' (Nietig) sejak semula.",
+                    "Wanprestasi (cidera janji kontraktual) harus dibedakan secara tegas dari Perbuatan Melawan Hukum (Onrechtmatige Daad - Pasal 1365 KUHPerdata) baik dari sumber kewajiban maupun rezim pembuktiannya."
                 ],
-                keywords: ["Hukum Perdata", "Pasal 1320", "Syarat Subjektif", "Syarat Objektif", "Perikatan", "Batal Demi Hukum"],
-                tldr: "Keabsahan kontrak perdata bergantung pada terpenuhinya 2 syarat subjektif dan 2 syarat objektif sesuai Pasal 1320 KUHPerdata.",
+                keywords: ["Pasal 1320 KUHPerdata", "Vernietigbaar vs Nietig", "Pacta Sunt Servanda", "Cacat Kehendak", "Wanprestasi", "Onrechtmatige Daad"],
+                tldr: "Analisis keabsahan kontrak perdata menuntut pembedahan presisi antara pelanggaran Syarat Subjektif (Vernietigbaar/Dapat Dibatalkan) dan Syarat Objektif (Nietig/Batal Demi Hukum) sesuai Pasal 1320 KUHPerdata.",
                 penjelasan: [
                     {
-                        konsep: "Syarat Subjektif vs Syarat Objektif (Pasal 1320)",
-                        definisi: "Syarat subjektif berkaitan dengan orangnya (sepakat & cakap), sedangkan syarat objektif berkaitan dengan isi kontraknya (objek jelas & halal).",
-                        analogi: "Ingat saja: Subjek = Orangnya (kalau bermasalah bisa dimintakan pembatalan), Objek = Barang/Isinya (kalau melanggar hukum otomatis gugur sejak awal!)."
+                        konsep: "Implikasi Yuridis Vernietigbaar vs Nietig",
+                        definisi: "Vernietigbaar (dapat dibatalkan) berarti kontrak tetap mengikat sampai ada putusan hakim atas gugatan pihak yang tidak cakap/tertipu, sedangkan Nietig (batal demi hukum) berarti perikatan dianggap tidak pernah lahir sejak awal (ex tunc).",
+                        analogi: "Vernietigbaar itu seperti KRS mahasiswa yang salah pilih kelas—masih tercatat aktif sampai kamu ajukan pembatalan ke dosen wali. Kalau Nietig seperti mendaftar mata kuliah fiktif yang melanggar aturan rektorat—otomatis tidak diakui sistem sejak detik pertama!"
                     }
                 ],
                 quiz: [
                     {
-                        tanya: "Apabila suatu perjanjian melanggar syarat objektif (misalnya objek perjanjiannya dilarang undang-undang), maka status hukum perjanjian tersebut adalah...",
-                        opsi: ["Tetap sah asalkan bermeterai", "Batal demi hukum (null and void)", "Hanya dikenai denda administrasi ringan", "Menunggu persetujuan notaris"],
-                        benar: 1,
-                        bahas: "Pelanggaran terhadap syarat objektif (hal tertentu dan sebab yang halal) mengakibatkan perjanjian batal demi hukum sejak semula."
+                        tanya: "PT Alpha dan PT Beta menandatangani akta perjanjian kerja sama distribusi komoditas impor di hadapan notaris. Belakangan terungkap bahwa objek komoditas yang diperjanjikan merupakan barang larangan impor berdasarkan peraturan perundang-undangan yang berlaku saat kontrak dibuat. Bagaimanakah konstruksi hukum atas status perjanjian tersebut menurut Pasal 1320 jo. Pasal 1335 KUHPerdata?",
+                        opsi: [
+                            "Perjanjian tersebut Batal Demi Hukum (Nietig / Null and Void ab initio) karena melanggar Syarat Objektif berupa 'suatu sebab yang halal', sehingga dianggap tidak pernah melahirkan perikatan sejak semula.",
+                            "Perjanjian tersebut hanya Dapat Dibatalkan (Vernietigbaar) karena terdapat cacat kehendak pada subjek hukum, sehingga tetap sah mengikat apabila tidak ada pihak yang mengajukan gugatan ke pengadilan.",
+                            "Perjanjian tetap sah dan mengikat berdasarkan asas Pacta Sunt Servanda karena telah dibuat secara autentik di hadapan pejabat notaris yang berwenang.",
+                            "Status perjanjian berubah menjadi perikatan alamiah yang mewajibkan PT Beta tetap menyerahkan barang larangan tersebut demi asas kepastian hukum."
+                        ],
+                        benar: 0,
+                        bahas: "Kausa/sebab yang bertentangan dengan undang-undang melanggar syarat ke-4 Pasal 1320 KUHPerdata (Syarat Objektif). Konsekuensi yuridisnya adalah Batal Demi Hukum (Nietig) secara ex tunc meskipun dibuat dengan akta notaris."
+                    },
+                    {
+                        tanya: "Seorang direktur menandatangani kontrak pembelian mesin industri karena didasari tipu muslihat (bedrog) berupa pemalsuan spesifikasi teknis yang sengaja dilakukan oleh pihak penjual. Apabila direktur tersebut ingin menuntut pemulihan haknya di pengadilan, dasar kualifikasi hukum manakah yang paling tepat?",
+                        opsi: [
+                            "Mengajukan gugatan pembatalan perjanjian karena adanya cacat kehendak (penipuan/bedrog) yang melanggar Syarat Subjektif Pasal 1320 KUHPerdata, disertai tuntutan ganti rugi.",
+                            "Menyatakan secara sepihak tanpa proses pembuktian bahwa kontrak tersebut batal demi hukum karena tidak memiliki objek tertentu.",
+                            "Mengajukan permohonan pailit langsung ke Pengadilan Negeri tanpa perlu membuktikan adanya rangkaian kebohongan dari pihak penjual.",
+                            "Menuntut pidana penjara melalui gugatan perdata murni berdasarkan asas konsensualisme Pasal 1338 KUHPerdata."
+                        ],
+                        benar: 0,
+                        bahas: "Penipuan (bedrog - Pasal 1328 KUHPerdata) merupakan cacat kehendak yang mencederai unsur 'kesepakatan' (Syarat Subjektif), sehingga berimplikasi perjanjian dapat dimintakan pembatalan (vernietigbaar) kepada hakim."
                     }
                 ]
             }
@@ -1445,11 +1467,11 @@
         let examUserAnswers = {};
 
         // Quiz & Exam Difficulty and Question Count Settings
-        let quizDifficulty = 'normal'; // 'easy' | 'normal' | 'hard'
+        let quizDifficulty = 'normal'; // 'easy' (C3) | 'normal' (C4) | 'hard' (C5/C6)
         let quizTargetCount = 5;
         let activeQuizQuestions = [];
 
-        let examDifficulty = 'normal'; // 'easy' | 'normal' | 'hard'
+        let examDifficulty = 'normal'; // 'easy' (C3) | 'normal' (C4) | 'hard' (C5/C6)
         let examTargetCount = 5;
         let activeExamQuestions = [];
 
@@ -1538,7 +1560,7 @@
             },
             quiz: {
                 name: "BUZZY SI MASTER QUIZ",
-                role: "Host Kuis Buzzer & Tantangan Kilat (Perahu #5)",
+                role: "Penguji Kuis Studi Kasus S1 (Perahu #5)",
                 badgeBg: "#ff8811",
                 svg: `<svg class="w-full h-full pixel-svg" viewBox="0 0 32 32">
                     <rect x="6" y="7" width="20" height="22" fill="#ff8811"/>
@@ -1551,7 +1573,7 @@
             },
             ujian: {
                 name: "KOMANDAN UJIAN",
-                role: "Pengawas Boss Battle & Timer Akademik (Perahu #6)",
+                role: "Pengawas UTS/UAS Perguruan Tinggi (Perahu #6)",
                 badgeBg: "#d92b3a",
                 svg: `<svg class="w-full h-full pixel-svg" viewBox="0 0 32 32">
                     <rect x="6" y="5" width="20" height="24" fill="#5a7684"/>
@@ -1579,19 +1601,19 @@
                 message = `"Halo ${heroName}! Aku Arty si Avatar JPG! Serahkan semua foto catatan papan tulis atau lembar tugasmu, akan kugabungkan menjadi 1 dokumen PDF yang rapi!"`;
             } else if (boatKey === 'dokumen') {
                 speaker = AVATAR_SPEAKERS.word;
-                message = `"Salam ${heroName}! Aku Wizzy (Word) bersama rekanku Maestro (PDF). Di dermaga ini kamu bisa mengunggah hingga 15 file materi kuliah sekaligus, lalu memilih materi mana saja untuk dirangkum atau dijelaskan!"`;
+                message = `"Salam ${heroName}! Aku Wizzy (Word) bersama rekanku Maestro (PDF). Unggah hingga 15 file materi kuliah atau jurnal sekaligus; sistem akan mengekstraksi proposisi ilmiahnya menjadi soal setingkat UTS/UAS!"`;
             } else if (boatKey === 'rangkuman') {
                 speaker = AVATAR_SPEAKERS.rangkuman;
-                message = `"Hai ${heroName}! Aku Pinky SUM! Aku sudah membaca materi '${studyData.title}' dengan kaca pembesarku. Kamu bisa memilih materi lain lewat menu dropdown di kanan atas kapan saja!"`;
+                message = `"Hai ${heroName}! Aku Pinky SUM! Aku sudah membedah struktur argumen dari '${studyData.title}' menjadi poin-poin sintesis akademik supaya kamu siap menghadapi diskusi kelas maupun ujian!"`;
             } else if (boatKey === 'penjelasan') {
                 speaker = AVATAR_SPEAKERS.penjelasan;
-                message = `"Selamat datang di kelasku, ${heroName}! Aku Prof. INFO bersama teman-teman avatarku akan berdialog menjelaskan setiap konsep dari '${studyData.title}' menggunakan bahasa tongkrongan mahasiswa!"`;
+                message = `"Selamat datang di ruang diskusi, ${heroName}! Aku Prof. INFO bersama para avatar akan mengupas konsep teoretis dari '${studyData.title}' beserta analogi praktisnya!"`;
             } else if (boatKey === 'quiz') {
                 speaker = AVATAR_SPEAKERS.quiz;
-                message = `"Waktunya uji kecepatan berpikir, ${heroName}! Aku Buzzy si Master Quiz! Tekan jawaban yang paling tepat dari materi '${studyData.title}' untuk mengumpulkan EXP dan menaikkan levelmu!"`;
+                message = `"Perhatian ${heroName}! Aku Buzzy! Soal kuis di sini telah dikalibrasi ke standar Perguruan Tinggi (Taksonomi Bloom C3 Aplikasi hingga C6 Sintesis) berdasarkan materi '${studyData.title}'. Analisis setiap skenario dengan cermat!"`;
             } else if (boatKey === 'ujian') {
                 speaker = AVATAR_SPEAKERS.ujian;
-                message = `"Siapkan pensil dan fokusmu, ${heroName}! Aku Komandan UJIAN. Kamu bisa mengatur sendiri durasi waktu ujian di bawah sebelum menaklukkan soal-soal dari '${studyData.title}'!"`;
+                message = `"Siapkan nalar kritismu, ${heroName}! Aku Komandan UJIAN. Simulasi ini dirancang setingkat UTS/UAS Mahasiswa S1 dengan studi kasus analitis, uji asumsi teoretis, dan pengecoh metodologis dari '${studyData.title}'!"`;
             }
 
             portraitEl.innerHTML = speaker.svg;
@@ -1602,7 +1624,7 @@
         }
 
         // ==========================================================
-        // INITIALIZATION ON LOAD (START AT BEACH MAIN MENU)
+        // INITIALIZATION ON LOAD
         // ==========================================================
         window.onload = function() {
             renderBoatAvatarSpritesOnBeach();
@@ -1635,7 +1657,7 @@
                 const item = {
                     id: `preset_${key}`,
                     title: preset.title,
-                    sourceType: "Preset Demo Kampus",
+                    sourceType: "Preset Demo Kampus (Standar S1)",
                     rawText: preset.rawText,
                     rangkuman: [...preset.rangkuman],
                     keywords: [...preset.keywords],
@@ -1644,7 +1666,7 @@
                     quiz: [...preset.quiz],
                     ujian: []
                 };
-                item.ujian = buildExamQuestionsFromMaterial(item.rawText, item.quiz, item.title);
+                item.ujian = buildExamQuestionsFromMaterial(item.rawText, item.quiz, item.title, item.rangkuman, item.keywords);
                 materialsLibrary.push(item);
             });
             switchActiveMaterial(materialsLibrary[0].id, true);
@@ -1685,7 +1707,6 @@
             const tierObj = roleObj.tiers[tierIdx];
             const romanTier = tierIdx === 0 ? "I" : tierIdx === 1 ? "II" : "III";
 
-            // Top HUD
             const hudAvatar = document.getElementById('hud-hero-avatar');
             if (hudAvatar) hudAvatar.innerHTML = tierObj.svg;
             document.getElementById('hud-hero-name').textContent = heroName;
@@ -1696,7 +1717,6 @@
             document.getElementById('hud-exp-bar').style.width = `${Math.min(100, heroExp)}%`;
             document.getElementById('hud-exp-text').textContent = `${heroExp}/100 EXP`;
 
-            // Beach Standing Hero Card
             const beachSprite = document.getElementById('beach-hero-sprite');
             if (beachSprite) beachSprite.innerHTML = tierObj.svg;
             document.getElementById('beach-hero-tier-badge').textContent = `EVOLUSI ${romanTier}`;
@@ -1753,7 +1773,6 @@
             }
             document.getElementById('guild-auth-status').textContent = `Status: Terhubung dengan Google (${heroName.toLowerCase().replace(/\s+/g, '')}@kampus.ac.id)`;
             document.getElementById('google-auth-label').textContent = `${heroName} (GOOGLE)`;
-            document.getElementById(' modal-google-btn')?.classList.add('opacity-80');
             syncHeroUIAndPersist();
             showPixelModal("LOGIN GOOGLE BERHASIL!", `Akun Google berhasil terhubung! Sekarang kamu bebas mengatur Nama Hero, memilih Role (Warrior, Mage, Paladin, Support), dan melihat 3 tahap evolusi avatarmu.`);
         }
@@ -2031,7 +2050,7 @@
         }
 
         // ==========================================================
-        // BOAT 2 LOGIC: MULTI-FILE UPLOAD (MAX 15 FILES) & MATERIAL SWITCHER
+        // BOAT 2 LOGIC: MULTI-FILE UPLOAD (MAX 15 FILES) & UNIVERSITY ANALYZER
         // ==========================================================
         function updateWordCount() {
             const text = document.getElementById('materi-textarea').value.trim();
@@ -2115,7 +2134,7 @@
         function clearCustomUploadedMaterials() {
             playPixelSound('click');
             initializeDefaultLibrary();
-            showPixelModal("PUSTAKA DIRESET", "Pustaka materi telah dikembalikan ke 3 materi demo kampus awal.");
+            showPixelModal("PUSTAKA DIRESET", "Pustaka materi telah dikembalikan ke 3 materi demo standar S1 awal.");
         }
 
         function loadDemoMaterial(key, silent = false) {
@@ -2128,14 +2147,14 @@
                 const item = {
                     id: targetId,
                     title: preset.title,
-                    sourceType: "Preset Demo Kampus",
+                    sourceType: "Preset Demo Kampus (Standar S1)",
                     rawText: preset.rawText,
                     rangkuman: [...preset.rangkuman],
                     keywords: [...preset.keywords],
                     tldr: preset.tldr,
                     penjelasan: [...preset.penjelasan],
                     quiz: [...preset.quiz],
-                    ujian: buildExamQuestionsFromMaterial(preset.rawText, preset.quiz, preset.title)
+                    ujian: buildExamQuestionsFromMaterial(preset.rawText, preset.quiz, preset.title, preset.rangkuman, preset.keywords)
                 };
                 if (materialsLibrary.length >= MAX_MATERI_FILES) materialsLibrary.shift();
                 materialsLibrary.push(item);
@@ -2229,15 +2248,15 @@
 
             showPixelModal(
                 `🎉 ${successCount} FILE MATERI DIUNGGAH!`,
-                `Wizzy (Avatar Word) & Maestro (Avatar PDF) telah memproses ${successCount} dokumen ke dalam Pustaka! Sekarang kamu bisa memilih materi mana saja melalui dropdown "PILIH MATERI" di fitur Rangkuman dan Penjelasan (+${expGained} EXP).`
+                `Wizzy (Word) & Maestro (PDF) telah membedah ${successCount} dokumen ke dalam Pustaka dan merakit soal studi kasus setingkat UTS/UAS Perguruan Tinggi (+${expGained} EXP).`
             );
         }
 
         function processCustomTextAndSail(targetBoat) {
             const raw = document.getElementById('materi-textarea').value.trim();
-            const customTitle = document.getElementById('custom-materi-title-input')?.value?.trim() || `Materi Catatan #${materialsLibrary.length + 1}`;
+            const customTitle = document.getElementById('custom-materi-title-input')?.value?.trim() || `Materi Kuliah #${materialsLibrary.length + 1}`;
             if (raw.length < 40) {
-                showPixelModal("TEKS MATERI BELUM CUKUP", "Masukkan atau tempelkan minimal 1 paragraf materi kuliah (minimal 40 karakter) agar para Avatar dapat berdialog menjelaskan materimu!");
+                showPixelModal("TEKS MATERI BELUM CUKUP", "Masukkan atau tempelkan minimal 1 paragraf materi kuliah (minimal 40 karakter) agar sistem dapat menyusun soal studi kasus setingkat UTS/UAS!");
                 return;
             }
             playPixelSound('correct');
@@ -2260,15 +2279,77 @@
             selectBoatFeature(targetBoat);
         }
 
-        // Intelligent Client-Side Academic Analyzer (Returns Material Object)
+        // ==========================================================
+        // UNIVERSITY-GRADE (UTS/UAS S1) QUESTION BUILDER FROM UPLOADED TEXT
+        // ==========================================================
+        function buildUniversityQuestionItem(idx, title, primaryProp, secondaryProp, kw1, kw2, bloomLevel) {
+            const cleanProp1 = primaryProp.replace(/\.$/, '').trim();
+            const cleanProp2 = (secondaryProp || primaryProp).replace(/\.$/, '').trim();
+            const correctSlot = idx % 4;
+
+            let stem = "";
+            let correctOption = "";
+            let distractors = [];
+            let explanation = "";
+
+            if (bloomLevel === 'easy') {
+                // Bloom C3: Applied Case & Operational Implementation
+                stem = `[Studi Kasus Terapan • C3] Dalam implementasi praktis pada mata kuliah "${title}", seorang peneliti atau praktisi menemukan fenomena yang berkaitan langsung dengan konsep "${kw1}" dan "${kw2}". Berdasarkan landasan teoretis dokumen materi, langkah operasional manakah yang paling konsisten secara metodologis?`;
+                correctOption = `Menerapkan kerangka analisis yang berpijak pada prinsip bahwa ${cleanProp1.charAt(0).toLowerCase() + cleanProp1.slice(1)}, sembari memastikan keselarasan variabel "${kw1}" terhadap konteks empiris.`;
+                distractors = [
+                    `Mengeliminasi variabel "${kw1}" dari model analisis karena mengasumsikan bahwa fenomena pada "${title}" bersifat statis dan bebas dari pengaruh "${kw2}".`,
+                    `Menggantikan kaidah "${kw1}" dengan pendekatan spekulatif tanpa verifikasi data, dengan alasan bahwa ${cleanProp2.substring(0, 55).toLowerCase()}... hanya berlaku pada kondisi vakum.`,
+                    `Membalikkan hubungan kausalitas antara "${kw1}" dan "${kw2}" secara sepihak sehingga bertentangan dengan premis utama materi perkuliahan.`
+                ];
+                explanation = `Analisis Tingkat C3 (Aplikasi): Penerapan konsep "${kw1}" pada kasus nyata wajib berpedoman pada proposisi inti materi: "${cleanProp1}." Opsi pengecoh keliru karena mengabaikan atau membalikkan asumsi dasar tersebut.`;
+            } else if (bloomLevel === 'normal') {
+                // Bloom C4: Analytical Mechanism, Cause-Effect & Assumption Breakdown (UTS Standard)
+                stem = `[Analisis Mekanisme UTS • C4] Perhatikan premis akademik dari materi "${title}" berikut:\n"${cleanProp1}."\nApabila dalam suatu skenario ujian terjadi perubahan struktural pada parameter "${kw1}", implikasi analitis manakah yang paling akurat menjelaskan dinamika hubungan terhadap "${kw2}"?`;
+                correctOption = `Perubahan pada "${kw1}" secara sistemik memengaruhi mekanisme kerja "${kw2}" sesuai dengan dalil bahwa ${cleanProp2.charAt(0).toLowerCase() + cleanProp2.slice(1)}.`;
+                distractors = [
+                    `Variabel "${kw1}" dan "${kw2}" bersifat ortogonal (saling bebas sempurna), sehingga guncangan ekstrem pada "${kw1}" sama sekali tidak mengubah ekuilibrium sistem.`,
+                    `Terjadi anomali reduksionis di mana "${kw2}" secara otomatis meniadakan fungsi "${kw1}" akibat hilangnya validitas internal pada seluruh kerangka "${title}".`,
+                    `Hubungan antara "${kw1}" dan "${kw2}" berubah menjadi paradoks sirkular yang membatalkan seluruh proposisi empiris tanpa memerlukan pengujian ulang.`
+                ];
+                explanation = `Analisis Tingkat C4 (UTS S1): Soal ini menguji pembedahan kausalitas dan mekanisme antar-variabel. Sesuai materi, interaksi "${kw1}" dan "${kw2}" terikat pada kaidah: "${cleanProp2}."`;
+            } else {
+                // Bloom C5/C6: Critical Evaluation, Synthesis & Methodological Critique (UAS HOTS Standard)
+                stem = `[Evaluasi Kritis & Sintesis UAS • C5/C6] Dalam sebuah seminar evaluasi atas topik "${title}", seorang analis mengajukan klaim bahwa konsep "${kw1}" dapat dipisahkan sepenuhnya dari "${kw2}" demi menyederhanakan pengambilan keputusan. Berdasarkan sintesis kritis terhadap keseluruhan isi dokumen materi, evaluasi manakah yang paling tepat untuk membedah kelemahan klaim tersebut?`;
+                correctOption = `Klaim tersebut mengandung cacat metodologis (oversimplification fallacy) karena mengabaikan fakta fundamental bahwa ${cleanProp1.charAt(0).toLowerCase() + cleanProp1.slice(1)}, yang secara integral menuntut keterkaitan dengan "${kw2}".`;
+                distractors = [
+                    `Klaim tersebut sepenuhnya valid secara aksiomatis karena di dalam literatur "${title}", keberadaan "${kw1}" memang dirancang untuk menghapus relevansi teoretis dari "${kw2}".`,
+                    `Kelemahan klaim tersebut semata-mata terletak pada aspek teknis penulisan istilah, bukan pada substansi kausalitas antara "${kw1}" dan "${kw2}".`,
+                    `Klaim tersebut hanya dapat dibantah apabila seluruh landasan teori pada "${title}" diganti dengan asumsi deterministik yang menolak pembuktian empiris.`
+                ];
+                explanation = `Evaluasi Tingkat C5/C6 (UAS HOTS S1): Pada level tertinggi Taksonomi Bloom, mahasiswa dituntut mengevaluasi klaim kritis dan melakukan sintesis. Pemisahan "${kw1}" dari "${kw2}" merusak integritas proposisi: "${cleanProp1}."`;
+            }
+
+            const rotatedOptions = [];
+            let dIdx = 0;
+            for (let s = 0; s < 4; s++) {
+                if (s === correctSlot) {
+                    rotatedOptions.push(correctOption);
+                } else {
+                    rotatedOptions.push(distractors[dIdx++]);
+                }
+            }
+
+            return {
+                tanya: stem,
+                opsi: rotatedOptions,
+                benar: correctSlot,
+                bahas: explanation
+            };
+        }
+
         function buildMaterialObjectFromText(title, text, sourceType = "Dokumen Diunggah") {
             const cleanText = text.replace(/\s+/g, ' ').trim();
             const sentences = cleanText
                 .split(/(?<=[.!?])\s+/)
                 .map(s => s.trim())
-                .filter(s => s.length > 35 && s.length < 320);
+                .filter(s => s.length > 40 && s.length < 360);
 
-            const stopWords = new Set(['yang', 'dan', 'di', 'ke', 'dari', 'ini', 'itu', 'dengan', 'untuk', 'pada', 'adalah', 'sebagai', 'dalam', 'atau', 'oleh', 'juga', 'dapat', 'akan', 'tersebut', 'karena', 'secara', 'merupakan', 'suatu', 'the', 'and', 'of', 'to', 'in', 'is', 'for', 'with', 'that', 'on', 'as', 'are', 'by']);
+            const stopWords = new Set(['yang', 'dan', 'di', 'ke', 'dari', 'ini', 'itu', 'dengan', 'untuk', 'pada', 'adalah', 'sebagai', 'dalam', 'atau', 'oleh', 'juga', 'dapat', 'akan', 'tersebut', 'karena', 'secara', 'merupakan', 'suatu', 'terhadap', 'melalui', 'antara', 'sehingga', 'apabila', 'bahwa', 'the', 'and', 'of', 'to', 'in', 'is', 'for', 'with', 'that', 'on', 'as', 'are', 'by']);
             const freqMap = {};
             const words = cleanText.toLowerCase().match(/[a-zA-Z]{5,}/g) || [];
             words.forEach(w => {
@@ -2279,7 +2360,7 @@
 
             const sortedKeywords = Object.entries(freqMap)
                 .sort((a, b) => b[1] - a[1])
-                .slice(0, 8)
+                .slice(0, 10)
                 .map(entry => entry[0].charAt(0).toUpperCase() + entry[0].slice(1));
 
             const scoredSentences = sentences.map((s, idx) => {
@@ -2293,50 +2374,29 @@
 
             scoredSentences.sort((a, b) => b.score - a.score);
             const topBullets = scoredSentences
-                .slice(0, Math.min(5, Math.max(3, scoredSentences.length)))
+                .slice(0, Math.min(6, Math.max(3, scoredSentences.length)))
                 .sort((a, b) => a.idx - b.idx)
                 .map(item => item.s);
 
-            const penjelasanCards = topBullets.slice(0, 4).map((sentence, idx) => {
-                const kw = sortedKeywords[idx] || `Konsep Inti #${idx + 1}`;
+            const finalRangkuman = topBullets.length ? topBullets : [cleanText.substring(0, 260)];
+            const finalKeywords = sortedKeywords.length >= 2 ? sortedKeywords : ["Kerangka Konseptual", "Variabel Utama", "Validitas Metodologis", "Implikasi Teoretis"];
+
+            const penjelasanCards = finalRangkuman.slice(0, 4).map((sentence, idx) => {
+                const kw = finalKeywords[idx] || `Konsep Inti #${idx + 1}`;
                 return {
-                    konsep: `Fokus Konsep: ${kw}`,
+                    konsep: `Konstruksi Teoretis: ${kw}`,
                     definisi: sentence,
-                    analogi: `Bayangkan "${kw}" seperti kompas utama saat kamu berlayar di bab "${title}"—kalau kamu pegang kata kunci ini, soal turunan apa pun di ujian bakal langsung kelihatan polanya!`
+                    analogi: `Dalam ujian perkuliahan "${title}", konsep "${kw}" bekerja sebagai fondasi kausalitas—jika dosen mengubah skenario studi kasus pada variabel ini, gunakan proposisi di atas sebagai pisau analisis utamamu!`
                 };
             });
 
-            const generatedQuiz = topBullets.map((sentence, idx) => {
-                const targetKw = sortedKeywords.find(k => sentence.toLowerCase().includes(k.toLowerCase())) || sortedKeywords[0] || "Konsep Utama";
-                const regex = new RegExp(targetKw, 'i');
-                const blankedSentence = sentence.replace(regex, "__________");
-
-                const distractors = sortedKeywords
-                    .filter(k => k.toLowerCase() !== targetKw.toLowerCase())
-                    .slice(0, 3);
-                while (distractors.length < 3) {
-                    const fallbackPool = ["Variabel Eksternal", "Reduksi Sistemik", "Parameter Statis", "Anomali Sekunder"];
-                    const pick = fallbackPool[distractors.length];
-                    if (!distractors.includes(pick)) distractors.push(pick);
-                }
-
-                const options = [targetKw, ...distractors];
-                const correctShift = idx % 4;
-                const rotated = [];
-                for (let i = 0; i < 4; i++) {
-                    rotated[(i + correctShift) % 4] = options[i];
-                }
-
-                return {
-                    tanya: `Berdasarkan materi "${title}", istilah yang tepat untuk melengkapi pernyataan berikut: "${blankedSentence}" adalah...`,
-                    opsi: rotated,
-                    benar: correctShift,
-                    bahas: `Kalimat lengkap sesuai dokumen materi: "${sentence}"`
-                };
+            // Build University-Level Base Quiz Questions (Bloom C4)
+            const generatedQuiz = finalRangkuman.map((sentence, idx) => {
+                const nextSentence = finalRangkuman[(idx + 1) % finalRangkuman.length];
+                const kw1 = finalKeywords[idx % finalKeywords.length];
+                const kw2 = finalKeywords[(idx + 1) % finalKeywords.length];
+                return buildUniversityQuestionItem(idx, title, sentence, nextSentence, kw1, kw2, 'normal');
             });
-
-            const finalRangkuman = topBullets.length ? topBullets : [cleanText.substring(0, 220)];
-            const finalKeywords = sortedKeywords.length ? sortedKeywords : ["Konsep Utama", "Analisis Materi", "Evaluasi"];
 
             return {
                 id: 'mat_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
@@ -2345,39 +2405,41 @@
                 rawText: cleanText,
                 rangkuman: finalRangkuman,
                 keywords: finalKeywords,
-                tldr: `Materi "${title}" ini menitikberatkan pada pembahasan ${finalKeywords.slice(0, 4).join(', ')} beserta hubungan aplikatifnya dalam perkuliahan.`,
+                tldr: `Sintesis akademik "${title}" mengintegrasikan analisis atas ${finalKeywords.slice(0, 4).join(', ')} beserta implikasi metodologisnya dalam pemecahan studi kasus tingkat perguruan tinggi.`,
                 penjelasan: penjelasanCards,
                 quiz: generatedQuiz,
-                ujian: buildExamQuestionsFromMaterial(cleanText, generatedQuiz, title)
+                ujian: buildExamQuestionsFromMaterial(cleanText, generatedQuiz, title, finalRangkuman, finalKeywords)
             };
         }
 
-        function buildExamQuestionsFromMaterial(rawText, baseQuiz, docTitle = uploadedDocTitle) {
+        function buildExamQuestionsFromMaterial(rawText, baseQuiz, docTitle = uploadedDocTitle, rangkumanList = [], keywordsList = []) {
             const examList = baseQuiz.map(q => ({ ...q }));
+            const props = rangkumanList.length ? rangkumanList : [rawText.substring(0, 240)];
+            const kws = keywordsList.length >= 2 ? keywordsList : ["Variabel Independen", "Mekanisme Kausal", "Ekuilibrium Sistem"];
 
-            examList.push({
-                tanya: `Manakah pernyataan sintesis yang PALING TEPAT menggambarkan inti pembahasan dari dokumen "${docTitle}"?`,
-                opsi: [
-                    baseQuiz?.[0]?.bahas?.replace('Kalimat lengkap sesuai dokumen materi: ', '') || "Pemahaman sistematis terhadap konsep utama dan penerapannya sesuai struktur materi.",
-                    "Materi ini hanya membahas sejarah kuno tanpa kaitan dengan analisis keilmuan modern.",
-                    "Seluruh variabel dalam materi bersifat acak dan tidak memiliki hubungan sebab-akibat.",
-                    "Pengujian konsep dilakukan tanpa memerlukan data ataupun landasan teori."
-                ],
-                benar: 0,
-                bahas: "Pernyataan pertama merupakan gagasan pokok (main idea) yang diekstrak langsung dari dokumen materi."
-            });
+            examList.push(
+                buildUniversityQuestionItem(
+                    examList.length,
+                    docTitle,
+                    props[0],
+                    props[props.length - 1],
+                    kws[0],
+                    kws[1],
+                    'hard'
+                )
+            );
 
-            examList.push({
-                tanya: "Dalam konteks evaluasi akademik atas materi di atas, langkah analisis apa yang paling krusial bagi mahasiswa?",
-                opsi: [
-                    "Mengabaikan definisi istilah kunci dan langsung menebak kesimpulan",
-                    "Memahami hubungan antar-konsep kunci serta menghindari penghafalan buta tanpa konteks",
-                    "Menghapus seluruh data pendukung agar laporan terlihat singkat",
-                    "Mengganti seluruh terminologi ilmiah dengan opini tanpa dasar"
-                ],
-                benar: 1,
-                bahas: "Pemahaman konseptual yang utuh mencegah kesalahan analisis saat menghadapi studi kasus ujian."
-            });
+            examList.push(
+                buildUniversityQuestionItem(
+                    examList.length + 1,
+                    docTitle,
+                    props[Math.min(1, props.length - 1)],
+                    props[0],
+                    kws[Math.min(2, kws.length - 1)],
+                    kws[0],
+                    'easy'
+                )
+            );
 
             return examList;
         }
@@ -2403,7 +2465,7 @@
                     </div>
                     <div class="flex-1 text-xs sm:text-sm leading-relaxed">
                         <div class="font-pixel-title text-[9px] text-[#ff9ebb] mb-1">💬 PINKY SUM (AVATAR RANGKUMAN) BERKATA:</div>
-                        <p class="text-amber-100">"Halo <b>${heroName}</b>! Aku sudah menyaring dokumen <b>${studyData.title}</b> menjadi <b>${studyData.rangkuman.length} poin inti</b> di bawah ini supaya kamu tidak perlu pusing membaca puluhan halaman sebelum ujian!"</p>
+                        <p class="text-amber-100">"Halo <b>${heroName}</b>! Aku sudah menyaring dokumen <b>${studyData.title}</b> menjadi <b>${studyData.rangkuman.length} proposisi inti</b> di bawah ini supaya kamu siap menghadapi diskusi kelas maupun soal studi kasus UTS/UAS!"</p>
                     </div>
                 `;
             }
@@ -2413,7 +2475,7 @@
                 <li class="flex items-start gap-2.5 bg-white p-3 border-2 border-[#181026]">
                     <span class="bg-[#d84327] text-white font-pixel-title text-[9px] px-2 py-1 shrink-0">POIN #${i + 1}</span>
                     <div class="space-y-1">
-                        <span class="font-pixel-title text-[8px] text-[#d92b3a] block">PINKY SUM: "Catat bagian penting ini ya!"</span>
+                        <span class="font-pixel-title text-[8px] text-[#d92b3a] block">PINKY SUM: "Proposisi Penting #${i + 1}"</span>
                         <p>${point}</p>
                     </div>
                 </li>
@@ -2486,7 +2548,6 @@
                 return `
                 <div class="bg-[#ffefc1] border-4 border-[#181026] p-4 flex flex-col justify-between space-y-3">
                     <div class="space-y-2.5">
-                        <!-- Avatar Mentor Dialog Header -->
                         <div class="flex items-center gap-3 bg-[#181026] text-white p-2.5 border-2 border-[#ffd942]">
                             <div class="w-12 h-12 bg-[#231934] border border-white p-1 shrink-0 avatar-sprite">
                                 ${mentor.svg}
@@ -2501,7 +2562,6 @@
 
                         <h4 class="font-pixel-title text-xs text-[#181026] pt-1">📖 ${item.konsep}</h4>
 
-                        <!-- Conversational Speech Bubble for Definition -->
                         <div class="bg-white p-3 border-2 border-[#181026] relative">
                             <span class="font-pixel-title text-[8px] text-[#198737] block mb-1">💬 PENJELASAN AVATAR:</span>
                             <p class="text-xs sm:text-sm text-stone-800 leading-relaxed">
@@ -2510,7 +2570,6 @@
                         </div>
                     </div>
 
-                    <!-- Conversational Speech Bubble for Campus Analogy -->
                     <div class="bg-[#231934] text-amber-100 p-3 border-2 border-[#181026] text-xs leading-relaxed">
                         <span class="font-pixel-title text-[8px] text-[#ffd942] block mb-1">🍍 DIALOG ANALOGI TONGKRONGAN KAMPUS:</span>
                         "${item.analogi}"
@@ -2520,91 +2579,47 @@
         }
 
         // ==========================================================
-        // DYNAMIC QUESTION GENERATOR FOR DIFFICULTY & QUESTION COUNT
+        // UNIVERSITY-LEVEL (BLOOM C3, C4, C5/C6) QUESTION POOL GENERATOR
         // ==========================================================
         function generateDynamicQuestionsPool(mode, difficulty, desiredCount) {
             const count = Math.max(1, Math.min(40, parseInt(desiredCount, 10) || 5));
             const basePool = mode === 'quiz' ? (studyData.quiz || []) : (studyData.ujian || []);
-            const bullets = studyData.rangkuman || [];
-            const keywords = studyData.keywords && studyData.keywords.length ? studyData.keywords : ["Konsep Utama", "Analisis Teori", "Evaluasi Data", "Implementasi"];
+            const bullets = studyData.rangkuman && studyData.rangkuman.length ? studyData.rangkuman : [studyData.tldr || "Proposisi utama perkuliahan."];
+            const keywords = studyData.keywords && studyData.keywords.length >= 2 ? studyData.keywords : ["Kerangka Konseptual", "Variabel Utama", "Validitas Metodologis", "Ekuilibrium Sistem"];
             const explanations = studyData.penjelasan || [];
-            const title = studyData.title || "Materi Kuliah";
+            const title = studyData.title || "Materi Perkuliahan";
 
-            const diffLabel = difficulty === 'easy' ? 'MUDAH' : difficulty === 'normal' ? 'SEDANG' : 'SULIT (HOTS)';
+            const bloomTag = difficulty === 'easy'
+                ? 'C3 • APLIKASI STUDI KASUS'
+                : difficulty === 'normal'
+                    ? 'C4 • ANALISIS MEKANISME (STANDAR UTS)'
+                    : 'C5/C6 • EVALUASI KRITIS & SINTESIS (STANDAR UAS)';
+
             const result = [];
 
             for (let i = 0; i < count; i++) {
-                const kw = keywords[i % keywords.length];
-                const bullet = bullets[i % Math.max(1, bullets.length)] || studyData.tldr || "Konsep dasar materi perkuliahan.";
-                const expObj = explanations[i % Math.max(1, explanations.length)];
-
-                if (i < basePool.length) {
+                // Use preset high-level case study questions first if available and matching
+                if (i < basePool.length && studyData.id.startsWith('preset_')) {
                     const baseQ = basePool[i];
-                    let modifiedPrompt = baseQ.tanya;
-                    if (difficulty === 'easy') {
-                        modifiedPrompt = `[Level Mudah • Petunjuk: Fokus pada konsep "${kw}"] ${baseQ.tanya}`;
-                    } else if (difficulty === 'hard') {
-                        modifiedPrompt = `[Studi Kasus HOTS • Analisis Kritis] Dalam skenario evaluasi mendalam pada materi "${title}", ${baseQ.tanya.charAt(0).toLowerCase() + baseQ.tanya.slice(1)}`;
+                    let stemPrefix = `[${bloomTag}] `;
+                    if (difficulty === 'hard' && !baseQ.tanya.includes('[')) {
+                        stemPrefix = `[${bloomTag} • Studi Kasus Lanjut] `;
                     }
                     result.push({
-                        tanya: modifiedPrompt,
+                        tanya: baseQ.tanya.startsWith('[') ? baseQ.tanya : (stemPrefix + baseQ.tanya),
                         opsi: [...baseQ.opsi],
                         benar: baseQ.benar,
-                        bahas: `[Pembahasan Tingkat ${diffLabel}] ${baseQ.bahas}`
+                        bahas: `[Pembahasan Akademik • ${bloomTag}] ${baseQ.bahas}`
                     });
                 } else {
-                    const correctPos = i % 4;
-                    let tanyaText = "";
-                    let correctAns = "";
-                    let distractors = [];
-                    let bahasText = "";
+                    const prop1 = bullets[i % bullets.length];
+                    const prop2 = explanations[i % Math.max(1, explanations.length)]?.definisi || bullets[(i + 1) % bullets.length];
+                    const kw1 = keywords[i % keywords.length];
+                    const kw2 = keywords[(i + 1) % keywords.length];
 
-                    if (difficulty === 'easy') {
-                        tanyaText = `[Level Mudah #${i + 1}] Berdasarkan rangkuman materi "${title}", manakah pernyataan dasar yang benar mengenai "${kw}"?`;
-                        correctAns = bullet;
-                        distractors = [
-                            `Konsep "${kw}" sama sekali tidak dibahas dan bertentangan dengan isi dokumen.`,
-                            `Istilah "${kw}" hanya berlaku di luar topik "${title}" tanpa dasar teori.`,
-                            `Tidak ada hubungan antara "${kw}" dengan pokok bahasan utama.`
-                        ];
-                        bahasText = `Pada tingkat Mudah, ingat poin inti rangkuman: "${bullet}"`;
-                    } else if (difficulty === 'normal') {
-                        const analogyHint = expObj ? expObj.analogi : bullet;
-                        tanyaText = `[Level Sedang #${i + 1}] Bagaimana penerapan konsep "${kw}" jika dikaitkan dengan penjelasan materi "${title}"?`;
-                        correctAns = expObj ? expObj.definisi : bullet;
-                        distractors = [
-                            `Mengabaikan peran "${kw}" dalam menyusun kerangka analisis utama.`,
-                            `Menganggap "${kw}" sebagai variabel pasif yang tidak memengaruhi hasil akhir.`,
-                            `Mengganti "${kw}" dengan asumsi acak tanpa pengujian materi.`
-                        ];
-                        bahasText = `Penjelasan Avatar: "${correctAns}" (Analogi: ${analogyHint})`;
-                    } else {
-                        tanyaText = `[Level Sulit / HOTS #${i + 1}] Apabila seorang mahasiswa menghadapi permasalahan kompleks terkait "${kw}" dalam topik "${title}", evaluasi kritis manakah yang paling akurat?`;
-                        correctAns = `Menganalisis keterkaitan "${kw}" secara komprehensif sesuai prinsip: ${bullet}`;
-                        distractors = [
-                            `Memisahkan "${kw}" dari konteks keseluruhan walaupun menyebabkan bias kesimpulan.`,
-                            `Menyimpulkan bahwa "${kw}" bersifat mutlak tanpa mempertimbangkan variabel pendukung lainnya.`,
-                            `Menerapkan rumus secara mekanis tanpa memverifikasi syarat berlakunya konsep "${kw}".`
-                        ];
-                        bahasText = `Analisis HOTS menuntut sintesis mendalam: "${bullet}"`;
-                    }
-
-                    const options = [];
-                    let dIdx = 0;
-                    for (let slot = 0; slot < 4; slot++) {
-                        if (slot === correctPos) {
-                            options.push(correctAns);
-                        } else {
-                            options.push(distractors[dIdx++]);
-                        }
-                    }
-
-                    result.push({
-                        tanya: tanyaText,
-                        opsi: options,
-                        benar: correctPos,
-                        bahas: bahasText
-                    });
+                    result.push(
+                        buildUniversityQuestionItem(i, title, prop1, prop2, kw1, kw2, difficulty)
+                    );
                 }
             }
 
@@ -2612,7 +2627,7 @@
         }
 
         // ==========================================================
-        // BOAT 5: QUIZ KILAT LOGIC (WITH DIFFICULTY & QUESTION COUNT)
+        // BOAT 5: QUIZ KILAT LOGIC (STANDAR KUIS PERKULIAHAN S1)
         // ==========================================================
         function setQuizDifficulty(diff) {
             playPixelSound('click');
@@ -2636,7 +2651,7 @@
         }
 
         function getQuizExpPerCorrect() {
-            return quizDifficulty === 'easy' ? 15 : quizDifficulty === 'normal' ? 25 : 40;
+            return quizDifficulty === 'easy' ? 20 : quizDifficulty === 'normal' ? 30 : 45;
         }
 
         function updateQuizConfigUI() {
@@ -2655,10 +2670,14 @@
                 }
             });
 
-            const labelMap = { easy: 'MUDAH (Easy)', normal: 'SEDANG (Normal)', hard: 'SULIT (Hard / HOTS)' };
+            const labelMap = {
+                easy: 'C3 Aplikasi Studi Kasus (Setara Kuis S1)',
+                normal: 'C4 Analisis Mekanisme (Setara UTS S1)',
+                hard: 'C5/C6 Evaluasi & Sintesis Kritis (Setara UAS S1)'
+            };
             const summaryEl = document.getElementById('quiz-config-summary');
             if (summaryEl) {
-                summaryEl.textContent = `Mode Aktif: ${labelMap[quizDifficulty]} • ${quizTargetCount} Soal • Hadiah: +${getQuizExpPerCorrect()} EXP / Jawaban Benar`;
+                summaryEl.textContent = `Standar Aktif: ${labelMap[quizDifficulty]} • ${quizTargetCount} Soal • Hadiah: +${getQuizExpPerCorrect()} EXP / Jawaban Tepat`;
             }
         }
 
@@ -2672,23 +2691,23 @@
             document.getElementById('quiz-score-badge').textContent = `SKOR: 0 / ${total} BENAR`;
 
             const diffBadgeColor = quizDifficulty === 'easy' ? 'bg-[#4cd964] text-[#181026]' : quizDifficulty === 'normal' ? 'bg-[#ffd942] text-[#181026]' : 'bg-[#d92b3a] text-white';
-            const diffBadgeText = quizDifficulty === 'easy' ? 'MUDAH' : quizDifficulty === 'normal' ? 'SEDANG' : 'SULIT';
+            const diffBadgeText = quizDifficulty === 'easy' ? 'BLOOM C3 (APLIKASI)' : quizDifficulty === 'normal' ? 'BLOOM C4 (ANALISIS)' : 'BLOOM C5/C6 (EVALUASI HOTS)';
 
             const container = document.getElementById('quiz-questions-container');
             container.innerHTML = activeQuizQuestions.map((q, qIdx) => `
                 <div class="bg-[#ffefc1] border-4 border-[#181026] p-4 space-y-3" id="quiz-card-${qIdx}">
                     <div class="flex flex-wrap items-center justify-between gap-2">
                         <div class="flex items-center gap-2">
-                            <span class="bg-[#ff8811] text-white font-pixel-title text-[8px] px-2 py-1 border border-[#181026]">BUZZY QUIZ #${qIdx + 1} / ${total}</span>
-                            <span class="${diffBadgeColor} font-pixel-title text-[8px] px-2 py-1 border border-[#181026]">LEVEL: ${diffBadgeText}</span>
+                            <span class="bg-[#ff8811] text-white font-pixel-title text-[8px] px-2 py-1 border border-[#181026]">KUIS S1 #${qIdx + 1} / ${total}</span>
+                            <span class="${diffBadgeColor} font-pixel-title text-[8px] px-2 py-1 border border-[#181026]">${diffBadgeText}</span>
                         </div>
-                        <span class="font-pixel-mono text-sm text-stone-700">+${getQuizExpPerCorrect()} EXP jika benar</span>
+                        <span class="font-pixel-mono text-sm text-stone-700">+${getQuizExpPerCorrect()} EXP jika tepat</span>
                     </div>
-                    <p class="text-sm font-bold text-[#181026]">${q.tanya}</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="quiz-options-${qIdx}">
+                    <p class="text-sm font-bold text-[#181026] leading-relaxed whitespace-pre-line">${q.tanya}</p>
+                    <div class="grid grid-cols-1 gap-2" id="quiz-options-${qIdx}">
                         ${q.opsi.map((opt, oIdx) => `
                             <button onclick="answerQuizQuestion(${qIdx}, ${oIdx})" id="quiz-btn-${qIdx}-${oIdx}"
-                                    class="rpg-btn bg-white text-left p-2.5 text-xs sm:text-sm font-medium text-[#181026] hover:bg-[#ffd942]">
+                                    class="rpg-btn bg-white text-left p-3 text-xs sm:text-sm font-medium text-[#181026] hover:bg-[#ffd942] leading-relaxed">
                                 <b>${String.fromCharCode(65 + oIdx)}.</b> ${opt}
                             </button>
                         `).join('')}
@@ -2712,9 +2731,9 @@
                 if (!btn) return;
                 btn.disabled = true;
                 if (oIdx === q.benar) {
-                    btn.className = "rpg-btn bg-[#4cd964] text-[#181026] text-left p-2.5 text-xs sm:text-sm font-bold";
+                    btn.className = "rpg-btn bg-[#4cd964] text-[#181026] text-left p-3 text-xs sm:text-sm font-bold leading-relaxed";
                 } else if (oIdx === selectedIdx) {
-                    btn.className = "rpg-btn bg-[#d92b3a] text-white text-left p-2.5 text-xs sm:text-sm font-bold";
+                    btn.className = "rpg-btn bg-[#d92b3a] text-white text-left p-3 text-xs sm:text-sm font-bold leading-relaxed";
                 }
             });
 
@@ -2723,19 +2742,19 @@
                 quizScore++;
                 playPixelSound('correct');
                 addExp(expReward);
-                feedbackEl.className = "p-3 border-2 border-[#181026] bg-[#d8f8e1] text-[#181026] text-xs";
-                feedbackEl.innerHTML = `<b>✅ BUZZY: "TEPAT SEKALI (+${expReward} EXP)!"</b><br>${q.bahas}`;
+                feedbackEl.className = "p-3 border-2 border-[#181026] bg-[#d8f8e1] text-[#181026] text-xs leading-relaxed";
+                feedbackEl.innerHTML = `<b>✅ BUZZY: "ANALISIS TEPAT (+${expReward} EXP)!"</b><br>${q.bahas}`;
             } else {
                 playPixelSound('wrong');
-                feedbackEl.className = "p-3 border-2 border-[#181026] bg-[#ffd6d6] text-[#181026] text-xs";
-                feedbackEl.innerHTML = `<b>❌ BUZZY: "KURANG TEPAT!"</b><br>${q.bahas}`;
+                feedbackEl.className = "p-3 border-2 border-[#181026] bg-[#ffd6d6] text-[#181026] text-xs leading-relaxed";
+                feedbackEl.innerHTML = `<b>❌ BUZZY: "ANALISIS KURANG TEPAT!"</b><br>${q.bahas}`;
             }
 
             document.getElementById('quiz-score-badge').textContent = `SKOR: ${quizScore} / ${activeQuizQuestions.length} BENAR`;
         }
 
         // ==========================================================
-        // BOAT 6: SIMULASI UJIAN, DIFFICULTY, QUESTION COUNT & TIMER LOGIC
+        // BOAT 6: SIMULASI UTS / UAS PERGURUAN TINGGI
         // ==========================================================
         function setExamDifficulty(diff) {
             playPixelSound('click');
@@ -2759,7 +2778,7 @@
         }
 
         function getExamCompletionExp() {
-            const base = examDifficulty === 'easy' ? 75 : examDifficulty === 'normal' ? 110 : 160;
+            const base = examDifficulty === 'easy' ? 85 : examDifficulty === 'normal' ? 120 : 175;
             return base + (examTargetCount * 5);
         }
 
@@ -2779,15 +2798,19 @@
                 }
             });
 
-            const labelMap = { easy: 'MUDAH (Easy)', normal: 'SEDANG (Normal)', hard: 'SULIT (HOTS)' };
+            const labelMap = {
+                easy: 'C3 Studi Kasus Terapan (UTS Dasar)',
+                normal: 'C4 Analisis Komparatif & Mekanisme (Standar UTS S1)',
+                hard: 'C5/C6 Evaluasi Kritis & Sintesis (Standar UAS S1)'
+            };
             const expTotal = getExamCompletionExp();
             const summaryEl = document.getElementById('exam-config-summary');
             if (summaryEl) {
-                summaryEl.textContent = `Konfigurasi Ujian: Tingkat ${labelMap[examDifficulty]} • ${examTargetCount} Soal • Hadiah Selesai: +${expTotal} EXP`;
+                summaryEl.textContent = `Konfigurasi Ujian: ${labelMap[examDifficulty]} • ${examTargetCount} Soal • Hadiah Selesai: +${expTotal} EXP`;
             }
             const submitBtn = document.getElementById('submit-exam-btn');
             if (submitBtn) {
-                submitBtn.textContent = `✅ KUMPULKAN LEMBAR JAWABAN UJIAN (+${expTotal} EXP)`;
+                submitBtn.textContent = `✅ KUMPULKAN LEMBAR JAWABAN UTS/UAS (+${expTotal} EXP)`;
             }
         }
 
@@ -2803,28 +2826,28 @@
             document.getElementById('submit-exam-btn').classList.remove('hidden');
 
             const diffBadgeColor = examDifficulty === 'easy' ? 'bg-[#4cd964] text-[#181026]' : examDifficulty === 'normal' ? 'bg-[#ffd942] text-[#181026]' : 'bg-[#d92b3a] text-white';
-            const diffBadgeText = examDifficulty === 'easy' ? 'MUDAH' : examDifficulty === 'normal' ? 'SEDANG' : 'SULIT (HOTS)';
+            const diffBadgeText = examDifficulty === 'easy' ? 'C3 • KASUS TERAPAN' : examDifficulty === 'normal' ? 'C4 • STANDAR UTS S1' : 'C5/C6 • STANDAR UAS HOTS';
 
             const container = document.getElementById('exam-questions-container');
             container.innerHTML = activeExamQuestions.map((q, qIdx) => `
                 <div class="bg-[#ffefc1] border-4 border-[#181026] p-4 space-y-3">
                     <div class="flex flex-wrap items-center justify-between gap-2">
                         <div class="flex items-center gap-2">
-                            <span class="bg-[#d92b3a] text-white font-pixel-title text-[8px] px-2 py-1">SOAL UJIAN #${qIdx + 1} / ${total}</span>
+                            <span class="bg-[#d92b3a] text-white font-pixel-title text-[8px] px-2 py-1">SOAL UTS/UAS #${qIdx + 1} / ${total}</span>
                             <span class="${diffBadgeColor} font-pixel-title text-[8px] px-2 py-1 border border-[#181026]">${diffBadgeText}</span>
                         </div>
                         <span id="exam-status-${qIdx}" class="font-pixel-mono text-xs text-stone-600">Belum Dijawab</span>
                     </div>
-                    <p class="text-sm font-bold text-[#181026]">${q.tanya}</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <p class="text-sm font-bold text-[#181026] leading-relaxed whitespace-pre-line">${q.tanya}</p>
+                    <div class="grid grid-cols-1 gap-2">
                         ${q.opsi.map((opt, oIdx) => `
                             <button onclick="selectExamAnswer(${qIdx}, ${oIdx})" id="exam-opt-${qIdx}-${oIdx}"
-                                    class="rpg-btn bg-white text-left p-2.5 text-xs sm:text-sm text-[#181026]">
+                                    class="rpg-btn bg-white text-left p-3 text-xs sm:text-sm text-[#181026] leading-relaxed">
                                 <b>${String.fromCharCode(65 + oIdx)}.</b> ${opt}
                             </button>
                         `).join('')}
                     </div>
-                    <div id="exam-explain-${qIdx}" class="hidden p-3 border-2 border-[#181026] bg-white text-xs"></div>
+                    <div id="exam-explain-${qIdx}" class="hidden p-3 border-2 border-[#181026] bg-white text-xs leading-relaxed"></div>
                 </div>
             `).join('');
 
@@ -2842,8 +2865,8 @@
                 const btn = document.getElementById(`exam-opt-${qIdx}-${idx}`);
                 if (!btn) return;
                 btn.className = idx === oIdx
-                    ? "rpg-btn bg-[#ffd942] text-[#181026] text-left p-2.5 text-xs sm:text-sm font-bold"
-                    : "rpg-btn bg-white text-left p-2.5 text-xs sm:text-sm text-[#181026]";
+                    ? "rpg-btn bg-[#ffd942] text-[#181026] text-left p-3 text-xs sm:text-sm font-bold leading-relaxed"
+                    : "rpg-btn bg-white text-left p-3 text-xs sm:text-sm text-[#181026] leading-relaxed";
             });
 
             const st = document.getElementById(`exam-status-${qIdx}`);
@@ -2929,21 +2952,21 @@
                     if (!btn) return;
                     btn.disabled = true;
                     if (oIdx === q.benar) {
-                        btn.className = "rpg-btn bg-[#4cd964] text-[#181026] text-left p-2.5 text-xs sm:text-sm font-bold";
+                        btn.className = "rpg-btn bg-[#4cd964] text-[#181026] text-left p-3 text-xs sm:text-sm font-bold leading-relaxed";
                     } else if (oIdx === picked) {
-                        btn.className = "rpg-btn bg-[#d92b3a] text-white text-left p-2.5 text-xs sm:text-sm font-bold";
+                        btn.className = "rpg-btn bg-[#d92b3a] text-white text-left p-3 text-xs sm:text-sm font-bold leading-relaxed";
                     }
                 });
 
                 const expBox = document.getElementById(`exam-explain-${qIdx}`);
                 if (expBox) {
                     expBox.classList.remove('hidden');
-                    expBox.innerHTML = `<b>${isRight ? '✅ BENAR' : '❌ SALAH'} — Pembahasan Komandan Ujian:</b> ${q.bahas}`;
+                    expBox.innerHTML = `<b>${isRight ? '✅ ANALISIS TEPAT' : '❌ ANALISIS MELESET'} — Pembahasan Akademik Komandan Ujian:</b><br>${q.bahas}`;
                 }
             });
 
             const finalScore = Math.round((correctCount / total) * 100);
-            const grade = finalScore >= 85 ? 'A (Cumlaude Boss Slayer!)' : finalScore >= 70 ? 'B (Lulus Memuaskan)' : 'C (Perlu Baca Rangkuman Lagi)';
+            const grade = finalScore >= 85 ? 'A (Cumlaude • Penguasaan Kognitif Tinggi!)' : finalScore >= 70 ? 'B (Lulus Baik • Pemahaman Analitis Memadai)' : 'C (Perlu Pendalaman Kausalitas Materi)';
             const expEarned = getExamCompletionExp();
             addExp(expEarned);
 
@@ -2952,10 +2975,10 @@
             banner.innerHTML = `
                 <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
                     <div>
-                        <div class="font-pixel-title text-xs text-[#ffd942]">${isAutoTimeout ? '⏰ WAKTU HABIS! ' : ''}HASIL SIMULASI UJIAN: ${finalScore} / 100</div>
-                        <p class="text-xs sm:text-sm text-white mt-1">Benar: <b>${correctCount} dari ${total} Soal</b> • Tingkat: <b>${examDifficulty.toUpperCase()}</b> • Predikat: <b>${grade}</b> (+${expEarned} EXP)</p>
+                        <div class="font-pixel-title text-xs text-[#ffd942]">${isAutoTimeout ? '⏰ WAKTU HABIS! ' : ''}TRANSKRIP NILAI UTS/UAS: ${finalScore} / 100</div>
+                        <p class="text-xs sm:text-sm text-white mt-1">Benar: <b>${correctCount} dari ${total} Soal</b> • Indeks Prestasi: <b>${grade}</b> (+${expEarned} EXP)</p>
                     </div>
-                    <button onclick="resetExamSimulation()" class="rpg-btn bg-[#ffd942] text-[#181026] px-3 py-2 font-pixel-title text-[9px]">COBA UJIAN LAGI</button>
+                    <button onclick="resetExamSimulation()" class="rpg-btn bg-[#ffd942] text-[#181026] px-3 py-2 font-pixel-title text-[9px]">UJIAN ULANG</button>
                 </div>
             `;
             document.getElementById('submit-exam-btn').classList.add('hidden');
@@ -3010,7 +3033,6 @@
             stopBgmLoop();
             if (!audioCtx) return;
 
-            // Gentle Ocean Waves Pink-ish Noise
             const bufferSize = audioCtx.sampleRate * 2;
             const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
             const data = buffer.getChannelData(0);
